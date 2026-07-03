@@ -1,0 +1,30 @@
+{
+  "name": "morphos-stories",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "preview": "serve storybook-static"
+  },
+  "dependencies": {
+    "@morphos/core": "workspace:*",
+    "@morphos/feedback": "workspace:*",
+    "@morphos/inputs": "workspace:*",
+    "@morphos/layout": "workspace:*",
+    "@morphos/overlays": "workspace:*",
+    "@morphos/styles": "workspace:*",
+    "@praxisjs/core": "^2.0.0",
+    "@praxisjs/decorators": "^1.5.1",
+    "@praxisjs/runtime": "^0.5.4",
+    "@praxisjs/shared": "^0.3.1",
+    "@praxisjs/storybook": "^0.1.12"
+  },
+  "devDependencies": {
+    "@praxisjs/jsx": "^0.7.3",
+    "@storybook/builder-vite": "^10.4.0",
+    "storybook": "^10.4.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.0.0"
+  }
+}
