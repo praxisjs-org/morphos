@@ -1,4 +1,4 @@
-const STORYBOOK_BASE = 'http://localhost:6007';
+const STORYBOOK_BASE = 'https://storybook.morphos.praxisjs.org';
 
 interface StorybookEmbedProps {
   /** Storybook story id, e.g. "inputs-button--default" (kebab-case title + "--" + kebab-case story name). */
