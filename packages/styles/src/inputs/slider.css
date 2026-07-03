@@ -1,0 +1,84 @@
+/**
+ * Recipe for @morphos/inputs `Slider`. Apply with `class="morphos-slider"`
+ * on the `Slider` root — it exposes the current position as the
+ * `--slider-value` custom property, used below to paint the filled track.
+ */
+.morphos-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 1.25rem;
+}
+
+.morphos-slider > input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 0.35rem;
+  margin: 0;
+  border-radius: var(--morphos-radius-full);
+  background: linear-gradient(
+    to right,
+    var(--morphos-color-accent) var(--slider-value, 0%),
+    var(--morphos-color-border) var(--slider-value, 0%)
+  );
+  cursor: pointer;
+}
+
+.morphos-slider[data-orientation="vertical"] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 1.25rem;
+  height: 100%;
+}
+
+.morphos-slider[data-orientation="vertical"] > input[type="range"] {
+  width: 0.35rem;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    var(--morphos-color-accent) var(--slider-value, 0%),
+    var(--morphos-color-border) var(--slider-value, 0%)
+  );
+}
+
+.morphos-slider > input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg);
+  border: 2px solid var(--morphos-color-accent);
+  cursor: pointer;
+}
+
+.morphos-slider > input[type="range"]::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg);
+  border: 2px solid var(--morphos-color-accent);
+  cursor: pointer;
+}
+
+.morphos-slider > input[type="range"]:focus-visible {
+  outline: none;
+}
+
+.morphos-slider > input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-slider > input[type="range"]:focus-visible::-moz-range-thumb {
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-slider[data-disabled] {
+  opacity: 0.5;
+}
+
+.morphos-slider[data-disabled] > input[type="range"] {
+  cursor: not-allowed;
+}

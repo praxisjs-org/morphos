@@ -1,0 +1,44 @@
+/**
+ * Recipe for @morphos/inputs `Field` + its parts.
+ * Apply `class="morphos-field"` to `Field`, `class="morphos-field-label"`
+ * to `FieldLabel`, `class="morphos-field-description"` to
+ * `FieldDescription`, `class="morphos-field-error"` to `FieldError`, and
+ * `class="morphos-field-control"` to `FieldControl`.
+ */
+.morphos-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-1);
+}
+
+.morphos-field[data-disabled] {
+  opacity: 0.5;
+}
+
+.morphos-field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--morphos-color-text);
+}
+
+.morphos-field[data-required] .morphos-field-label::after {
+  content: " *";
+  color: var(--morphos-color-danger);
+}
+
+.morphos-field-description {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--morphos-color-text-muted);
+}
+
+.morphos-field-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--morphos-color-danger);
+}
+
+.morphos-field-control {
+  display: flex;
+  flex-direction: column;
+}

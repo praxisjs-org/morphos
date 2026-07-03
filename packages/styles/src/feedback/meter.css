@@ -1,0 +1,34 @@
+/**
+ * Recipe for @morphos/feedback `Meter`. Apply with `class="morphos-meter"`.
+ * The component renders its own fill child, `<div data-meter-fill>`,
+ * styled below without needing its own class. The fill percentage is
+ * exposed as the `--meter-value` custom property.
+ */
+.morphos-meter {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg-subtle);
+}
+
+.morphos-meter > [data-meter-fill] {
+  height: 100%;
+  width: var(--meter-value, 0%);
+  background: var(--morphos-color-accent);
+  border-radius: var(--morphos-radius-full);
+  transition: width var(--morphos-transition-medium);
+}
+
+.morphos-meter[data-low] > [data-meter-fill] {
+  background: var(--morphos-color-warning);
+}
+
+.morphos-meter[data-high] > [data-meter-fill] {
+  background: var(--morphos-color-danger);
+}
+
+.morphos-meter[data-optimum] > [data-meter-fill] {
+  background: var(--morphos-color-success);
+}

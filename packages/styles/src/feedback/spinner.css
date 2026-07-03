@@ -1,0 +1,17 @@
+/**
+ * Recipe for @morphos/feedback `Spinner`. Apply with
+ * `class="morphos-spinner"`.
+ */
+.morphos-spinner {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--morphos-color-border);
+  border-top-color: var(--morphos-color-accent);
+  border-radius: var(--morphos-radius-full);
+  animation: morphos-spin 0.7s linear infinite;
+}
+
+@keyframes morphos-spin {
+  to { transform: rotate(360deg); }
+}

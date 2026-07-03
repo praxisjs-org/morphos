@@ -1,0 +1,13 @@
+/**
+ * All @morphos/layout recipes in one file. Prefer importing individual
+ * files from `@morphos/styles/layout/*.css` if you only need a few.
+ */
+@import "./tokens.css";
+@import "./layout/accordion.css";
+@import "./layout/tabs.css";
+@import "./layout/disclosure.css";
+@import "./layout/separator.css";
+@import "./layout/scroll-area.css";
+@import "./layout/toolbar.css";
+@import "./layout/menubar.css";
+@import "./layout/navigation-menu.css";

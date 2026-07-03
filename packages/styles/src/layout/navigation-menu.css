@@ -1,0 +1,87 @@
+/**
+ * Recipe for @morphos/layout `NavigationMenu`.
+ * Apply `class="morphos-navigation-menu"` to `NavigationMenu`,
+ * `class="morphos-navigation-menu-list"` to `NavigationMenuList`,
+ * `class="morphos-navigation-menu-item"` to each `NavigationMenuItem`,
+ * `class="morphos-navigation-menu-trigger"` to each `NavigationMenuTrigger`,
+ * `class="morphos-navigation-menu-content"` to each `NavigationMenuContent`,
+ * and `class="morphos-navigation-menu-link"` to each `NavigationMenuLink`.
+ */
+.morphos-navigation-menu-list {
+  display: flex;
+  align-items: center;
+  gap: var(--morphos-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.morphos-navigation-menu[data-orientation="vertical"] .morphos-navigation-menu-list {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.morphos-navigation-menu-item {
+  position: relative;
+}
+
+.morphos-navigation-menu-trigger {
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border: none;
+  border-radius: var(--morphos-radius-md);
+  background: transparent;
+  color: var(--morphos-color-text);
+  cursor: pointer;
+}
+
+.morphos-navigation-menu-trigger:hover,
+.morphos-navigation-menu-item[data-active] .morphos-navigation-menu-trigger {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-navigation-menu-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-navigation-menu-content {
+  position: absolute;
+  top: calc(100% + var(--morphos-space-1));
+  left: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-1);
+  min-width: 16rem;
+  padding: var(--morphos-space-2);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-navigation-menu-content[hidden] {
+  display: none;
+}
+
+.morphos-navigation-menu-link {
+  display: block;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border-radius: var(--morphos-radius-sm);
+  color: var(--morphos-color-accent);
+  text-decoration: none;
+}
+
+.morphos-navigation-menu-link:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-navigation-menu-link strong {
+  display: block;
+}
+
+.morphos-navigation-menu-link span {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--morphos-color-text-muted);
+}

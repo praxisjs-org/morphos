@@ -1,0 +1,62 @@
+/**
+ * Design tokens shared by every Morphos component recipe.
+ * Deliberately flat and light — no elevation shadows, borders carry all
+ * separation, and every surface stays on a light, neutral background.
+ * Override any of these custom properties in your own stylesheet to retheme
+ * the whole set (including adding a dark variant); nothing below is
+ * required, it only feeds the recipes.
+ */
+:root {
+  --morphos-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --morphos-color-bg: #ffffff;
+  --morphos-color-bg-subtle: #f7f7f8;
+  --morphos-color-bg-hover: #f0f0f2;
+  --morphos-color-border: #e4e4e7;
+  --morphos-color-border-hover: #d4d4d8;
+  --morphos-color-text: #27272a;
+  --morphos-color-text-muted: #8b8b93;
+  --morphos-color-placeholder: #b4b4ba;
+
+  --morphos-color-accent: #3b82f6;
+  --morphos-color-accent-hover: #2f6fdb;
+  --morphos-color-accent-text: #ffffff;
+
+  --morphos-color-danger: #ef4444;
+  --morphos-color-danger-bg: #fef2f2;
+  --morphos-color-success: #22c55e;
+  --morphos-color-success-bg: #f0fdf4;
+  --morphos-color-warning: #f59e0b;
+  --morphos-color-warning-bg: #fffbeb;
+  --morphos-color-info: #3b82f6;
+  --morphos-color-info-bg: #eff6ff;
+
+  --morphos-radius-sm: 0.25rem;
+  --morphos-radius-md: 0.5rem;
+  --morphos-radius-lg: 0.625rem;
+  --morphos-radius-full: 9999px;
+
+  /* Flat by default — kept as tokens so a theme can opt back into elevation. */
+  --morphos-shadow-sm: none;
+  --morphos-shadow-md: none;
+  --morphos-shadow-lg: none;
+
+  --morphos-space-1: 0.25rem;
+  --morphos-space-2: 0.5rem;
+  --morphos-space-3: 0.75rem;
+  --morphos-space-4: 1rem;
+
+  --morphos-transition-fast: 120ms ease;
+  --morphos-transition-medium: 200ms ease;
+
+  --morphos-focus-ring: 0 0 0 2px var(--morphos-color-bg), 0 0 0 4px var(--morphos-color-accent);
+}
+
+/*
+ * Every recipe below assumes border-box sizing (e.g. `width: 100%` combined
+ * with padding/border on inputs and triggers). Scoped to morphos-* classes
+ * only — this never touches the rest of your page.
+ */
+[class*="morphos-"] {
+  box-sizing: border-box;
+}

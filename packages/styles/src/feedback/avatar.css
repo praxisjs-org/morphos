@@ -1,0 +1,42 @@
+/**
+ * Recipe for @morphos/feedback `Avatar`.
+ * Apply `class="morphos-avatar"` to `Avatar`, `class="morphos-avatar-image"`
+ * to `AvatarImage`, and `class="morphos-avatar-fallback"` to
+ * `AvatarFallback`.
+ */
+.morphos-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  overflow: hidden;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg-subtle);
+  color: var(--morphos-color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.morphos-avatar-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.morphos-avatar-image[hidden] {
+  display: none;
+}
+
+.morphos-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.morphos-avatar-fallback[hidden] {
+  display: none;
+}

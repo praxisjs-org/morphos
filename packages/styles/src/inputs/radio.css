@@ -1,0 +1,64 @@
+/**
+ * Recipe for @morphos/inputs `RadioGroup` + `Radio`.
+ * Apply `class="morphos-radio-group"` to `RadioGroup` and
+ * `class="morphos-radio"` to each `Radio`.
+ */
+.morphos-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-2);
+}
+
+.morphos-radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  gap: var(--morphos-space-4);
+}
+
+.morphos-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morphos-space-2);
+  cursor: pointer;
+}
+
+.morphos-radio input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg);
+  display: inline-grid;
+  place-content: center;
+  transition: border-color var(--morphos-transition-fast);
+}
+
+.morphos-radio input[type="radio"]::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-accent);
+  transform: scale(0);
+  transition: transform var(--morphos-transition-fast);
+}
+
+.morphos-radio[data-checked] input[type="radio"] {
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-radio[data-checked] input[type="radio"]::before {
+  transform: scale(1);
+}
+
+.morphos-radio input[type="radio"]:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-radio[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

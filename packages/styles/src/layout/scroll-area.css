@@ -1,0 +1,82 @@
+/**
+ * Recipe for @morphos/layout `ScrollArea`.
+ * Apply `class="morphos-scroll-area"` to `ScrollArea`,
+ * `class="morphos-scroll-area-viewport"` to `ScrollAreaViewport`,
+ * `class="morphos-scroll-area-scrollbar"` to `ScrollAreaScrollbar`, and
+ * `class="morphos-scroll-area-thumb"` to `ScrollAreaThumb`.
+ * The scrollbar/thumb here are a decorative, ARIA-described overlay — actual
+ * scrolling happens natively on the viewport underneath.
+ */
+.morphos-scroll-area {
+  position: relative;
+  overflow: hidden;
+}
+
+.morphos-scroll-area-viewport {
+  scrollbar-width: none;
+}
+
+.morphos-scroll-area-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.morphos-scroll-area-scrollbar {
+  position: absolute;
+  padding: 1px;
+  background: transparent;
+  transition: background var(--morphos-transition-fast);
+}
+
+.morphos-scroll-area-scrollbar[data-orientation="vertical"] {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0.375rem;
+}
+
+.morphos-scroll-area-scrollbar[data-orientation="horizontal"] {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.375rem;
+}
+
+.morphos-scroll-area[data-scrollable] .morphos-scroll-area-scrollbar {
+  background: var(--morphos-color-bg-subtle);
+}
+
+.morphos-scroll-area-thumb {
+  /* Size/position come from ScrollAreaThumb's own --morphos-thumb-size/-offset, computed from the real scroll metrics. */
+  position: absolute;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-border-hover);
+}
+
+.morphos-scroll-area-scrollbar[data-orientation="vertical"] .morphos-scroll-area-thumb {
+  left: 0;
+  right: 0;
+  top: var(--morphos-thumb-offset, 0%);
+  height: var(--morphos-thumb-size, 100%);
+}
+
+.morphos-scroll-area-scrollbar[data-orientation="horizontal"] .morphos-scroll-area-thumb {
+  top: 0;
+  bottom: 0;
+  left: var(--morphos-thumb-offset, 0%);
+  width: var(--morphos-thumb-size, 100%);
+}
+
+/* type="hover" — the scrollbar fades in only while the pointer is over the scroll area. */
+.morphos-scroll-area[data-type="hover"] .morphos-scroll-area-scrollbar {
+  opacity: 0;
+  transition: opacity var(--morphos-transition-medium);
+}
+
+.morphos-scroll-area[data-type="hover"]:hover .morphos-scroll-area-scrollbar {
+  opacity: 1;
+}
+
+/* type="hidden" — the custom scrollbar never shows; content still scrolls natively. */
+.morphos-scroll-area[data-type="hidden"] .morphos-scroll-area-scrollbar {
+  display: none;
+}

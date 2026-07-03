@@ -1,0 +1,22 @@
+/**
+ * All @morphos/inputs recipes in one file. Prefer importing individual
+ * files from `@morphos/styles/inputs/*.css` if you only need a few.
+ */
+@import "./tokens.css";
+@import "./inputs/button.css";
+@import "./inputs/input.css";
+@import "./inputs/checkbox.css";
+@import "./inputs/select.css";
+@import "./inputs/radio.css";
+@import "./inputs/switch.css";
+@import "./inputs/toggle.css";
+@import "./inputs/toggle-group.css";
+@import "./inputs/checkbox-group.css";
+@import "./inputs/slider.css";
+@import "./inputs/number-field.css";
+@import "./inputs/field.css";
+@import "./inputs/fieldset.css";
+@import "./inputs/form.css";
+@import "./inputs/otp-field.css";
+@import "./inputs/combobox.css";
+@import "./inputs/autocomplete.css";

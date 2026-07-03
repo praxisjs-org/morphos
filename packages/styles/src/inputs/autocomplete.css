@@ -1,0 +1,60 @@
+/**
+ * Recipe for @morphos/inputs `Autocomplete`. Apply with
+ * `class="morphos-autocomplete"` on the `Autocomplete` root — its text
+ * input and suggestion list are rendered inside it and styled here by
+ * role/data-attribute.
+ */
+.morphos-autocomplete {
+  position: relative;
+  display: inline-block;
+  min-width: 14rem;
+}
+
+.morphos-autocomplete > input {
+  width: 100%;
+  font: inherit;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  transition: border-color var(--morphos-transition-fast);
+}
+
+.morphos-autocomplete > input:focus-visible {
+  outline: none;
+  border-color: var(--morphos-color-accent);
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-autocomplete[data-disabled] > input {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-autocomplete > ul[role="listbox"] {
+  position: absolute;
+  top: calc(100% + var(--morphos-space-1));
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 16rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--morphos-space-1);
+  list-style: none;
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-autocomplete > ul[role="listbox"] > li[role="option"] {
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border-radius: var(--morphos-radius-sm);
+  cursor: pointer;
+}
+
+.morphos-autocomplete > ul[role="listbox"] > li[role="option"]:hover,
+.morphos-autocomplete > ul[role="listbox"] > li[role="option"][data-active] {
+  background: var(--morphos-color-bg-hover);
+}

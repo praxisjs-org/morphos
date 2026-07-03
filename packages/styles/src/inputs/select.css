@@ -1,0 +1,104 @@
+/**
+ * Recipe for @morphos/inputs `Select`. Apply with `class="morphos-select"`
+ * on the `Select` root — the trigger button, clear button, and listbox are
+ * all rendered inside it and styled here by role/data-attribute.
+ */
+.morphos-select {
+  position: relative;
+  display: inline-block;
+  min-width: 12rem;
+}
+
+.morphos-select > button[role="combobox"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--morphos-space-2);
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  cursor: pointer;
+  transition: border-color var(--morphos-transition-fast);
+}
+
+.morphos-select > button[role="combobox"][data-placeholder] {
+  color: var(--morphos-color-placeholder);
+}
+
+.morphos-select > button[role="combobox"]:focus-visible {
+  outline: none;
+  border-color: var(--morphos-color-accent);
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-select[data-disabled] > button[role="combobox"],
+.morphos-select > button[role="combobox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-select > button[data-clear] {
+  position: absolute;
+  top: 50%;
+  right: var(--morphos-space-2);
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  color: var(--morphos-color-text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 var(--morphos-space-1);
+}
+
+.morphos-select > button[data-clear]:hover {
+  color: var(--morphos-color-text);
+}
+
+.morphos-select > ul[role="listbox"] {
+  position: absolute;
+  top: calc(100% + var(--morphos-space-1));
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 16rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--morphos-space-1);
+  list-style: none;
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-select > ul[role="listbox"] > li[role="option"] {
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border-radius: var(--morphos-radius-sm);
+  cursor: pointer;
+}
+
+.morphos-select > ul[role="listbox"] > li[role="option"]:not([data-disabled]):hover,
+.morphos-select > ul[role="listbox"] > li[role="option"][data-active] {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-select > ul[role="listbox"] > li[role="option"][data-selected] {
+  background: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+
+/* Same specificity as the plain :hover/[data-active] rule above — placed after so it wins the tie and the selected option doesn't lose its (readable) accent background/text on hover. */
+.morphos-select > ul[role="listbox"] > li[role="option"][data-selected]:hover,
+.morphos-select > ul[role="listbox"] > li[role="option"][data-selected][data-active] {
+  background: var(--morphos-color-accent-hover);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-select > ul[role="listbox"] > li[role="option"][data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

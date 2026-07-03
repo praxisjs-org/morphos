@@ -1,0 +1,100 @@
+/**
+ * Recipe for @morphos/overlays `AlertDialog`.
+ * Apply `class="morphos-alert-dialog-content"` to `AlertDialogContent`,
+ * `class="morphos-alert-dialog-title"` to `AlertDialogTitle`,
+ * `class="morphos-alert-dialog-description"` to `AlertDialogDescription`,
+ * `class="morphos-alert-dialog-action"` to `AlertDialogAction`, and
+ * `class="morphos-alert-dialog-cancel"` to `AlertDialogCancel`.
+ * `AlertDialogContent` also renders a sibling backdrop `<div data-morphos-backdrop>`,
+ * styled below without needing its own class. Clicking it closes the dialog
+ * (like Dialog/Drawer) unless `closeOnOutsideClick={false}` is passed.
+ */
+[data-morphos-backdrop] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  animation: morphos-fade-in var(--morphos-transition-medium);
+}
+
+.morphos-alert-dialog-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--morphos-space-4);
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+  border-radius: var(--morphos-radius-lg);
+  animation: morphos-scale-in var(--morphos-transition-medium);
+}
+
+.morphos-alert-dialog-content:focus-visible {
+  outline: none;
+}
+
+.morphos-alert-dialog-title {
+  margin: 0 0 var(--morphos-space-2);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.morphos-alert-dialog-description {
+  margin: 0 0 var(--morphos-space-4);
+  color: var(--morphos-color-text-muted);
+}
+
+.morphos-alert-dialog-action,
+.morphos-alert-dialog-cancel {
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-4);
+  border-radius: var(--morphos-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.morphos-alert-dialog-action {
+  background: var(--morphos-color-danger);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-alert-dialog-action:hover {
+  opacity: 0.9;
+}
+
+.morphos-alert-dialog-cancel {
+  background: transparent;
+  border-color: var(--morphos-color-border);
+  color: var(--morphos-color-text);
+}
+
+.morphos-alert-dialog-cancel:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-alert-dialog-action:focus-visible,
+.morphos-alert-dialog-cancel:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+@keyframes morphos-scale-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,0 +1,67 @@
+/**
+ * Recipe for @morphos/layout `Accordion`.
+ * Apply `class="morphos-accordion"` to `Accordion`,
+ * `class="morphos-accordion-item"` to each `AccordionItem`,
+ * `class="morphos-accordion-trigger"` to each `AccordionTrigger`, and
+ * `class="morphos-accordion-content"` to each `AccordionContent`.
+ */
+.morphos-accordion {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  overflow: hidden;
+}
+
+.morphos-accordion-item {
+  border-bottom: 1px solid var(--morphos-color-border);
+}
+
+.morphos-accordion-item:last-child {
+  border-bottom: none;
+}
+
+.morphos-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  padding: var(--morphos-space-3) var(--morphos-space-4);
+  border: none;
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+  cursor: pointer;
+}
+
+.morphos-accordion-trigger:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-accordion-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+  z-index: 1;
+  position: relative;
+}
+
+.morphos-accordion-trigger::after {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--morphos-transition-fast);
+}
+
+.morphos-accordion-trigger[data-expanded]::after {
+  transform: rotate(-135deg);
+}
+
+.morphos-accordion-content {
+  padding: 0 var(--morphos-space-4) var(--morphos-space-3);
+  color: var(--morphos-color-text-muted);
+}

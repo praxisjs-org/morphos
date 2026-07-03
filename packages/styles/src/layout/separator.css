@@ -1,0 +1,21 @@
+/**
+ * Recipe for @morphos/layout `Separator`. Apply with
+ * `class="morphos-separator"`.
+ */
+.morphos-separator {
+  background: var(--morphos-color-border);
+  border: none;
+}
+
+.morphos-separator[data-orientation="horizontal"] {
+  width: 100%;
+  height: 1px;
+}
+
+.morphos-separator[data-orientation="vertical"] {
+  width: 1px;
+  /* Not `height: 100%` — that requires a parent with a definite height (rare
+     inside a content-sized flex row) and, per spec, an explicit non-auto
+     height disables align-self: stretch even when it fails to resolve. */
+  align-self: stretch;
+}

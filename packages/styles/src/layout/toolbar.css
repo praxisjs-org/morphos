@@ -1,0 +1,57 @@
+/**
+ * Recipe for @morphos/layout `Toolbar`.
+ * Apply `class="morphos-toolbar"` to `Toolbar`,
+ * `class="morphos-toolbar-button"` to each `ToolbarButton`, and
+ * `class="morphos-toolbar-separator"` to each `ToolbarSeparator`.
+ */
+.morphos-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--morphos-space-1);
+  padding: var(--morphos-space-1);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-toolbar[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.morphos-toolbar-button {
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border: none;
+  border-radius: var(--morphos-radius-sm);
+  background: transparent;
+  color: var(--morphos-color-text);
+  cursor: pointer;
+}
+
+.morphos-toolbar-button:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-toolbar-button:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-toolbar-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-toolbar-separator {
+  background: var(--morphos-color-border);
+}
+
+.morphos-toolbar-separator[data-orientation="vertical"] {
+  width: 1px;
+  align-self: stretch;
+}
+
+.morphos-toolbar-separator[data-orientation="horizontal"] {
+  height: 1px;
+  width: 100%;
+}

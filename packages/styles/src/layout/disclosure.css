@@ -1,0 +1,47 @@
+/**
+ * Recipe for @morphos/layout `Disclosure` (also exported as `Collapsible`).
+ * Apply `class="morphos-disclosure"` to `Disclosure`,
+ * `class="morphos-disclosure-trigger"` to `DisclosureTrigger`, and
+ * `class="morphos-disclosure-content"` to `DisclosureContent`.
+ */
+.morphos-disclosure {
+  display: flex;
+  flex-direction: column;
+}
+
+.morphos-disclosure-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--morphos-space-2);
+  font: inherit;
+  font-weight: 500;
+  padding: var(--morphos-space-2) 0;
+  border: none;
+  background: transparent;
+  color: var(--morphos-color-text);
+  cursor: pointer;
+}
+
+.morphos-disclosure-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-disclosure-trigger::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--morphos-transition-fast);
+}
+
+.morphos-disclosure-trigger[data-open]::before {
+  transform: rotate(-135deg);
+}
+
+.morphos-disclosure-content {
+  padding: var(--morphos-space-2) 0;
+  color: var(--morphos-color-text-muted);
+}

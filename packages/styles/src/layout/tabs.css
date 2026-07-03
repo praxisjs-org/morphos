@@ -1,0 +1,71 @@
+/**
+ * Recipe for @morphos/layout `Tabs`.
+ * Apply `class="morphos-tabs"` to `Tabs`, `class="morphos-tabs-list"` to
+ * `TabList`, `class="morphos-tabs-tab"` to each `Tab`, and
+ * `class="morphos-tabs-panel"` to each `TabPanel`.
+ */
+.morphos-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-3);
+}
+
+.morphos-tabs[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+.morphos-tabs-list {
+  display: flex;
+  gap: var(--morphos-space-1);
+  border-bottom: 1px solid var(--morphos-color-border);
+}
+
+.morphos-tabs-list[aria-orientation="vertical"] {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--morphos-color-border);
+}
+
+.morphos-tabs-tab {
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-4);
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--morphos-color-text-muted);
+  cursor: pointer;
+  transition: color var(--morphos-transition-fast), border-color var(--morphos-transition-fast);
+}
+
+.morphos-tabs-list[aria-orientation="vertical"] .morphos-tabs-tab {
+  border-bottom: none;
+  border-right: 2px solid transparent;
+  text-align: left;
+}
+
+.morphos-tabs-tab:hover {
+  color: var(--morphos-color-text);
+}
+
+.morphos-tabs-tab[data-selected] {
+  color: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-tabs-tab:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-tabs-tab[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-tabs-panel {
+  color: var(--morphos-color-text);
+}
+
+.morphos-tabs-panel:focus-visible {
+  outline: none;
+}

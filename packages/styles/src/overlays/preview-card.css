@@ -1,0 +1,22 @@
+/**
+ * Recipe for @morphos/overlays `PreviewCard`.
+ * Apply `class="morphos-preview-card-content"` to `PreviewCardContent`.
+ * `PreviewCardTrigger` is a plain inline `<span>` — no styling needed.
+ */
+.morphos-preview-card-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  z-index: 100;
+  width: 20rem;
+  padding: var(--morphos-space-4);
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-lg);
+  animation: morphos-fade-in var(--morphos-transition-fast);
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

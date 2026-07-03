@@ -1,0 +1,124 @@
+/**
+ * Recipe for @morphos/overlays `Drawer`.
+ * Apply `class="morphos-drawer-content"` to `DrawerContent`,
+ * `class="morphos-drawer-title"` to `DrawerTitle`,
+ * `class="morphos-drawer-description"` to `DrawerDescription`, and
+ * `class="morphos-drawer-close"` to `DrawerClose`. `DrawerContent` also
+ * renders a sibling backdrop `<div data-morphos-backdrop>`, styled below
+ * without needing its own class. The panel slides in from `side`, read off
+ * `data-side` on the content element.
+ */
+[data-morphos-backdrop] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  animation: morphos-fade-in var(--morphos-transition-medium);
+}
+
+.morphos-drawer-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  position: fixed;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  padding: var(--morphos-space-4);
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+}
+
+.morphos-drawer-content:focus-visible {
+  outline: none;
+}
+
+.morphos-drawer-content[data-side="right"] {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(24rem, 100vw);
+  animation: morphos-slide-in-right var(--morphos-transition-medium);
+}
+
+.morphos-drawer-content[data-side="left"] {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(24rem, 100vw);
+  animation: morphos-slide-in-left var(--morphos-transition-medium);
+}
+
+.morphos-drawer-content[data-side="top"] {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: min(24rem, 100vh);
+  animation: morphos-slide-in-top var(--morphos-transition-medium);
+}
+
+.morphos-drawer-content[data-side="bottom"] {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: min(24rem, 100vh);
+  animation: morphos-slide-in-bottom var(--morphos-transition-medium);
+}
+
+.morphos-drawer-title {
+  margin: 0 0 var(--morphos-space-2);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.morphos-drawer-description {
+  margin: 0 0 var(--morphos-space-3);
+  color: var(--morphos-color-text-muted);
+}
+
+.morphos-drawer-close {
+  position: absolute;
+  top: var(--morphos-space-3);
+  right: var(--morphos-space-3);
+  border: none;
+  background: none;
+  color: var(--morphos-color-text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: var(--morphos-space-1);
+  border-radius: var(--morphos-radius-sm);
+}
+
+.morphos-drawer-close:hover {
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-drawer-close:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes morphos-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes morphos-slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes morphos-slide-in-top {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes morphos-slide-in-bottom {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

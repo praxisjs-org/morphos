@@ -1,0 +1,51 @@
+/**
+ * Recipe for @morphos/inputs `ToggleGroup` + `ToggleGroupItem`.
+ * Apply `class="morphos-toggle-group"` to the group and
+ * `class="morphos-toggle-group-item"` to each item.
+ */
+.morphos-toggle-group {
+  display: inline-flex;
+  gap: 1px;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  overflow: hidden;
+}
+
+.morphos-toggle-group[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+.morphos-toggle-group[data-disabled] {
+  opacity: 0.5;
+}
+
+.morphos-toggle-group-item {
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border: none;
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+  cursor: pointer;
+  transition: background var(--morphos-transition-fast), color var(--morphos-transition-fast);
+}
+
+.morphos-toggle-group-item:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-toggle-group-item[data-pressed] {
+  background: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-toggle-group-item:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+  z-index: 1;
+  position: relative;
+}
+
+.morphos-toggle-group-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

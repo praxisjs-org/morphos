@@ -1,0 +1,32 @@
+/**
+ * Recipe for @morphos/inputs `OtpField`. Apply with
+ * `class="morphos-otp-field"` on the `OtpField` root.
+ */
+.morphos-otp-field {
+  display: inline-flex;
+  gap: var(--morphos-space-2);
+}
+
+.morphos-otp-field > input[data-index] {
+  width: 2.5rem;
+  height: 3rem;
+  text-align: center;
+  font: inherit;
+  font-size: 1.25rem;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  transition: border-color var(--morphos-transition-fast), box-shadow var(--morphos-transition-fast);
+}
+
+.morphos-otp-field > input[data-index]:focus-visible {
+  outline: none;
+  border-color: var(--morphos-color-accent);
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-otp-field[data-disabled] > input[data-index] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

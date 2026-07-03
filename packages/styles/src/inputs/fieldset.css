@@ -1,0 +1,23 @@
+/**
+ * Recipe for @morphos/inputs `Fieldset`. Apply with
+ * `class="morphos-fieldset"`.
+ */
+.morphos-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-3);
+  margin: 0;
+  padding: var(--morphos-space-4);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-fieldset > legend {
+  padding: 0 var(--morphos-space-2);
+  font-weight: 600;
+  color: var(--morphos-color-text);
+}
+
+.morphos-fieldset[data-disabled] {
+  opacity: 0.5;
+}

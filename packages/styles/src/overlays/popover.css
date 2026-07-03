@@ -1,0 +1,28 @@
+/**
+ * Recipe for @morphos/overlays `Popover`.
+ * Apply `class="morphos-popover-content"` to `PopoverContent`.
+ * `PopoverTrigger` is a plain button — pair it with the `morphos-button`
+ * recipe if you want one.
+ */
+.morphos-popover-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  z-index: 100;
+  min-width: 12rem;
+  max-width: 24rem;
+  padding: var(--morphos-space-4);
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-lg);
+  animation: morphos-fade-in var(--morphos-transition-fast);
+}
+
+.morphos-popover-content:focus-visible {
+  outline: none;
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

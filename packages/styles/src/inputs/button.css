@@ -1,0 +1,55 @@
+/**
+ * Recipe for @morphos/inputs `Button`.
+ * Apply with `class="morphos-button"` (add `morphos-button--ghost` /
+ * `morphos-button--outline` for the optional variants below).
+ */
+.morphos-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--morphos-space-2);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1;
+  padding: var(--morphos-space-2) var(--morphos-space-4);
+  border-radius: var(--morphos-radius-md);
+  border: 1px solid transparent;
+  background: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+  cursor: pointer;
+  transition: background var(--morphos-transition-fast), border-color var(--morphos-transition-fast), opacity var(--morphos-transition-fast);
+}
+
+.morphos-button:hover {
+  background: var(--morphos-color-accent-hover);
+}
+
+.morphos-button:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-button[data-disabled],
+.morphos-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-button--outline {
+  background: transparent;
+  border-color: var(--morphos-color-border);
+  color: var(--morphos-color-text);
+}
+
+.morphos-button--outline:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-button--ghost {
+  background: transparent;
+  color: var(--morphos-color-text);
+}
+
+.morphos-button--ghost:hover {
+  background: var(--morphos-color-bg-hover);
+}

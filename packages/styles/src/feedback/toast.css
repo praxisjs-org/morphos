@@ -1,0 +1,80 @@
+/**
+ * Recipe for @morphos/feedback `ToastProvider` + `Toast`.
+ * Apply `class="morphos-toast-viewport"` to `ToastProvider` — its
+ * auto-rendered toasts (`role="status"`) are styled here without needing
+ * their own class. If you render toasts manually with the standalone
+ * `Toast` component instead, apply `class="morphos-toast"` to it.
+ */
+.morphos-toast-viewport {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  position: fixed;
+  bottom: var(--morphos-space-4);
+  right: var(--morphos-space-4);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-2);
+  width: 20rem;
+  max-width: calc(100vw - 2 * var(--morphos-space-4));
+}
+
+.morphos-toast-viewport > [role="status"],
+.morphos-toast {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-1);
+  padding: var(--morphos-space-3) var(--morphos-space-8, 2rem) var(--morphos-space-3) var(--morphos-space-3);
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  animation: morphos-slide-in var(--morphos-transition-medium);
+}
+
+.morphos-toast-viewport > [role="status"][data-variant="success"],
+.morphos-toast[data-variant="success"] {
+  border-color: var(--morphos-color-success);
+  background: var(--morphos-color-success-bg);
+}
+
+.morphos-toast-viewport > [role="status"][data-variant="error"],
+.morphos-toast[data-variant="error"] {
+  border-color: var(--morphos-color-danger);
+  background: var(--morphos-color-danger-bg);
+}
+
+.morphos-toast-viewport > [role="status"][data-variant="warning"],
+.morphos-toast[data-variant="warning"] {
+  border-color: var(--morphos-color-warning);
+  background: var(--morphos-color-warning-bg);
+}
+
+.morphos-toast-viewport > [role="status"] > button,
+.morphos-toast > button {
+  position: absolute;
+  top: var(--morphos-space-2);
+  right: var(--morphos-space-2);
+  border: none;
+  background: none;
+  color: var(--morphos-color-text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.morphos-toast-viewport > [role="status"] > button:hover,
+.morphos-toast > button:hover {
+  color: var(--morphos-color-text);
+}
+
+@keyframes morphos-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

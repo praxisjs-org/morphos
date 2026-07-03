@@ -1,0 +1,13 @@
+/**
+ * All @morphos/overlays recipes in one file. Prefer importing individual
+ * files from `@morphos/styles/overlays/*.css` if you only need a few.
+ */
+@import "./tokens.css";
+@import "./overlays/dialog.css";
+@import "./overlays/tooltip.css";
+@import "./overlays/popover.css";
+@import "./overlays/dropdown.css";
+@import "./overlays/alert-dialog.css";
+@import "./overlays/drawer.css";
+@import "./overlays/context-menu.css";
+@import "./overlays/preview-card.css";

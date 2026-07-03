@@ -1,0 +1,39 @@
+/**
+ * Recipe for @morphos/inputs `Input`. Apply with `class="morphos-input"`.
+ */
+.morphos-input {
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  transition: border-color var(--morphos-transition-fast), box-shadow var(--morphos-transition-fast);
+}
+
+.morphos-input::placeholder {
+  color: var(--morphos-color-placeholder);
+}
+
+.morphos-input[data-focused] {
+  outline: none;
+  border-color: var(--morphos-color-accent);
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-input[data-invalid] {
+  border-color: var(--morphos-color-danger);
+}
+
+.morphos-input[data-invalid][data-focused] {
+  box-shadow: 0 0 0 2px var(--morphos-color-bg), 0 0 0 4px var(--morphos-color-danger);
+}
+
+.morphos-input[data-disabled],
+.morphos-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--morphos-color-bg-subtle);
+}

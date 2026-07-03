@@ -1,0 +1,91 @@
+/**
+ * Recipe for @morphos/overlays `Dialog`.
+ * Apply `class="morphos-dialog-content"` to `DialogContent`,
+ * `class="morphos-dialog-title"` to `DialogTitle`,
+ * `class="morphos-dialog-description"` to `DialogDescription`, and
+ * `class="morphos-dialog-close"` to `DialogClose`. `DialogTrigger` is a
+ * plain button — pair it with the `morphos-button` recipe if you want one.
+ * `DialogContent` also renders a sibling backdrop `<div data-morphos-backdrop>`,
+ * styled below without needing its own class.
+ */
+[data-morphos-backdrop] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  animation: morphos-fade-in var(--morphos-transition-medium);
+}
+
+.morphos-dialog-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  width: 100%;
+  max-width: 28rem;
+  max-height: 85vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: var(--morphos-space-4);
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+  border-radius: var(--morphos-radius-lg);
+  animation: morphos-scale-in var(--morphos-transition-medium);
+}
+
+.morphos-dialog-content:focus-visible {
+  outline: none;
+}
+
+.morphos-dialog-title {
+  margin: 0 0 var(--morphos-space-2);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.morphos-dialog-description {
+  margin: 0 0 var(--morphos-space-3);
+  color: var(--morphos-color-text-muted);
+}
+
+.morphos-dialog-close {
+  position: absolute;
+  top: var(--morphos-space-3);
+  right: var(--morphos-space-3);
+  border: none;
+  background: none;
+  color: var(--morphos-color-text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: var(--morphos-space-1);
+  border-radius: var(--morphos-radius-sm);
+}
+
+.morphos-dialog-close:hover {
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-dialog-close:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes morphos-scale-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

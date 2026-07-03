@@ -1,0 +1,11 @@
+/**
+ * All @morphos/feedback recipes in one file. Prefer importing individual
+ * files from `@morphos/styles/feedback/*.css` if you only need a few.
+ */
+@import "./tokens.css";
+@import "./feedback/toast.css";
+@import "./feedback/alert.css";
+@import "./feedback/progress.css";
+@import "./feedback/spinner.css";
+@import "./feedback/avatar.css";
+@import "./feedback/meter.css";

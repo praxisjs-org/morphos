@@ -1,0 +1,37 @@
+/**
+ * Recipe for @morphos/inputs `Toggle`. Apply with `class="morphos-toggle"`.
+ */
+.morphos-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--morphos-space-2);
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  background: transparent;
+  color: var(--morphos-color-text);
+  cursor: pointer;
+  transition: background var(--morphos-transition-fast), color var(--morphos-transition-fast);
+}
+
+.morphos-toggle:hover {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-toggle[data-pressed] {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-toggle[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,8 @@
+/**
+ * Recipe for @morphos/inputs `Form`. Apply with `class="morphos-form"`.
+ */
+.morphos-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-4);
+}

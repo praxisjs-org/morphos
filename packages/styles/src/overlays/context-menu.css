@@ -1,0 +1,51 @@
+/**
+ * Recipe for @morphos/overlays `ContextMenu`.
+ * Apply `class="morphos-context-menu-content"` to `ContextMenuContent` and
+ * `class="morphos-context-menu-item"` to each `ContextMenuItem`.
+ * Positioning (`top`/`left`) is set inline by the component itself — this
+ * recipe only styles appearance.
+ */
+.morphos-context-menu-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  z-index: 100;
+  min-width: 10rem;
+  margin: 0;
+  padding: var(--morphos-space-1);
+  list-style: none;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  animation: morphos-fade-in var(--morphos-transition-fast);
+}
+
+.morphos-context-menu-content:focus-visible {
+  outline: none;
+}
+
+.morphos-context-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--morphos-space-2);
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border-radius: var(--morphos-radius-sm);
+  cursor: pointer;
+}
+
+.morphos-context-menu-item:hover,
+.morphos-context-menu-item:focus-visible {
+  outline: none;
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-context-menu-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

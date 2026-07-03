@@ -1,0 +1,65 @@
+/**
+ * Recipe for @morphos/inputs `NumberField`. Apply with
+ * `class="morphos-number-field"` on the `NumberField` root.
+ */
+.morphos-number-field {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+  overflow: hidden;
+}
+
+.morphos-number-field > button {
+  font: inherit;
+  line-height: 1;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border: none;
+  background: var(--morphos-color-bg-subtle);
+  color: var(--morphos-color-text);
+  cursor: pointer;
+}
+
+.morphos-number-field > button:hover:not(:disabled) {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-number-field > button:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+  z-index: 1;
+  position: relative;
+}
+
+.morphos-number-field > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-number-field > input {
+  /* Wide enough for a formatted value like "$1,234.56" — override if yours runs longer. */
+  width: 6rem;
+  border: none;
+  border-left: 1px solid var(--morphos-color-border);
+  border-right: 1px solid var(--morphos-color-border);
+  text-align: center;
+  font: inherit;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  padding: var(--morphos-space-2) var(--morphos-space-1);
+}
+
+.morphos-number-field > input:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+  z-index: 1;
+  position: relative;
+}
+
+.morphos-number-field[data-disabled] {
+  opacity: 0.5;
+}
+
+.morphos-number-field[data-disabled] > input {
+  cursor: not-allowed;
+}

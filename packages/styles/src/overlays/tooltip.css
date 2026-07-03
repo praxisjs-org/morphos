@@ -1,0 +1,23 @@
+/**
+ * Recipe for @morphos/overlays `Tooltip`.
+ * Apply `class="morphos-tooltip-content"` to `TooltipContent`.
+ * `TooltipTrigger` is a plain inline `<span>` — no styling needed.
+ */
+.morphos-tooltip-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  z-index: 100;
+  max-width: 20rem;
+  padding: var(--morphos-space-1) var(--morphos-space-2);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--morphos-color-accent-text);
+  background: var(--morphos-color-text);
+  border-radius: var(--morphos-radius-sm);
+  animation: morphos-fade-in var(--morphos-transition-fast);
+}
+
+@keyframes morphos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

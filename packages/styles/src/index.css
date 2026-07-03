@@ -1,0 +1,50 @@
+/**
+ * Every @morphos/* recipe in one file. Prefer importing
+ * `@morphos/styles/inputs.css`, `overlays.css`, `layout.css`, `feedback.css`,
+ * or an individual `@morphos/styles/<category>/<component>.css` file if you
+ * only need part of the set.
+ */
+@import "./tokens.css";
+
+@import "./inputs/button.css";
+@import "./inputs/input.css";
+@import "./inputs/checkbox.css";
+@import "./inputs/select.css";
+@import "./inputs/radio.css";
+@import "./inputs/switch.css";
+@import "./inputs/toggle.css";
+@import "./inputs/toggle-group.css";
+@import "./inputs/checkbox-group.css";
+@import "./inputs/slider.css";
+@import "./inputs/number-field.css";
+@import "./inputs/field.css";
+@import "./inputs/fieldset.css";
+@import "./inputs/form.css";
+@import "./inputs/otp-field.css";
+@import "./inputs/combobox.css";
+@import "./inputs/autocomplete.css";
+
+@import "./overlays/dialog.css";
+@import "./overlays/tooltip.css";
+@import "./overlays/popover.css";
+@import "./overlays/dropdown.css";
+@import "./overlays/alert-dialog.css";
+@import "./overlays/drawer.css";
+@import "./overlays/context-menu.css";
+@import "./overlays/preview-card.css";
+
+@import "./layout/accordion.css";
+@import "./layout/tabs.css";
+@import "./layout/disclosure.css";
+@import "./layout/separator.css";
+@import "./layout/scroll-area.css";
+@import "./layout/toolbar.css";
+@import "./layout/menubar.css";
+@import "./layout/navigation-menu.css";
+
+@import "./feedback/toast.css";
+@import "./feedback/alert.css";
+@import "./feedback/progress.css";
+@import "./feedback/spinner.css";
+@import "./feedback/avatar.css";
+@import "./feedback/meter.css";

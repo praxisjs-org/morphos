@@ -1,0 +1,32 @@
+/**
+ * Recipe for @morphos/feedback `Alert`. Apply with `class="morphos-alert"`.
+ */
+.morphos-alert {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-1);
+  padding: var(--morphos-space-3) var(--morphos-space-4);
+  border: 1px solid var(--morphos-color-info);
+  border-radius: var(--morphos-radius-md);
+  background: var(--morphos-color-info-bg);
+  color: var(--morphos-color-text);
+}
+
+.morphos-alert > strong {
+  font-weight: 600;
+}
+
+.morphos-alert[data-variant="success"] {
+  border-color: var(--morphos-color-success);
+  background: var(--morphos-color-success-bg);
+}
+
+.morphos-alert[data-variant="warning"] {
+  border-color: var(--morphos-color-warning);
+  background: var(--morphos-color-warning-bg);
+}
+
+.morphos-alert[data-variant="error"] {
+  border-color: var(--morphos-color-danger);
+  background: var(--morphos-color-danger-bg);
+}

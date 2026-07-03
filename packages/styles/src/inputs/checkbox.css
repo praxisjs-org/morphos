@@ -1,0 +1,63 @@
+/**
+ * Recipe for @morphos/inputs `Checkbox`.
+ * `Checkbox` renders a bare `<input type="checkbox">` — apply
+ * `class="morphos-checkbox"` directly to it. Pair with a `<label>` in your
+ * own markup for the visible text.
+ */
+.morphos-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-sm);
+  background: var(--morphos-color-bg);
+  cursor: pointer;
+  transition: background var(--morphos-transition-fast), border-color var(--morphos-transition-fast);
+}
+
+.morphos-checkbox::before {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  background: var(--morphos-color-accent-text);
+  clip-path: polygon(9% 45%, 34% 66%, 87% 8%, 100% 22%, 37% 91%, 0% 58%);
+  transform: scale(0);
+  transition: transform var(--morphos-transition-fast);
+}
+
+.morphos-checkbox[data-checked] {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-checkbox[data-checked]::before {
+  transform: scale(1);
+}
+
+.morphos-checkbox:indeterminate {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-checkbox:indeterminate::before {
+  clip-path: none;
+  width: 0.6rem;
+  height: 0.15rem;
+  transform: scale(1);
+}
+
+.morphos-checkbox:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-checkbox[data-disabled],
+.morphos-checkbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

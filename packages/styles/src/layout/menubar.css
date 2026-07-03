@@ -1,0 +1,78 @@
+/**
+ * Recipe for @morphos/layout `Menubar`.
+ * Apply `class="morphos-menubar"` to `Menubar`,
+ * `class="morphos-menubar-trigger"` to each `MenubarTrigger`,
+ * `class="morphos-menubar-content"` to each `MenubarContent`,
+ * `class="morphos-menubar-item"` to each `MenubarItem`, and
+ * `class="morphos-menubar-separator"` to each `MenubarSeparator`.
+ */
+.morphos-menubar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--morphos-space-1);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-menubar-trigger {
+  font: inherit;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border: none;
+  border-radius: var(--morphos-radius-sm);
+  background: transparent;
+  color: var(--morphos-color-text);
+  cursor: pointer;
+}
+
+.morphos-menubar-trigger:hover,
+.morphos-menubar-trigger[aria-expanded="true"] {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-menubar-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-menubar-content {
+  /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
+  font-family: var(--morphos-font);
+  z-index: 100;
+  min-width: 10rem;
+  margin: 0;
+  padding: var(--morphos-space-1);
+  list-style: none;
+  color: var(--morphos-color-text);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-menubar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--morphos-space-2);
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border-radius: var(--morphos-radius-sm);
+  cursor: pointer;
+}
+
+.morphos-menubar-item:hover,
+.morphos-menubar-item:focus-visible {
+  outline: none;
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-menubar-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-menubar-separator {
+  height: 1px;
+  margin: var(--morphos-space-1) 0;
+  background: var(--morphos-color-border);
+  list-style: none;
+}

@@ -1,0 +1,79 @@
+/**
+ * Recipe for @morphos/inputs `CheckboxGroup` + `CheckboxGroupItem`.
+ * Apply `class="morphos-checkbox-group"` to the group and
+ * `class="morphos-checkbox-group-item"` to each item's `<label>`.
+ * `CheckboxGroupItem` doesn't expose a `class` prop on its inner `<input>`,
+ * so its checkbox look is styled here via a descendant selector instead of
+ * the standalone `morphos-checkbox` class.
+ */
+.morphos-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-2);
+}
+
+.morphos-checkbox-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  gap: var(--morphos-space-4);
+}
+
+.morphos-checkbox-group[data-disabled] {
+  opacity: 0.5;
+}
+
+.morphos-checkbox-group-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morphos-space-2);
+  cursor: pointer;
+}
+
+.morphos-checkbox-group-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-checkbox-group-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-sm);
+  background: var(--morphos-color-bg);
+  cursor: pointer;
+  transition: background var(--morphos-transition-fast), border-color var(--morphos-transition-fast);
+}
+
+.morphos-checkbox-group-item input[type="checkbox"]::before {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  background: var(--morphos-color-accent-text);
+  clip-path: polygon(9% 45%, 34% 66%, 87% 8%, 100% 22%, 37% 91%, 0% 58%);
+  transform: scale(0);
+  transition: transform var(--morphos-transition-fast);
+}
+
+.morphos-checkbox-group-item input[type="checkbox"]:checked {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-checkbox-group-item input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.morphos-checkbox-group-item input[type="checkbox"]:focus-visible {
+  outline: none;
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-checkbox-group-item input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+}
