@@ -1,0 +1,135 @@
+---
+title: Introduction
+description: What is Morphos and why does it exist?
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Philosophy
+
+Morphos (μορφή, Greek: form, shape). Not the look of a thing — the structure underneath it.
+
+A dialog knows how to open, trap focus, and close on Escape. It does not know whether it is
+centered, blurred, or bordered. A checkbox knows whether it is checked. It does not know what
+"checked" looks like. Morphos provides the form — the behavioral skeleton. You provide the shape.
+
+This distinction shows up in how state is exposed. A component doesn't toggle a `.is-open`
+class that you have to know about and override. It sets `data-open` on the root element — a
+fact about what the component *is* right now, not a styling instruction. Your CSS reacts to
+that fact however it wants.
+
+The practical consequence: when something doesn't look the way you expected, open DevTools and
+check the element. Either `data-open` is there or it isn't. Either `data-disabled` is set or it
+isn't. The state is visible — not buried in a class name, not encoded in a variant prop, not
+hidden inside the component.
+
+## What is Morphos?
+
+Morphos is a **headless primitive component library** for [PraxisJS](https://praxisjs.org).
+It provides accessible, behavior-complete UI building blocks without any built-in styles.
+
+Think of it as the PraxisJS equivalent of [Base UI](https://base-ui.com) or
+[Radix UI](https://radix-ui.com) — the logic layer that sits between your design system
+and the browser.
+
+## What Morphos provides
+
+- **Behavior** — open/close state, controlled/uncontrolled APIs, keyboard navigation, roving tabindex where it matters.
+- **Accessibility** — ARIA roles and attributes, focus management, focus trapping, and scroll locking, all wired up by default.
+- **State exposure** — `data-*` attributes on every component root, enabling pure CSS styling with no class toggling.
+- **PraxisJS integration** — class components + decorators, lifecycle hooks, and fine-grained reactivity, native to how PraxisJS works.
+
+## What Morphos does not provide
+
+- CSS or visual styles of any kind, by default.
+- Animation or transition logic (bring your own, or use `@praxisjs/motion`).
+- Layout or positioning beyond what's needed for overlays (components render where you place them; `Portal` is used to escape stacking contexts for floating UI).
+
+<Callout type="info">
+  Don't want to write every CSS rule from scratch? The separate [`@morphos/styles`](/docs/guide/styling)
+  package ships an optional, opt-in recipe for every component — nothing is applied unless you
+  import it yourself.
+</Callout>
+
+## How components are organized
+
+Morphos is split into five packages so you only install what you actually use:
+
+| Package | What's in it |
+|---|---|
+| `@morphos/core` | Shared utilities every other package depends on: `generateId`, accessibility helpers (`trapFocus`, `lockScroll`, `isActivationKey`, `wrapIndex`, `Keys`), `computeAnchorPosition` for floating UI, and shared types (`PrimitiveProps`, `Orientation`, `Size`). |
+| `@morphos/inputs` | `Button`, `Input`, `Checkbox`, `CheckboxGroup`, `RadioGroup` + `Radio`, `Select`, `Switch`, `Toggle`, `ToggleGroup`, `Slider`, `NumberField`, `OtpField`, `Combobox`, `Autocomplete`, `Field`, `Fieldset`, `Form`. |
+| `@morphos/overlays` | `Dialog`, `AlertDialog`, `Drawer`, `Popover`, `Tooltip`, `Dropdown` (aliased `Menu`), `ContextMenu`, `PreviewCard`. |
+| `@morphos/layout` | `Accordion`, `Tabs`, `Disclosure` (aliased `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu`. |
+| `@morphos/feedback` | `ToastProvider` + `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter`. |
+| `@morphos/styles` *(optional)* | Plain CSS recipes, one file per component. Nothing is imported by default — see [Styling](/docs/guide/styling). |
+
+`@morphos/core` is a required peer of every category package — install it alongside whichever
+categories you need. The full walkthrough is in [Getting Started](/docs/guide/getting-started).
+
+## The compound-component pattern
+
+Every component with more than one moving part (a `Dialog`, a `RadioGroup`, an `Accordion`) is
+split into several classes: one **root** that owns the state, and several **parts** that read
+and drive it. The root instance is created once and passed down to its parts as a prop named
+after the component — `dialog={this.dialog}`, `accordion={this.accordion}`, `group={this.group}`.
+
+```tsx
+@Component()
+class MyPage extends StatefulComponent {
+  @State() dialog = new Dialog()
+
+  render() {
+    return (
+      <>
+        <DialogTrigger dialog={this.dialog}>Open</DialogTrigger>
+        <DialogContent dialog={this.dialog}>...</DialogContent>
+      </>
+    )
+  }
+}
+```
+
+There's no React-style Context here — the root instance *is* the shared state, passed around like
+any other prop. It keeps things explicit and easy to trace: if you want to know what a part reacts
+to, look at what was passed into it.
+
+## The `data-*` convention
+
+Every interactive component state is surfaced as a `data-*` attribute on its root element. Values
+are either `""` (present, no value — a boolean flag) or a string (an enum-like state).
+
+| Attribute | Set on |
+|---|---|
+| `data-open` | Combobox, Autocomplete, Select, Disclosure/Collapsible, Dialog, AlertDialog, Drawer, Popover, Dropdown/Menu, ContextMenu, PreviewCard, Tooltip |
+| `data-disabled` | Button, Input, Checkbox, CheckboxGroup(Item), Select, RadioGroup/Radio, Switch, Toggle(Group), Slider, NumberField, OtpField, Combobox, Autocomplete, Field, Fieldset, Accordion, Tabs, Toolbar, Menubar, Dropdown, ContextMenu |
+| `data-checked` | Checkbox, CheckboxGroupItem, Radio, Switch |
+| `data-indeterminate` | Checkbox, Progress |
+| `data-selected` | Combobox / Select (active option), Tabs (`Tab` / `TabPanel`) |
+| `data-active` | Combobox / Autocomplete / Select (keyboard-focused option), `NavigationMenuItem` |
+| `data-expanded` | `AccordionItem`, `AccordionTrigger`, `AccordionContent` |
+| `data-orientation` | CheckboxGroup, RadioGroup, Slider, ToggleGroup, NavigationMenu, ScrollArea, Separator, Tabs, Toolbar |
+| `data-type` | ToggleGroup (`single`/`multiple`), Accordion (`single`/`multiple`), ScrollArea (`auto`/`always`/`scroll`/`hover`/`hidden`) |
+| `data-variant` | Alert, Toast |
+| `data-value` | Meter, Progress, Slider |
+| `data-side` | Drawer (`top`/`right`/`bottom`/`left`) |
+| `data-status` | Avatar (image load status) |
+| `data-scrollable` | ScrollArea |
+| `data-focused` | Input |
+| `data-invalid` | Field, Input |
+| `data-required` | Field |
+| `data-placeholder` | Select |
+| `data-pressed` | Toggle, ToggleGroupItem |
+| `data-index` | Combobox (option index), OtpField (cell index) |
+| `data-high` / `data-low` / `data-optimum` | Meter |
+
+This allows pure CSS styling without any class manipulation:
+
+```css
+[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+[role="tab"][data-selected] { border-bottom: 2px solid currentColor; }
+[role="dialog"][data-open] { display: block; }
+```
+
+Ready to try it? Head to [Getting Started](/docs/guide/getting-started) for the full install +
+first-component walkthrough.

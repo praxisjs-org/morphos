@@ -1,0 +1,101 @@
+---
+title: Alert
+description: A static inline notification with live region support.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="feedback-alert--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/feedback" />
+
+## Import
+
+```ts
+import { Alert } from '@morphos/feedback'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatelessComponent {
+  render() {
+    return (
+      <Alert variant="info" title="Note">
+        Your session will expire in 10 minutes.
+      </Alert>
+    )
+  }
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `'info' \| 'warning' \| 'error' \| 'success'` | `'info'` | Visual and semantic variant |
+| `live` | `'polite' \| 'assertive'` | `'assertive'` for error, `'polite'` otherwise | `aria-live` value |
+| `title` | `string` | — | Bold heading rendered before children |
+| `children` | `Children` | — | Alert message body |
+| `class` | `string` | — | CSS class on the root element |
+| `id` | `string` | — | `id` on the root element |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-variant` | Root | Always — set to the variant string |
+
+## Accessibility
+
+Alert renders as `role="alert"` with `aria-live` and `aria-atomic="true"`. Screen readers
+announce the content automatically when it is added to the DOM.
+
+- **polite** — waits for the user to finish their current interaction (info, success, warning)
+- **assertive** — interrupts immediately (error)
+
+## Styling example
+
+```css
+.morphos-alert {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-1);
+  padding: var(--morphos-space-3) var(--morphos-space-4);
+  border: 1px solid var(--morphos-color-info);
+  border-radius: var(--morphos-radius-md);
+  background: var(--morphos-color-info-bg);
+  color: var(--morphos-color-text);
+}
+
+.morphos-alert > strong {
+  font-weight: 600;
+}
+
+.morphos-alert[data-variant="success"] {
+  border-color: var(--morphos-color-success);
+  background: var(--morphos-color-success-bg);
+}
+
+.morphos-alert[data-variant="warning"] {
+  border-color: var(--morphos-color-warning);
+  background: var(--morphos-color-warning-bg);
+}
+
+.morphos-alert[data-variant="error"] {
+  border-color: var(--morphos-color-danger);
+  background: var(--morphos-color-danger-bg);
+}
+```
+
+Apply `class="morphos-alert"` to `Alert` to use this recipe.
+
+<Callout type="info">
+  Alert is for **static** notifications already present in the layout. For dismissible or
+  auto-expiring notifications, use [Toast](/docs/feedback/toast).
+</Callout>

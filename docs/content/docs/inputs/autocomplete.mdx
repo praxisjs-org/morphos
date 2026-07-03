@@ -1,0 +1,120 @@
+---
+title: Autocomplete
+description: A free-text input that shows matching suggestions as the user types.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-autocomplete--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Autocomplete } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() value = ''
+
+  render() {
+    return (
+      <Autocomplete
+        class="morphos-autocomplete"
+        suggestions={[
+          { value: 'london', label: 'London' },
+          { value: 'new-york', label: 'New York' },
+          { value: 'tokyo', label: 'Tokyo' },
+        ]}
+        placeholder="Search cities…"
+        onValueChange={(v) => { this.value = v }}
+      />
+    )
+  }
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `suggestions` | `{ value: string; label?: string }[]` | `[]` | Suggestion list. `label` is the display text; falls back to `value` |
+| `value` | `string` | — | Initial value read once on mount (see callout below — this is not a live-controlled prop) |
+| `defaultValue` | `string` | — | Initial value in uncontrolled mode; takes priority over `value` if both are set |
+| `placeholder` | `string` | — | Input placeholder text |
+| `disabled` | `boolean` | `false` | Disables the input |
+| `filterFn` | `(suggestion: AutocompleteSuggestion, query: string) => boolean` | case-insensitive substring | Custom filter function |
+| `onValueChange` | `(value: string) => void` | — | Called whenever the text changes (free typing + selection) |
+| `onSuggestionSelect` | `(suggestion: AutocompleteSuggestion) => void` | — | Called only when a suggestion is selected from the list |
+| `class` | `string` | — | CSS class on the root element |
+| `id` | `string` | — | `id` on the rendered `<input>`, so a `<label for>` can target it (falls back to an auto-generated id) |
+| `aria-label` | `string` | — | Accessible label |
+| `aria-labelledby` | `string` | — | ID of an element that labels the input |
+| `aria-describedby` | `string` | — | ID of an element that describes the input |
+
+<Callout type="warning">
+  Unlike `Combobox` and `Select`, `Autocomplete`'s `value` is only read once in `onBeforeMount` (`defaultValue ?? value ?? ""`) to seed its internal text state — it is not resolved on every render. Use `onValueChange` to read the current text; there is no supported way to push a new `value` into an already-mounted `Autocomplete` from the outside.
+</Callout>
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | Root | Suggestion list is visible |
+| `data-disabled` | Root | `disabled` is `true` |
+| `data-active` | Suggestion `<li>` | Suggestion is keyboard-highlighted |
+
+## Keyboard navigation
+
+| Key | Action |
+|---|---|
+| `ArrowDown` | Opens the list (if there is text) and highlights the first suggestion, or moves to the next suggestion (wraps to the first) |
+| `ArrowUp` | Moves to the previous suggestion (wraps to the last) |
+| `Enter` | Selects the highlighted suggestion |
+| `Escape` | Closes the suggestion list |
+| `Tab` | Closes the suggestion list |
+
+## Custom filter
+
+```tsx
+<Autocomplete
+  class="morphos-autocomplete"
+  suggestions={emails}
+  filterFn={(s, query) => (s.label ?? s.value).startsWith(query)}
+  placeholder="Email address…"
+/>
+```
+
+## Difference from Combobox
+
+| | Autocomplete | Combobox |
+|---|---|---|
+| Free text allowed | Yes | No (must select from list) |
+| Input role | `combobox` | `combobox` |
+| Value constrained to list | No | Yes |
+
+<Callout type="info">
+  The suggestion list only appears once the user has typed something (`_open` is set to `value.length > 0` on input). An empty input shows no suggestions. If you need to show all options on focus, provide a custom `filterFn` that always returns `true` when the query is empty — but note the list still won't open until an `input` event fires, since opening is driven by typing rather than focus.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-autocomplete > ul[role="listbox"] > li[role="option"][data-active] {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-autocomplete[data-disabled] > input {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

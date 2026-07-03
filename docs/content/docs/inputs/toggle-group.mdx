@@ -1,0 +1,177 @@
+---
+title: ToggleGroup
+description: A compound component for managing single or multiple selection across a set of toggle buttons.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-togglegroup--single" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { ToggleGroup, ToggleGroupItem } from '@morphos/inputs'
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `ToggleGroup` | Root container managing selection state, rendered with `role="group"` |
+| `ToggleGroupItem` | Individual toggle button within the group |
+
+## Usage
+
+### Single selection
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new ToggleGroup({ type: 'single', defaultValue: 'left', orientation: 'horizontal' })
+
+  render() {
+    return (
+      <ToggleGroup class="morphos-toggle-group" type="single" orientation="horizontal" aria-label="Text alignment">
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="left" aria-label="Align left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="center" aria-label="Align center">
+          Center
+        </ToggleGroupItem>
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="right" aria-label="Align right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+    )
+  }
+}
+```
+
+<Callout type="info">
+  The `group` prop on each `ToggleGroupItem` must be the same `ToggleGroup` instance backing the rendered `<ToggleGroup>` root — `ToggleGroupItem` reads `group.isPressed(value)` and calls `group.toggle(value)` directly on it.
+</Callout>
+
+### Multiple selection
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new ToggleGroup({ type: 'multiple', defaultValue: ['bold'] })
+
+  render() {
+    return (
+      <ToggleGroup class="morphos-toggle-group" type="multiple" aria-label="Text formatting">
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="bold" aria-label="Bold">
+          <strong>B</strong>
+        </ToggleGroupItem>
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="italic" aria-label="Italic">
+          <em>I</em>
+        </ToggleGroupItem>
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="underline" aria-label="Underline">
+          <u>U</u>
+        </ToggleGroupItem>
+      </ToggleGroup>
+    )
+  }
+}
+```
+
+### Controlled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new ToggleGroup({ type: 'single' })
+  @State() layout = 'grid'
+
+  render() {
+    return (
+      <ToggleGroup
+        class="morphos-toggle-group"
+        type="single"
+        value={() => this.layout}
+        onValueChange={(value) => (this.layout = value as string)}
+        aria-label="View layout"
+      >
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="list" aria-label="List view">
+          List
+        </ToggleGroupItem>
+        <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="grid" aria-label="Grid view">
+          Grid
+        </ToggleGroupItem>
+      </ToggleGroup>
+    )
+  }
+}
+```
+
+## Props — ToggleGroup
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `type` | `"single" \| "multiple"` | — | Selection mode: one or many (required) |
+| `value` | `string \| string[]` | — | Controlled selected value(s) |
+| `defaultValue` | `string \| string[]` | — | Uncontrolled initial value(s) — resolves to `[]` when `type` is `"multiple"` and no default is given |
+| `disabled` | `boolean` | `false` | Disables all items in the group |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Sets `aria-orientation` and `data-orientation` |
+| `onValueChange` | `(value: string \| string[]) => void` | — | Fires when selection changes |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `children` | `Children` | — | The `ToggleGroupItem` items |
+| `aria-label` | `string` | — | Accessible label for the group container |
+| `aria-labelledby` | `string` | — | ID of an element that labels the group |
+
+## Props — ToggleGroupItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `group` | `ToggleGroup` | — | The parent `ToggleGroup` instance (required) |
+| `value` | `string` | — | The value this item represents (required) |
+| `disabled` | `boolean` | — | Overrides the group's `disabled` for this item only |
+| `children` | `Children` | — | Content rendered inside the button |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `aria-label` | `string` | — | Accessible label for this item |
+| `aria-labelledby` | `string` | — | ID of an element that labels this item |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-type` | Group root | Always — value is `"single"` or `"multiple"` |
+| `data-orientation` | Group root | Always — value is `"horizontal"` or `"vertical"` |
+| `data-disabled` | Group root | `disabled` is `true` |
+| `data-pressed` | Item root | Item is in the current selection |
+| `data-disabled` | Item root | Group's `disabled` or the item's own `disabled` is `true` |
+
+## Accessibility
+
+`ToggleGroup` renders a `<div role="group">` with `aria-orientation` and `aria-disabled`. Each `ToggleGroupItem` renders a `<button>` with `aria-pressed` reflecting whether its value is in the current selection.
+
+<Callout type="warning">
+  `ToggleGroup` and `ToggleGroupItem` do not implement roving-tabindex or arrow-key navigation — each item button is independently focusable via `Tab`, and pressing `Space`/`Enter` on a focused button activates it natively. If you need arrow-key movement between items, wire it up yourself.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-toggle-group[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+.morphos-toggle-group-item[data-pressed] {
+  background: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-toggle-group-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

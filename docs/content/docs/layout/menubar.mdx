@@ -1,0 +1,180 @@
+---
+title: Menubar
+description: A horizontal menu bar with multiple dropdown menus, following the ARIA menubar pattern.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-menubar--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+} from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() menubar = new Menubar({ 'aria-label': 'Application menu' })
+  @State() fileMenu = new MenubarMenu({ menubar: this.menubar, value: 'file' })
+  @State() editMenu = new MenubarMenu({ menubar: this.menubar, value: 'edit' })
+
+  render() {
+    return (
+      <Menubar menubar={this.menubar}>
+        <MenubarMenu menubar={this.menubar} value="file">
+          <MenubarTrigger menu={this.fileMenu}>File</MenubarTrigger>
+          <MenubarContent menu={this.fileMenu}>
+            <MenubarItem menu={this.fileMenu} value="new" label="New" onSelect={() => console.log('new')} />
+            <MenubarItem menu={this.fileMenu} value="open" label="Open…" onSelect={() => console.log('open')} />
+            <MenubarSeparator />
+            <MenubarItem menu={this.fileMenu} value="save" label="Save" onSelect={() => console.log('save')} />
+          </MenubarContent>
+        </MenubarMenu>
+
+        <MenubarMenu menubar={this.menubar} value="edit">
+          <MenubarTrigger menu={this.editMenu}>Edit</MenubarTrigger>
+          <MenubarContent menu={this.editMenu}>
+            <MenubarItem menu={this.editMenu} value="undo" label="Undo" onSelect={() => console.log('undo')} />
+            <MenubarItem menu={this.editMenu} value="redo" label="Redo" onSelect={() => console.log('redo')} />
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    )
+  }
+}
+```
+
+`MenubarContent` renders its dropdown through a `Portal` (from `@praxisjs/runtime`), positioned with `@morphos/core`'s `computeAnchorPosition` against the trigger's bounding rect.
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Menubar` | Root — tracks which menu is active (`role="menubar"`) |
+| `MenubarMenu` | One dropdown in the bar — bridges `Menubar` and its parts, computes the dropdown's anchored position |
+| `MenubarTrigger` | Button that opens/closes a menu (`role="menuitem"`) |
+| `MenubarContent` | The dropdown panel, rendered in a `Portal` and anchored to the trigger |
+| `MenubarItem` | A selectable item inside the dropdown (`role="menuitem"`) |
+| `MenubarSeparator` | Visual divider (`role="separator"`) |
+
+## Props — Menubar
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `aria-label` | `string` | — | Accessible label for the menubar |
+| `class` | `string` | — | CSS class on the root `<div role="menubar">` |
+| `id` | `string` | — | `id` on the root element |
+
+## Methods — Menubar
+
+| Method | Description |
+|---|---|
+| `open(id: string)` | Opens the menu with the given value, closing any other open menu |
+| `close()` | Closes the currently open menu |
+| `toggle(id: string)` | Opens the given menu if closed, or closes it if it's the currently open one |
+
+## Props — MenubarMenu
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `menubar` | `Menubar` | — | The shared `Menubar` root instance |
+| `value` | `string` | — | Unique identifier for this menu |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Which edge of the trigger the menu is placed against |
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Alignment of the menu along the trigger's perpendicular axis |
+| `sideOffset` | `number` | `4` | Gap in pixels between the trigger and the menu |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — MenubarTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `menu` | `MenubarMenu` | — | The parent `MenubarMenu` instance |
+| `children` | `Children` | — | Button label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id (defaults to the menu's generated trigger id) |
+
+## Props — MenubarContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `menu` | `MenubarMenu` | — | The parent `MenubarMenu` instance |
+| `children` | `Children` | — | `MenubarItem`/`MenubarSeparator` elements |
+| `class` | `string` | — | CSS class applied to the rendered `<ul>` |
+| `id` | `string` | — | HTML id (defaults to the menu's generated content id) |
+
+## Props — MenubarItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `menu` | `MenubarMenu` | — | The parent `MenubarMenu` instance |
+| `value` | `string` | — | Item identifier |
+| `label` | `string` | — | Display text, rendered when no `children` are provided |
+| `onSelect` | `() => void` | — | Called when the item is selected (before the menu closes) |
+| `disabled` | `boolean` | — | Disables the item and blocks selection |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — MenubarSeparator
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Keyboard and pointer interaction
+
+| Interaction | Action |
+|---|---|
+| Click a trigger | Toggle its menu open/closed; opening one menu closes any other |
+| Click outside the trigger and content | Close the active menu |
+| `Escape` | Close the active menu |
+
+<Callout type="info">
+  Arrow-key navigation between menu items or between adjacent triggers is not implemented — `MenubarContent` only listens for `Escape` and outside clicks/`mousedown` on `document` while its menu is open.
+</Callout>
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | MenubarItem | The item's `disabled` prop is set |
+
+<Callout type="info">
+  Each `MenubarMenu` receives both the shared `Menubar` instance (via the `menubar` prop) and is itself passed as the `menu` prop to its `MenubarTrigger`/`MenubarContent`/`MenubarItem` children. `MenubarContent`'s position is recomputed from `MenubarTrigger`'s bounding rect every time the menu opens, using the `side`/`align`/`sideOffset` props on `MenubarMenu`.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-menubar-trigger:hover,
+.morphos-menubar-trigger[aria-expanded="true"] {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-menubar-content {
+  /* Portaled to document.body, so it can't inherit the page's font. */
+  font-family: var(--morphos-font);
+  z-index: 100;
+}
+
+.morphos-menubar-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

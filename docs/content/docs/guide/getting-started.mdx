@@ -1,0 +1,183 @@
+---
+title: Getting Started
+description: Install Morphos and build your first headless primitive component.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+This guide gets you from zero to a working, accessible component in a few minutes. If you'd
+rather understand the ideas first, read the [Introduction](/docs/guide/introduction) — otherwise,
+let's build something.
+
+<Steps>
+
+<Step>
+
+## Install PraxisJS
+
+Morphos is built on top of [PraxisJS](https://praxisjs.org), so it needs to be installed first.
+
+<PackageInstall pkg={["@praxisjs/core", "@praxisjs/decorators", "@praxisjs/runtime", "@praxisjs/jsx"]} />
+
+</Step>
+
+<Step>
+
+## Install Morphos
+
+`@morphos/core` is a required peer dependency of every component package — install it alongside
+whichever categories you actually need.
+
+<PackageInstall pkg="@morphos/core" />
+
+Then add the component packages for what you're building:
+
+<PackageInstall pkg={["@morphos/inputs", "@morphos/overlays", "@morphos/layout", "@morphos/feedback"]} />
+
+You don't have to install all four — each one is independent. A form-heavy page might only need
+`@morphos/inputs`; a dashboard with modals might add `@morphos/overlays` on top.
+
+</Step>
+
+<Step>
+
+## Configure TypeScript
+
+Morphos requires the same TypeScript settings as PraxisJS:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": false,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@praxisjs/jsx"
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+## Build a simple component
+
+Every Morphos component is a plain PraxisJS class component — no special setup, no providers.
+Here's a counter built with `Button`:
+
+```tsx
+import { Component, State } from '@praxisjs/decorators'
+import { StatefulComponent } from '@praxisjs/core'
+import { Button } from '@morphos/inputs'
+
+@Component()
+class Counter extends StatefulComponent {
+  @State() count = 0
+
+  render() {
+    return (
+      <Button onClick={() => this.count++}>
+        Clicked {() => this.count} times
+      </Button>
+    )
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+## Build a compound component
+
+Components with multiple moving parts — dialogs, accordions, menus — follow the same pattern
+throughout Morphos: create the root instance once with `@State()`, then pass it down to each part
+as a prop named after the component.
+
+```tsx
+import { Component, State } from '@praxisjs/decorators'
+import { StatefulComponent } from '@praxisjs/core'
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@morphos/overlays'
+
+@Component()
+class ConfirmEmail extends StatefulComponent {
+  @State() dialog = new Dialog()
+
+  render() {
+    return (
+      <>
+        <DialogTrigger dialog={this.dialog}>Change email</DialogTrigger>
+
+        <DialogContent dialog={this.dialog} aria-labelledby="dialog-title">
+          <DialogTitle id="dialog-title">Change your email</DialogTitle>
+          <DialogDescription>
+            We'll send a confirmation link to your new address.
+          </DialogDescription>
+          <DialogClose dialog={this.dialog}>Cancel</DialogClose>
+        </DialogContent>
+      </>
+    )
+  }
+}
+```
+
+No context provider, no hooks — `this.dialog` already knows whether it's open, traps focus while
+it is, locks page scroll, and closes on Escape or backdrop click, all out of the box. Every
+compound component in the library (`Accordion`, `RadioGroup`, `Select`, `Toast`, and the rest)
+follows this exact same shape, so once you've built one you've basically built them all.
+
+<Callout type="info">
+  Every component page's **Usage** section shows this pattern applied to that specific component —
+  check the [full component list](/docs/#browse-components) once you're ready to explore further.
+</Callout>
+
+</Step>
+
+<Step>
+
+## Style what you built
+
+Morphos ships zero CSS. Every piece of state is exposed as a `data-*` attribute on the root
+element, so plain CSS selectors are all you need:
+
+```css
+/* Style the disabled state */
+[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Style an open dialog */
+[role="dialog"][data-open] {
+  display: block;
+}
+
+/* Style a selected tab */
+[role="tab"][data-selected] {
+  border-bottom: 2px solid currentColor;
+  font-weight: 600;
+}
+```
+
+No class toggling required — the component sets and clears the attribute for you. See the full
+list of attributes in the [Introduction](/docs/guide/introduction#the-data--convention).
+
+Prefer not to write these from scratch? [`@morphos/styles`](/docs/guide/styling) ships an
+optional, opt-in CSS recipe for every component — install it and add one class name.
+
+</Step>
+
+</Steps>
+
+## Where to go next
+
+- [Styling](/docs/guide/styling) — using the optional `@morphos/styles` package and its design tokens.
+- [Inputs](/docs/inputs/button), [Overlays](/docs/overlays/dialog), [Layout](/docs/layout/accordion), [Feedback](/docs/feedback/toast) — browse every component's full Props and `data-*` reference.

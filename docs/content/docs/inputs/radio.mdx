@@ -1,0 +1,172 @@
+---
+title: RadioGroup
+description: A compound component for single-selection radio button groups.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-radiogroup--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { RadioGroup, Radio } from '@morphos/inputs'
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `RadioGroup` | Root container that manages selection state and renders `role="radiogroup"` |
+| `Radio` | Individual radio option within the group |
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new RadioGroup({ defaultValue: 'monthly', orientation: 'vertical' })
+
+  render() {
+    return (
+      <fieldset>
+        <legend>Billing cycle</legend>
+        <RadioGroup class="morphos-radio-group" orientation="vertical" aria-label="Billing cycle">
+          <Radio group={this.group} value="monthly" class="morphos-radio">Monthly</Radio>
+          <Radio group={this.group} value="quarterly" class="morphos-radio">Quarterly</Radio>
+          <Radio group={this.group} value="annually" class="morphos-radio">Annually</Radio>
+        </RadioGroup>
+      </fieldset>
+    )
+  }
+}
+```
+
+<Callout type="info">
+  Each `Radio` reads selection state from the `group` prop and calls `group.select(value)` on change — it must be given the same `RadioGroup` instance backing the rendered `<RadioGroup>` root so the two stay in sync.
+</Callout>
+
+### Controlled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new RadioGroup({ orientation: 'vertical' })
+
+  applyTheme(theme: string) {
+    document.documentElement.dataset.theme = theme
+  }
+
+  render() {
+    return (
+      <fieldset>
+        <legend>Theme</legend>
+        <RadioGroup
+          class="morphos-radio-group"
+          value={() => this.group.selectedValue}
+          orientation="vertical"
+          onValueChange={(value) => this.applyTheme(value)}
+        >
+          <Radio group={this.group} value="light" class="morphos-radio">Light</Radio>
+          <Radio group={this.group} value="dark" class="morphos-radio">Dark</Radio>
+          <Radio group={this.group} value="system" class="morphos-radio">System</Radio>
+        </RadioGroup>
+      </fieldset>
+    )
+  }
+}
+```
+
+### Horizontal layout
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new RadioGroup({ defaultValue: 's', orientation: 'horizontal' })
+
+  render() {
+    return (
+      <fieldset>
+        <legend>Size</legend>
+        <RadioGroup class="morphos-radio-group" orientation="horizontal" aria-label="Size">
+          <Radio group={this.group} value="s" class="morphos-radio">S</Radio>
+          <Radio group={this.group} value="m" class="morphos-radio">M</Radio>
+          <Radio group={this.group} value="l" class="morphos-radio">L</Radio>
+          <Radio group={this.group} value="xl" class="morphos-radio">XL</Radio>
+        </RadioGroup>
+      </fieldset>
+    )
+  }
+}
+```
+
+## Props — RadioGroup
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Uncontrolled initial selected value |
+| `name` | `string` | — | Shared name attribute intended for radios in the group |
+| `disabled` | `boolean` | `false` | Disables all radios in the group |
+| `required` | `boolean` | `false` | Marks the group as required (`aria-required`) |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Sets `aria-orientation` and `data-orientation` |
+| `onValueChange` | `(value: string) => void` | — | Fires when the selected value changes |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `children` | `Children` | — | The `Radio` items |
+| `aria-label` | `string` | — | Accessible label when no `<legend>` is present |
+| `aria-labelledby` | `string` | — | ID of an element that labels the group |
+
+## Props — Radio
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `group` | `RadioGroup` | — | The parent `RadioGroup` instance (required) |
+| `value` | `string` | — | The value this radio represents (required) |
+| `disabled` | `boolean` | — | Overrides the group's `disabled` for this radio only |
+| `children` | `Children` | — | Label content rendered beside the input, inside the same `<label>` |
+| `class` | `string` | — | Additional CSS classes on the `<label>` |
+| `id` | `string` | — | HTML id attribute on the `<label>` |
+| `aria-label` | `string` | — | Accessible label for this individual radio's `<input>` |
+| `aria-labelledby` | `string` | — | ID of an element that labels this individual radio's `<input>` |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Group root | `disabled` is `true` |
+| `data-orientation` | Group root | Always — value is `"vertical"` or `"horizontal"` |
+| `data-checked` | Radio `<label>` | This radio's value matches the group's selected value |
+| `data-disabled` | Radio `<label>` | Group's `disabled` or this radio's own `disabled` is `true` |
+
+## Accessibility
+
+`RadioGroup` renders a `<div role="radiogroup">` with `aria-orientation`, `aria-required`, and `aria-disabled`. Each `Radio` renders a native `<input type="radio">` wrapped in a `<label>`; all radios sharing the same `group` reuse the `name` from `RadioGroup.name`. Wrap the group in a `<fieldset>` with a `<legend>` to provide context to assistive technologies — `RadioGroup` does not render its own `<fieldset>`.
+
+<Callout type="warning">
+  `RadioGroup` and `Radio` do not implement roving-tabindex or arrow-key navigation — each radio input is independently focusable via `Tab`, and selection changes with the native `change` event on click. If you need custom keyboard navigation between options, wire it up yourself.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  gap: var(--morphos-space-4);
+}
+
+.morphos-radio[data-checked] input[type="radio"] {
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-radio[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

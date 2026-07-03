@@ -1,0 +1,176 @@
+---
+title: NumberField
+description: A spinbutton number input with increment and decrement controls and optional number formatting.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-numberfield--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { NumberField } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <NumberField
+        class="morphos-number-field"
+        defaultValue={1}
+        min={1}
+        max={99}
+        step={1}
+        aria-label="Quantity"
+      />
+    )
+  }
+}
+```
+
+### Controlled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() offset = 0
+
+  render() {
+    return (
+      <NumberField
+        class="morphos-number-field"
+        value={this.offset}
+        min={-100}
+        max={100}
+        step={5}
+        onValueChange={(value) => (this.offset = value)}
+        aria-label="Offset"
+      />
+    )
+  }
+}
+```
+
+### Currency formatting
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <NumberField
+        class="morphos-number-field"
+        defaultValue={9.99}
+        min={0}
+        step={0.01}
+        formatOptions={{ style: 'currency', currency: 'USD', minimumFractionDigits: 2 }}
+        name="price"
+        aria-label="Price"
+      />
+    )
+  }
+}
+```
+
+### Percentage formatting
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <NumberField
+        class="morphos-number-field"
+        defaultValue={0.5}
+        min={0}
+        max={1}
+        step={0.01}
+        formatOptions={{ style: 'percent' }}
+        aria-label="Completion"
+      />
+    )
+  }
+}
+```
+
+## Props — NumberField
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number` | — | Controlled current value |
+| `defaultValue` | `number` | — | Uncontrolled initial value |
+| `min` | `number` | — | Minimum allowed value |
+| `max` | `number` | — | Maximum allowed value |
+| `step` | `number` | `1` | Increment/decrement amount; also determines the display rounding precision |
+| `disabled` | `boolean` | `false` | Disables the field and both buttons |
+| `required` | `boolean` | `false` | Marks the input as required |
+| `name` | `string` | — | Form field name for submission |
+| `formatOptions` | `Intl.NumberFormatOptions` | — | Number formatting options (currency, percent, etc.) applied to the displayed value |
+| `onValueChange` | `(value: number) => void` | — | Fires when the value changes |
+| `class` | `string` | — | Additional CSS classes on the root element |
+| `id` | `string` | — | HTML id attribute, applied to the inner input |
+| `aria-label` | `string` | — | Accessible label for the spinbutton input |
+| `aria-labelledby` | `string` | — | ID of an element that labels the spinbutton input |
+| `aria-describedby` | `string` | — | ID of an element that describes the spinbutton input |
+
+## Methods
+
+| Method | Signature | Description |
+|---|---|---|
+| `increment()` | `() => void` | Increases the value by `step`, clamped at `max` |
+| `decrement()` | `() => void` | Decreases the value by `step`, clamped at `min` |
+
+These are instance methods on the `NumberField` class itself and run the same clamping/rounding logic as the `+`/`-` buttons.
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Root | `disabled` is `true` |
+
+## Rendered structure
+
+```html
+<div data-disabled?>
+  <button aria-label="Decrement">-</button>
+  <input role="spinbutton" aria-valuenow aria-valuemin aria-valuemax />
+  <button aria-label="Increment">+</button>
+</div>
+```
+
+## Accessibility
+
+The inner `<input>` has `role="spinbutton"` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax`. The decrement and increment `<button>` elements have hardcoded accessible labels ("Decrement" / "Increment") and disable automatically once the value reaches `min` or `max`. When `formatOptions` is set, the displayed value is formatted (e.g. "$9.99") while the underlying numeric value is what gets submitted via the form `name` field and passed to `onValueChange`.
+
+<Callout type="info">
+  `formatOptions` accepts any `Intl.NumberFormat` options. The formatted string is shown in the visible input, but the raw number is what `onValueChange` receives.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-number-field > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-number-field > input {
+  width: 6rem;
+  text-align: center;
+}
+
+.morphos-number-field[data-disabled] {
+  opacity: 0.5;
+}
+```

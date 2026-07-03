@@ -1,0 +1,140 @@
+---
+title: Combobox
+description: A searchable select that filters options as the user types.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-combobox--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Combobox } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() value = ''
+
+  render() {
+    return (
+      <Combobox
+        class="morphos-combobox"
+        options={[
+          { value: 'react', label: 'React' },
+          { value: 'vue', label: 'Vue' },
+          { value: 'svelte', label: 'Svelte' },
+        ]}
+        placeholder="Select a framework…"
+        onValueChange={(v) => { this.value = v }}
+      />
+    )
+  }
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `options` | `{ value: string; label: string; disabled?: boolean }[]` | `[]` | List of selectable options |
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Initial value in uncontrolled mode |
+| `placeholder` | `string` | — | Text shown when nothing is selected |
+| `disabled` | `boolean` | `false` | Disables the entire combobox |
+| `required` | `boolean` | `false` | Marks the field as required |
+| `name` | `string` | — | Form field name; renders a hidden `<input type="hidden">` that mirrors the selected value |
+| `filterFn` | `(option: ComboboxOption, query: string) => boolean` | case-insensitive substring | Custom filter function |
+| `onValueChange` | `(value: string) => void` | — | Called when a value is selected (also called with `""` when the query is cleared) |
+| `onQueryChange` | `(query: string) => void` | — | Called as the user types in the input |
+| `class` | `string` | — | CSS class on the root element |
+| `id` | `string` | — | `id` on the rendered text `<input>`, so a `<label for>` can target it (falls back to an auto-generated id) |
+| `aria-label` | `string` | — | Accessible label |
+| `aria-labelledby` | `string` | — | ID of an element that labels the input |
+| `aria-describedby` | `string` | — | ID of an element that describes the input |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | Root | Listbox is open |
+| `data-disabled` | Root | `disabled` is `true` |
+| `data-active` | Option `<li>` | Option is keyboard-focused |
+| `data-selected` | Option `<li>` | Option is selected |
+| `data-disabled` | Option `<li>` | Option is disabled |
+
+## Keyboard navigation
+
+| Key | Action |
+|---|---|
+| `ArrowDown` | Opens the listbox if closed; otherwise moves focus to the next option (wraps to the first) |
+| `ArrowUp` | Opens the listbox if closed (focusing the last option); otherwise moves focus to the previous option (wraps to the last) |
+| `Enter` | Selects the focused option |
+| `Escape` | Closes the listbox and resets the query to the current selection's label |
+| `Tab` | Closes the listbox |
+
+## Custom filter
+
+Replace the default case-insensitive substring match:
+
+```tsx
+<Combobox
+  class="morphos-combobox"
+  options={countries}
+  filterFn={(option, query) => option.label.toLowerCase().startsWith(query.toLowerCase())}
+  placeholder="Select country…"
+/>
+```
+
+## Controlled mode
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() value = 'react'
+
+  render() {
+    return (
+      <Combobox
+        class="morphos-combobox"
+        options={frameworks}
+        value={this.value}
+        onValueChange={(v) => { this.value = v }}
+      />
+    )
+  }
+}
+```
+
+<Callout type="info">
+  Combobox is a **constrained** select — the user must choose from the provided options list.
+  For free-text input with optional suggestions, see [Autocomplete](/docs/inputs/autocomplete).
+</Callout>
+
+## Styling example
+
+```css
+.morphos-combobox > ul[role="listbox"] > li[role="option"][data-active] {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-combobox > ul[role="listbox"] > li[role="option"][data-selected] {
+  background: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-combobox[data-disabled] > input {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

@@ -1,0 +1,85 @@
+---
+title: Button
+description: A headless button primitive supporting polymorphism via the `as` prop.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-button--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Button } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Button onClick={() => console.log('clicked')}>
+        Click me
+      </Button>
+    )
+  }
+}
+```
+
+## Polymorphism
+
+Render as a different element using the `as` prop:
+
+```tsx
+<Button as="a" href="/dashboard">Go to dashboard</Button>
+<Button as="span" role="button" tabIndex={0}>Span button</Button>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `as` | `"button" \| "a" \| "span" \| "div"` | `"button"` | Renders as a different HTML element. |
+| `type` | `"button" \| "submit" \| "reset"` | `"button"` | Native button type. Only applied when `as` is `"button"`. |
+| `disabled` | `boolean` | — | Disables the button. Only applied as the native `disabled` attribute when `as` is `"button"`; otherwise exposed via `aria-disabled`. |
+| `href` | `string` | — | Link target. Only used when `as="a"`. |
+| `onClick` | `(event: MouseEvent) => void` | — | Click handler. |
+| `tabIndex` | `number` | — | Tab order override. |
+| `class` | `string` | — | CSS class name. |
+| `id` | `string` | — | HTML id attribute. |
+| `children` | `Children` | — | Button content. |
+| `aria-label` | `string` | — | Accessible label. |
+| `aria-pressed` | `boolean` | — | Toggle button state. |
+| `aria-expanded` | `boolean` | — | Disclosure/popover trigger state. |
+| `aria-controls` | `string` | — | ID of the element controlled by this button. |
+| `aria-haspopup` | `boolean \| "menu" \| "listbox" \| "dialog"` | — | Indicates the kind of popup triggered by this button. |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Root | `disabled` is `true` |
+
+## Styling example
+
+```css
+button[data-disabled],
+a[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+```
+
+<Callout type="info">
+  When `as` is not `"button"`, the `disabled` attribute is replaced by `aria-disabled="true"`,
+  since non-button elements do not support the native `disabled` attribute.
+</Callout>

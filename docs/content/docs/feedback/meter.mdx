@@ -1,0 +1,110 @@
+---
+title: Meter
+description: A gauge element for scalar measurements within a known range.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="feedback-meter--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/feedback" />
+
+## Import
+
+```ts
+import { Meter } from '@morphos/feedback'
+```
+
+## Usage
+
+```tsx
+<Meter value={72} min={0} max={100} low={30} high={80} aria-label="Disk usage" />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number` | — | Current measurement value (required) |
+| `min` | `number` | `0` | Minimum possible value |
+| `max` | `number` | `100` | Maximum possible value |
+| `low` | `number` | — | Upper bound of the "low" range — `data-low` is set when `value < low` |
+| `high` | `number` | — | Lower bound of the "high" range — `data-high` is set when `value > high` |
+| `optimum` | `number` | — | The optimal value — `data-optimum` is set when `value === optimum` |
+| `class` | `string` | — | CSS class on the root element |
+| `id` | `string` | — | `id` on the root element |
+| `aria-label` | `string` | — | Accessible label |
+| `aria-labelledby` | `string` | — | `id` of an external label element |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-value` | Root | Always — contains the numeric value as a string |
+| `data-low` | Root | `value < low` |
+| `data-high` | Root | `value > high` |
+| `data-optimum` | Root | `value === optimum` |
+
+## Markup structure
+
+`Meter` renders as `role="meter"` on a `<div>` (not the native `<meter>` element, which cannot be
+styled consistently across browsers), with a child `<div data-meter-fill>` used for the visual
+fill:
+
+```html
+<div role="meter" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"
+     data-value="72" style="--meter-value: 72%">
+  <div data-meter-fill></div>
+</div>
+```
+
+## CSS custom property
+
+| Property | Value |
+|---|---|
+| `--meter-value` | Percentage from `min` to `max` (e.g. `72%`), set as an inline style on the root |
+
+## Styling example
+
+```css
+.morphos-meter {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg-subtle);
+}
+
+.morphos-meter > [data-meter-fill] {
+  height: 100%;
+  width: var(--meter-value, 0%);
+  background: var(--morphos-color-accent);
+  border-radius: var(--morphos-radius-full);
+  transition: width var(--morphos-transition-medium);
+}
+
+.morphos-meter[data-low] > [data-meter-fill] {
+  background: var(--morphos-color-warning);
+}
+
+.morphos-meter[data-high] > [data-meter-fill] {
+  background: var(--morphos-color-danger);
+}
+
+.morphos-meter[data-optimum] > [data-meter-fill] {
+  background: var(--morphos-color-success);
+}
+```
+
+Apply `class="morphos-meter"` to `Meter` to use this recipe — the fill child (`[data-meter-fill]`)
+is styled automatically without needing its own class.
+
+<Callout type="info">
+  Meter is for **scalar measurements** (disk usage, battery level). For task progress, use
+  [Progress](/docs/feedback/progress) instead.
+</Callout>

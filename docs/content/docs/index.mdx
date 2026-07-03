@@ -1,0 +1,119 @@
+---
+title: Documentation
+description: Headless primitive component library for PraxisJS.
+---
+
+import { Card, Cards } from 'fumadocs-ui/components/card';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Morphos
+
+Welcome! Morphos is a headless, accessible primitive component library built on top of
+[PraxisJS](https://praxisjs.org). If you've used [Base UI](https://base-ui.com) or
+[Radix UI](https://radix-ui.com) before, you'll feel right at home — same idea, rebuilt
+for PraxisJS's signals and class components instead of hooks.
+
+**You bring the styles. Morphos brings the behavior.**
+
+Every component ships fully accessible and keyboard-navigable, with zero CSS attached. State
+is exposed through plain `data-*` attributes, so styling is just writing selectors — no
+`className` juggling, no context providers, no framework adapters to fight with.
+
+New here? Start with the guide below — it walks through installing Morphos, understanding the
+compound-component pattern every package uses, and styling your first primitive.
+
+<Cards>
+  <Card title="Introduction" href="/docs/guide/introduction" description="What Morphos is, and the philosophy behind it." />
+  <Card title="Getting Started" href="/docs/guide/getting-started" description="Install and build your first component in minutes." />
+  <Card title="Styling" href="/docs/guide/styling" description="Optional, opt-in CSS recipes for every component." />
+</Cards>
+
+## Browse components
+
+<Cards>
+  <Card title="Inputs · 17" href="/docs/inputs/button" description="Button, Input, Checkbox, CheckboxGroup, RadioGroup + Radio, Select, Switch, Toggle, ToggleGroup, Slider, NumberField, OtpField, Combobox, Autocomplete, Field, Fieldset, Form." />
+  <Card title="Overlays · 8" href="/docs/overlays/dialog" description="Dialog, Alert Dialog, Drawer, Popover, Tooltip, Dropdown, Context Menu, Preview Card." />
+  <Card title="Layout · 8" href="/docs/layout/accordion" description="Accordion, Tabs, Disclosure, Separator, Scroll Area, Toolbar, Menubar, Navigation Menu." />
+  <Card title="Feedback · 6" href="/docs/feedback/toast" description="Toast, Alert, Progress, Spinner, Avatar, Meter." />
+</Cards>
+
+## Design philosophy
+
+- **Headless** — zero built-in styles. Style via the `class` prop or `data-*` attribute selectors, however you like.
+- **Accessible** — ARIA roles, keyboard navigation, focus management, and screen reader support are built into every component, not bolted on.
+- **PraxisJS-native** — class components + decorators (`@Component()`, `@Prop()`, `@State()`). No hooks, no framework adapters to keep in sync.
+- **State lives in `data-*`** — every interactive state is exposed as a `data-*` attribute on the component root (`data-open`, `data-disabled`, `data-selected`, `data-expanded`, and more). Open DevTools and the state is right there on the element.
+
+<Callout type="info">
+  Not sure where to start? [Getting Started](/docs/guide/getting-started) has a full working
+  example, including the compound-component pattern (`dialog={this.dialog}`-style props) used
+  across every overlay, layout, and grouped-input component.
+</Callout>
+
+## Full component list
+
+### Inputs — `@morphos/inputs`
+
+| Component | Description |
+|---|---|
+| `Button` | Polymorphic button with an `as` prop |
+| `Input` | Text input with controlled/uncontrolled modes |
+| `Checkbox` | Checkbox with indeterminate support |
+| `CheckboxGroup` + `CheckboxGroupItem` | Group of checkboxes sharing one set of checked values |
+| `RadioGroup` + `Radio` | Radio group with keyboard navigation |
+| `Select` | Custom listbox select with keyboard support |
+| `Switch` | Toggle switch (`role="switch"`) |
+| `Toggle` | Toggle button (`aria-pressed`) |
+| `ToggleGroup` + `ToggleGroupItem` | Single- or multiple-selection toggle group |
+| `Slider` | Range slider driven by a CSS custom property |
+| `NumberField` | Spinbutton with increment/decrement controls |
+| `OtpField` | One-time password input, split across N cells |
+| `Combobox` | Searchable select with text filtering |
+| `Autocomplete` | Free-text input backed by a suggestion list |
+| `Field` + `FieldLabel` / `FieldControl` / `FieldDescription` / `FieldError` | Form field wrapper with label, description, and error message |
+| `Fieldset` | Native `<fieldset>` with a `<legend>` |
+| `Form` | Form wrapper with submit/reset handling |
+
+### Overlays — `@morphos/overlays`
+
+| Component | Description |
+|---|---|
+| `Dialog` | Modal dialog with focus trap and scroll lock |
+| `AlertDialog` | Confirmation dialog for destructive or important actions |
+| `Drawer` | Side panel sliding in from any edge (top/right/bottom/left) |
+| `Popover` | Click-toggled floating panel |
+| `Tooltip` | Hover/focus-activated tooltip |
+| `Dropdown` (aliased `Menu`) | Menu with full keyboard navigation |
+| `ContextMenu` | Right-click context menu |
+| `PreviewCard` | Hover-activated preview card |
+
+### Layout — `@morphos/layout`
+
+| Component | Description |
+|---|---|
+| `Accordion` | Collapsible item list, single or multiple open at once |
+| `Tabs` | Tab panel with keyboard navigation |
+| `Disclosure` (aliased `Collapsible`) | Single expand/collapse toggle |
+| `Separator` | Horizontal or vertical visual divider |
+| `ScrollArea` | Custom-styled scroll container with a proportional scrollbar thumb |
+| `Toolbar` | Roving-tabindex toolbar for grouping controls |
+| `Menubar` | Horizontal menu bar with dropdown menus |
+| `NavigationMenu` | Site navigation with submenus |
+
+### Feedback — `@morphos/feedback`
+
+| Component | Description |
+|---|---|
+| `ToastProvider` + `Toast` | Auto-dismissing notification queue |
+| `Alert` | Static inline notification |
+| `Progress` | Progress bar with an indeterminate mode |
+| `Spinner` | Loading indicator |
+| `Avatar` | Image with automatic fallback on load failure |
+| `Meter` | Gauge for measurements within a known range |
+
+## Getting help
+
+- Every component page includes a **Props** table for each of its parts, a **`data-*` attributes**
+  table, and a **Styling example**.
+- See a bug or want a feature? Open an issue on [GitHub](https://github.com/praxisjs-org/morphos).
+- Check the [changelog](/docs/changelog/core) for what's new in each package.

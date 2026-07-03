@@ -1,0 +1,168 @@
+---
+title: Form
+description: A lightweight form wrapper component with typed event props for submit and reset handling.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-form--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Form } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() name = ''
+  @State() email = ''
+  @State() nameField = new Field()
+  @State() emailField = new Field()
+
+  handleSubmit(e: SubmitEvent) {
+    e.preventDefault()
+    const data = new FormData(e.target as HTMLFormElement)
+    console.log({
+      name: data.get('name'),
+      email: data.get('email'),
+    })
+  }
+
+  render() {
+    return (
+      <Form class="morphos-form" onSubmit={(e) => this.handleSubmit(e)}>
+        <Field class="morphos-field">
+          <FieldLabel field={this.nameField} class="morphos-field-label">Name</FieldLabel>
+          <FieldControl class="morphos-field-control">
+            <Input
+              id={this.nameField.fieldId}
+              class="morphos-input"
+              name="name"
+              value={this.name}
+              onInput={(value) => (this.name = value)}
+            />
+          </FieldControl>
+        </Field>
+        <Field class="morphos-field">
+          <FieldLabel field={this.emailField} class="morphos-field-label">Email</FieldLabel>
+          <FieldControl class="morphos-field-control">
+            <Input
+              id={this.emailField.fieldId}
+              class="morphos-input"
+              type="email"
+              name="email"
+              value={this.email}
+              onInput={(value) => (this.email = value)}
+            />
+          </FieldControl>
+        </Field>
+        <button type="submit" class="morphos-button">Submit</button>
+      </Form>
+    )
+  }
+}
+```
+
+### With noValidate
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() errors: Record<string, string> = {}
+
+  validate(data: FormData): boolean {
+    const errs: Record<string, string> = {}
+    if (!data.get('username')) errs.username = 'Username is required'
+    if ((data.get('password') as string).length < 8)
+      errs.password = 'Password must be at least 8 characters'
+    this.errors = errs
+    return Object.keys(errs).length === 0
+  }
+
+  handleSubmit(e: SubmitEvent) {
+    e.preventDefault()
+    const data = new FormData(e.target as HTMLFormElement)
+    if (this.validate(data)) {
+      // proceed with submission
+    }
+  }
+
+  render() {
+    return (
+      <Form noValidate onSubmit={(e) => this.handleSubmit(e)}>
+        <Input name="username" placeholder="Username" aria-label="Username" />
+        {this.errors.username && <span role="alert">{this.errors.username}</span>}
+        <Input type="password" name="password" placeholder="Password" aria-label="Password" />
+        {this.errors.password && <span role="alert">{this.errors.password}</span>}
+        <button type="submit">Log in</button>
+      </Form>
+    )
+  }
+}
+```
+
+### Server action form
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  handleReset() {
+    console.log('Form was reset')
+  }
+
+  render() {
+    return (
+      <Form action="/api/contact" method="post" onReset={() => this.handleReset()}>
+        <Input name="subject" placeholder="Subject" aria-label="Subject" />
+        <Input name="message" placeholder="Message" aria-label="Message" />
+        <button type="submit">Send</button>
+        <button type="reset">Clear</button>
+      </Form>
+    )
+  }
+}
+```
+
+## Props — Form
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `action` | `string` | — | URL to submit the form to |
+| `method` | `"get" \| "post"` | — | HTTP method for submission |
+| `noValidate` | `boolean` | — | Disables native browser validation UI |
+| `onSubmit` | `(event: SubmitEvent) => void` | — | Fires when the form is submitted |
+| `onReset` | `(event: Event) => void` | — | Fires when the form is reset |
+| `children` | `Children` | — | Form fields and controls |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `aria-label` | `string` | — | Accessible label for the form landmark |
+| `aria-labelledby` | `string` | — | ID of an element that labels the form landmark |
+| `aria-describedby` | `string` | — | ID of an element that describes the form landmark |
+
+## Accessibility
+
+`Form` renders a native `<form>` element, which is automatically recognized as a `form` landmark by assistive technologies. When `aria-label` is provided, screen readers announce the label when users navigate to the form landmark. Use `noValidate` when implementing custom validation logic with `Field` and `FieldError` components to avoid conflicting browser-native error popups.
+
+<Callout type="info">
+  Pair `Form` with `Field`, `FieldLabel`, `FieldDescription`, and `FieldError` for fully accessible form fields. `Field` auto-generates the `descriptionId`/`errorId`/`fieldId` needed to connect labels, descriptions, and error messages to their respective inputs.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-4);
+}
+```

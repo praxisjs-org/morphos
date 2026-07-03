@@ -1,0 +1,127 @@
+---
+title: Tooltip
+description: A floating label that appears on hover or focus to provide additional context for an element.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-tooltip--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import { Tooltip, TooltipTrigger, TooltipContent } from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() tooltip = new Tooltip()
+
+  render() {
+    return (
+      <>
+        <TooltipTrigger tooltip={this.tooltip}>
+          Hover me
+        </TooltipTrigger>
+        <TooltipContent tooltip={this.tooltip}>
+          This is a tooltip
+        </TooltipContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Tooltip` | Root state manager. Owns open state, open/close timers, and the computed anchor position. |
+| `TooltipTrigger` | `<span>` that shows the tooltip on `mouseenter`/`focus` and hides it on `mouseleave`/`blur`. Sets `aria-describedby` and `data-open`. |
+| `TooltipContent` | Renders into a `Portal`, positioned with `position: fixed`. Sets `role="tooltip"` and `data-open`. |
+
+## Props — Tooltip
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `openDelay` | `number` | `500` | Milliseconds to wait before opening. |
+| `closeDelay` | `number` | `0` | Milliseconds to wait before closing. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"top"` | Which edge of the trigger the tooltip is placed against. |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment of the tooltip along the trigger's perpendicular axis. |
+| `sideOffset` | `number` | `4` | Gap in pixels between the trigger and the tooltip. |
+| `children` | `Children` | — | Content — typically `TooltipTrigger` and `TooltipContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `show()` | Cancels any pending close, then opens the tooltip after `openDelay` ms (recomputing its position). |
+| `hide()` | Cancels any pending open, then closes the tooltip after `closeDelay` ms. |
+
+## Props — TooltipTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `tooltip` | `Tooltip` | — | The `Tooltip` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — TooltipContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `tooltip` | `Tooltip` | — | The `Tooltip` instance this content belongs to. |
+| `children` | `Children` | — | Tooltip content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label for the tooltip content. |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `TooltipTrigger` | Tooltip is visible |
+| `data-open` | `TooltipContent` root | Tooltip is visible |
+
+## Activation
+
+The tooltip opens and closes based on pointer and keyboard events on `TooltipTrigger`:
+
+| Event | Action |
+|---|---|
+| `mouseenter` | Opens after `openDelay` ms |
+| `mouseleave` | Closes after `closeDelay` ms |
+| `focus` | Opens after `openDelay` ms |
+| `blur` | Closes after `closeDelay` ms |
+
+<Callout type="info">
+  `TooltipContent` renders with `role="tooltip"` inside a Portal, so it is always appended to the
+  document body and avoids overflow clipping from parent containers. Its position is computed
+  with `computeAnchorPosition()` from `@morphos/core`, using `TooltipTrigger`'s bounding rect and
+  the `side`/`align`/`sideOffset` props on `Tooltip`. Tooltip does not trap focus or lock scroll —
+  it is non-modal.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-tooltip-content {
+  z-index: 100;
+  max-width: 20rem;
+  padding: var(--morphos-space-1) var(--morphos-space-2);
+  font-size: 0.8125rem;
+  background: var(--morphos-color-text);
+  color: var(--morphos-color-accent-text);
+  border-radius: var(--morphos-radius-sm);
+}
+```

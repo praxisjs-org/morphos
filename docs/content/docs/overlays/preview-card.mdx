@@ -1,0 +1,126 @@
+---
+title: Preview Card
+description: A floating card that appears on hover to provide a rich preview of linked or referenced content.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-previewcard--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import { PreviewCard, PreviewCardTrigger, PreviewCardContent } from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() previewCard = new PreviewCard({ openDelay: 300, closeDelay: 100 })
+
+  render() {
+    return (
+      <>
+        <PreviewCardTrigger card={this.previewCard}>
+          @morphos_ui
+        </PreviewCardTrigger>
+        <PreviewCardContent card={this.previewCard}>
+          <img src="/avatar.png" alt="Morphos UI" />
+          <strong>Morphos UI</strong>
+          <p>Headless PraxisJS component library.</p>
+        </PreviewCardContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `PreviewCard` | Root state manager. Owns open state, hover delay timers, and the computed anchor position. |
+| `PreviewCardTrigger` | `<span>` that opens the card (after `openDelay`) on `mouseenter`/`focus`, and schedules closing (after `closeDelay`) on `mouseleave`/`blur`. |
+| `PreviewCardContent` | Renders into a `Portal`, positioned with `position: fixed`. Sets `role="tooltip"` and `data-open`. Re-arms the open/close timers on its own `mouseenter`/`mouseleave`, so moving the pointer from the trigger into the card keeps it open. |
+
+## Props — PreviewCard
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state. When set, the consumer owns the state. |
+| `defaultOpen` | `boolean` | — | Initial open state in uncontrolled mode (no default value is assigned; treated as `false` when unset). |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the open state changes. |
+| `openDelay` | `number` | `300` | Milliseconds to wait before opening. |
+| `closeDelay` | `number` | `100` | Milliseconds to wait before closing. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Which edge of the trigger the card is placed against. |
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Alignment of the card along the trigger's perpendicular axis. |
+| `sideOffset` | `number` | `4` | Gap in pixels between the trigger and the card. |
+| `children` | `Children` | — | Content — typically `PreviewCardTrigger` and `PreviewCardContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `openWithDelay()` | Cancels any pending close, then opens the card after `openDelay` ms. |
+| `closeWithDelay()` | Cancels any pending open, then closes the card after `closeDelay` ms. |
+| `openCard()` | Opens the card immediately (recomputing its position). Emits `onOpenChange(true)`. |
+| `closeCard()` | Closes the card immediately. Emits `onOpenChange(false)`. |
+
+## Props — PreviewCardTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `card` | `PreviewCard` | — | The `PreviewCard` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — PreviewCardContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `card` | `PreviewCard` | — | The `PreviewCard` instance this content belongs to. |
+| `children` | `Children` | — | Preview card content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `PreviewCardContent` root | Card is visible |
+
+<Callout type="info">
+  Unlike `Tooltip`, `PreviewCardTrigger` does not set a `data-open` attribute of its own — only
+  `PreviewCardContent` reflects `data-open`. `PreviewCardTrigger` does set `aria-describedby`,
+  pointing at the content's id.
+</Callout>
+
+<Callout type="info">
+  `PreviewCardContent` renders inside a Portal. Moving the pointer from the trigger into the
+  content area does not close the card — the `closeDelay` gives the user time to hover over the
+  card before it dismisses. Its position is computed with `computeAnchorPosition()` from
+  `@morphos/core`, using `PreviewCardTrigger`'s bounding rect and the `side`/`align`/`sideOffset`
+  props on `PreviewCard`. PreviewCard does not trap focus or lock scroll — it is non-modal.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-preview-card-content {
+  z-index: 100;
+  width: 20rem;
+  padding: var(--morphos-space-4);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-lg);
+}
+```

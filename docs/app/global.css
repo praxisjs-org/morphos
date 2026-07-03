@@ -1,0 +1,99 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
+
+html {
+  scrollbar-gutter: stable;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* ── Light theme ─────────────────────────────────────────────────────────── */
+@theme {
+  --color-fd-background: hsl(38, 22%, 97%);
+  --color-fd-foreground: hsl(24, 22%, 9%);
+  --color-fd-muted: hsl(36, 14%, 91%);
+  --color-fd-muted-foreground: hsl(28, 10%, 46%);
+  --color-fd-popover: hsl(38, 24%, 99%);
+  --color-fd-popover-foreground: hsl(24, 22%, 9%);
+  --color-fd-card: hsl(36, 16%, 93%);
+  --color-fd-card-foreground: hsl(24, 22%, 9%);
+  --color-fd-border: hsl(33, 16%, 82%);
+  --color-fd-primary: hsl(32, 82%, 34%);
+  --color-fd-primary-foreground: hsl(38, 24%, 98%);
+  --color-fd-secondary: hsl(36, 14%, 89%);
+  --color-fd-secondary-foreground: hsl(24, 18%, 16%);
+  --color-fd-accent: hsl(36, 14%, 87%);
+  --color-fd-accent-foreground: hsl(24, 18%, 14%);
+  --color-fd-ring: hsl(32, 82%, 34%);
+}
+
+/* ── Dark theme ──────────────────────────────────────────────────────────── */
+.dark {
+  --color-fd-background: hsl(24, 8%, 6%);
+  --color-fd-foreground: hsl(36, 14%, 88%);
+  --color-fd-muted: hsl(24, 6%, 11%);
+  --color-fd-muted-foreground: hsl(30, 6%, 50%);
+  --color-fd-popover: hsl(24, 8%, 5%);
+  --color-fd-popover-foreground: hsl(36, 12%, 86%);
+  --color-fd-card: hsl(24, 7%, 9%);
+  --color-fd-card-foreground: hsl(36, 14%, 88%);
+  --color-fd-border: hsl(24, 8%, 18%);
+  --color-fd-primary: hsl(40, 88%, 56%);
+  --color-fd-primary-foreground: hsl(24, 20%, 7%);
+  --color-fd-secondary: hsl(24, 6%, 13%);
+  --color-fd-secondary-foreground: hsl(36, 10%, 82%);
+  --color-fd-accent: hsl(24, 6%, 14%);
+  --color-fd-accent-foreground: hsl(36, 10%, 82%);
+  --color-fd-ring: hsl(40, 84%, 52%);
+}
+
+/* ── Grain overlay ───────────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ── Code syntax tokens ──────────────────────────────────────────────────── */
+:root {
+  --ct-dec: #92400e;
+  --ct-kw: #1e40af;
+  --ct-cls: #0369a1;
+  --ct-str: #166534;
+  --ct-num: #9a3412;
+  --ct-jsx: #0c4a6e;
+  --ct-txt: #1c1917;
+  --ct-op: #a8a29e;
+  --ct-fn: #9f1239;
+  --ct-cmt: #a8a29e;
+  --ct-bg: #fafaf9;
+  --ct-bar: #fef3c7;
+  --ct-border: rgba(180, 83, 9, 0.14);
+}
+
+.dark {
+  --ct-dec: #fbbf24;
+  --ct-kw: #93c5fd;
+  --ct-cls: #67e8f9;
+  --ct-str: #86efac;
+  --ct-num: #fdba74;
+  --ct-jsx: #a5f3fc;
+  --ct-txt: #e7e5e4;
+  --ct-op: #57534e;
+  --ct-fn: #fda4af;
+  --ct-cmt: #44403c;
+  --ct-bg: #0c0a09;
+  --ct-bar: #1a1208;
+  --ct-border: rgba(251, 191, 36, 0.11);
+}

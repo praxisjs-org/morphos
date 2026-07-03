@@ -1,0 +1,22 @@
+{
+  "title": "Inputs",
+  "pages": [
+    "button",
+    "input",
+    "checkbox",
+    "checkbox-group",
+    "radio",
+    "select",
+    "switch",
+    "toggle",
+    "toggle-group",
+    "slider",
+    "number-field",
+    "otp-field",
+    "field",
+    "fieldset",
+    "form",
+    "combobox",
+    "autocomplete"
+  ]
+}

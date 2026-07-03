@@ -1,0 +1,201 @@
+---
+title: Alert Dialog
+description: A modal dialog for critical confirmations that requires an explicit user action to proceed or cancel.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-alertdialog--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() alertDialog = new AlertDialog()
+
+  handleDelete() {
+    // perform destructive action
+  }
+
+  render() {
+    return (
+      <>
+        <AlertDialogTrigger alertDialog={this.alertDialog}>
+          Delete account
+        </AlertDialogTrigger>
+        <AlertDialogContent alertDialog={this.alertDialog}>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. Your account and all associated data
+            will be permanently deleted.
+          </AlertDialogDescription>
+          <AlertDialogCancel alertDialog={this.alertDialog}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction alertDialog={this.alertDialog} onClick={() => this.handleDelete()}>
+            Delete account
+          </AlertDialogAction>
+        </AlertDialogContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `AlertDialog` | Root state manager. Owns open state and exposes `openDialog()` / `closeDialog()` / `toggle()`. |
+| `AlertDialogTrigger` | `<button>` that opens the dialog. Sets `aria-haspopup="dialog"`, `aria-expanded`, and `data-open`. |
+| `AlertDialogContent` | Renders into a `Portal` with a sibling backdrop `<div data-morphos-backdrop>`. Sets `role="alertdialog"` and `aria-modal="true"`. Applies focus trap and scroll lock while open. |
+| `AlertDialogTitle` | Renders as `<h2>` by default (configurable via `as`). |
+| `AlertDialogDescription` | Renders as `<p>`. |
+| `AlertDialogAction` | `<button>` that runs its `onClick` and then calls `closeDialog()`. |
+| `AlertDialogCancel` | `<button>` that runs its `onClick` and then calls `closeDialog()`. |
+
+## Props — AlertDialog
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state. When set, the consumer owns the state. |
+| `defaultOpen` | `boolean` | `false` | Initial open state in uncontrolled mode. |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the open state changes. |
+| `closeOnEscape` | `boolean` | `true` | Whether pressing Escape closes the dialog. |
+| `closeOnOutsideClick` | `boolean` | `true` | Whether clicking the backdrop closes the dialog. |
+| `children` | `Children` | — | Content — typically `AlertDialogTrigger` and `AlertDialogContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `openDialog()` | Opens the dialog. Emits `onOpenChange(true)`. |
+| `closeDialog()` | Closes the dialog. Emits `onOpenChange(false)`. |
+| `toggle()` | Toggles the open state. Emits `onOpenChange`. |
+
+## Props — AlertDialogTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `alertDialog` | `AlertDialog` | — | The `AlertDialog` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — AlertDialogContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `alertDialog` | `AlertDialog` | — | The `AlertDialog` instance this content belongs to. |
+| `children` | `Children` | — | Dialog body content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label for the dialog. |
+| `aria-labelledby` | `string` | — | ID of the element that labels the dialog (e.g. an `AlertDialogTitle`). |
+| `aria-describedby` | `string` | — | ID of the element that describes the dialog (e.g. an `AlertDialogDescription`). |
+
+## Props — AlertDialogTitle
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | `"h2"` | The HTML heading element to render. |
+| `children` | `Children` | — | Title text. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — AlertDialogDescription
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `Children` | — | Description text. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — AlertDialogAction
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `alertDialog` | `AlertDialog` | — | The `AlertDialog` instance this action button belongs to. |
+| `children` | `Children` | — | Button content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+| `onClick` | `() => void` | — | Called before the dialog closes. Use this to run the destructive action. |
+
+## Props — AlertDialogCancel
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `alertDialog` | `AlertDialog` | — | The `AlertDialog` instance this cancel button belongs to. |
+| `children` | `Children` | — | Button content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+| `onClick` | `() => void` | — | Called before the dialog closes. |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `AlertDialogTrigger` | Dialog is open |
+| `data-open` | `AlertDialogContent` root | Dialog is open |
+
+<Callout type="info">
+  Unlike `Dialog`, clicking the backdrop closes `AlertDialogContent` only when
+  `closeOnOutsideClick` is `true` (the default). Set it to `false` if the destructive action
+  must always be confirmed with `AlertDialogAction` or `AlertDialogCancel` explicitly.
+</Callout>
+
+<Callout type="info">
+  `AlertDialogContent` renders with `role="alertdialog"` and `aria-modal="true"`, and calls
+  `trapFocus()` and `lockScroll()` from `@morphos/core` while open, the same way `Dialog` does.
+</Callout>
+
+## Styling example
+
+```css
+[data-morphos-backdrop] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.morphos-alert-dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 26rem;
+  padding: var(--morphos-space-4);
+  border-radius: var(--morphos-radius-lg);
+}
+
+.morphos-alert-dialog-action {
+  background: var(--morphos-color-danger);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-alert-dialog-cancel {
+  background: transparent;
+  border-color: var(--morphos-color-border);
+}
+```

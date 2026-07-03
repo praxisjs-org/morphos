@@ -1,0 +1,217 @@
+---
+title: Field
+description: A compound component that provides accessible label, description, and error wiring for any form control.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-field--default" />
+
+## Installation
+
+<PackageInstall pkg={["@morphos/inputs", "@morphos/core"]} />
+
+## Import
+
+```ts
+import { Field, FieldLabel, FieldDescription, FieldError, FieldControl } from '@morphos/inputs'
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Field` | Root that manages shared IDs and invalid/disabled/required state, rendered as a `<div>` |
+| `FieldLabel` | Renders a `<label>` linked to the control via `htmlFor={field.fieldId}` |
+| `FieldDescription` | Renders a `<p>` with a stable ID for `aria-describedby` |
+| `FieldError` | Renders a `<p role="alert">` only when `field.invalid` is `true` |
+| `FieldControl` | Wrapper `<div>` for the input element |
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() field = new Field({ required: true })
+  @State() email = ''
+  @State() invalid = false
+
+  validate() {
+    this.invalid = !this.email.includes('@')
+  }
+
+  render() {
+    return (
+      <Field class="morphos-field" required invalid={this.invalid}>
+        <FieldLabel field={this.field} class="morphos-field-label">Email address</FieldLabel>
+        <FieldDescription field={this.field} class="morphos-field-description">
+          We will never share your email with anyone.
+        </FieldDescription>
+        <FieldControl class="morphos-field-control">
+          <Input
+            id={this.field.fieldId}
+            type="email"
+            class="morphos-input"
+            value={this.email}
+            onInput={(value) => (this.email = value)}
+            onBlur={() => this.validate()}
+            aria-describedby={this.field.descriptionId}
+            invalid={this.invalid}
+          />
+        </FieldControl>
+        <FieldError field={this.field} class="morphos-field-error">
+          Please enter a valid email address.
+        </FieldError>
+      </Field>
+    )
+  }
+}
+```
+
+<Callout type="warning">
+  `Field` is a regular stateful component rendered directly with props (`required`, `invalid`, `disabled`, `class`, ...). The separate `new Field(...)` instance kept in `@State()` is what `FieldLabel`, `FieldDescription`, and `FieldError` read their `field.fieldId` / `field.descriptionId` / `field.errorId` / `field.invalid` from — construct it with matching options so the IDs and state line up with what you pass to the rendered `<Field>`.
+</Callout>
+
+### Disabled field
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() field = new Field({ disabled: true })
+
+  render() {
+    return (
+      <Field class="morphos-field" disabled>
+        <FieldLabel field={this.field} class="morphos-field-label">Account type</FieldLabel>
+        <FieldControl class="morphos-field-control">
+          <Input id={this.field.fieldId} class="morphos-input" value="Enterprise" disabled />
+        </FieldControl>
+        <FieldDescription field={this.field} class="morphos-field-description">
+          Contact support to change your account type.
+        </FieldDescription>
+      </Field>
+    )
+  }
+}
+```
+
+### With Select
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() field = new Field({ required: true })
+
+  render() {
+    return (
+      <Field class="morphos-field" required>
+        <FieldLabel field={this.field} class="morphos-field-label">Language</FieldLabel>
+        <FieldControl class="morphos-field-control">
+          <Select
+            id={this.field.fieldId}
+            class="morphos-select"
+            options={[
+              { value: 'en', label: 'English' },
+              { value: 'es', label: 'Spanish' },
+              { value: 'pt', label: 'Portuguese' },
+            ]}
+            placeholder="Choose language"
+          />
+        </FieldControl>
+      </Field>
+    )
+  }
+}
+```
+
+## Props — Field
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `invalid` | `boolean` | `false` | Marks the field as invalid; sets `data-invalid` and is read by `FieldError` to decide whether to render |
+| `disabled` | `boolean` | `false` | Marks the field as disabled |
+| `required` | `boolean` | `false` | Marks the field as required |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute; also used as `fieldId` when set |
+| `children` | `Children` | — | The label, description, control, and error parts |
+
+## Field instance properties
+
+| Property | Type | Description |
+|---|---|---|
+| `fieldId` | `string` | The `id` prop if provided, otherwise an auto-generated ID — intended for the primary input element |
+| `descriptionId` | `string` | Auto-generated ID for `FieldDescription` |
+| `errorId` | `string` | Auto-generated ID for `FieldError` |
+
+## Props — FieldLabel
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `field` | `Field` | — | The parent `Field` instance (required) |
+| `children` | `Children` | — | Label text |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute on the `<label>` itself |
+
+## Props — FieldDescription
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `field` | `Field` | — | The parent `Field` instance (required) |
+| `children` | `Children` | — | Description text |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute; overrides the auto-generated `descriptionId` |
+
+## Props — FieldError
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `field` | `Field` | — | The parent `Field` instance (required) |
+| `children` | `Children` | — | Error message text |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute; overrides the auto-generated `errorId` |
+
+## Props — FieldControl
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `Children` | — | The form input element(s) |
+| `class` | `string` | — | Additional CSS classes |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-invalid` | Field root | `invalid` is `true` |
+| `data-disabled` | Field root | `disabled` is `true` |
+| `data-required` | Field root | `required` is `true` |
+
+## Accessibility
+
+`Field` auto-generates stable IDs for the description and error elements (`descriptionId`, `errorId`) and resolves `fieldId` from its own `id` prop or an auto-generated fallback. `FieldLabel` renders `<label htmlFor={field.fieldId}>`, so give your input `id={field.fieldId}` for the label to focus it on click. `FieldError` uses `role="alert"` and is only rendered when `field.invalid` is `true`, so the error is announced to screen readers as soon as it appears.
+
+<Callout type="info">
+  You do not need to use `FieldControl` if you do not need a wrapper div — it is provided as a styling convenience only, and its `field` prop (declared in the types) is not read by its `render()`.
+</Callout>
+
+<Callout type="warning">
+  `Field`, `FieldDescription`, and `FieldError` do not expose a `labelId`. Wire `aria-describedby={field.descriptionId}` and the `invalid`/`required` props manually onto your input — there is no `aria-errormessage` prop on `@morphos/inputs` form controls.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-field[data-required] .morphos-field-label::after {
+  content: " *";
+  color: var(--morphos-color-danger);
+}
+
+.morphos-field-error {
+  color: var(--morphos-color-danger);
+}
+
+.morphos-field[data-disabled] {
+  opacity: 0.5;
+}
+```

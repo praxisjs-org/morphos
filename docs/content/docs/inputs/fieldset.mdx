@@ -1,0 +1,142 @@
+---
+title: Fieldset
+description: A semantic fieldset wrapper that groups related form controls with an optional legend.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-fieldset--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Fieldset } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new CheckboxGroup({ defaultValue: ['email'] })
+
+  render() {
+    return (
+      <Fieldset class="morphos-fieldset" legend="Notification channels">
+        <CheckboxGroup class="morphos-checkbox-group">
+          <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="email">
+            Email
+          </CheckboxGroupItem>
+          <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="sms">
+            SMS
+          </CheckboxGroupItem>
+          <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="push">
+            Push
+          </CheckboxGroupItem>
+        </CheckboxGroup>
+      </Fieldset>
+    )
+  }
+}
+```
+
+### Disabled fieldset
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new RadioGroup({ defaultValue: 'free' })
+
+  render() {
+    return (
+      <Fieldset class="morphos-fieldset" legend="Pricing plan" disabled>
+        <RadioGroup class="morphos-radio-group">
+          <Radio group={this.group} value="free" class="morphos-radio">Free</Radio>
+          <Radio group={this.group} value="pro" class="morphos-radio">Pro</Radio>
+          <Radio group={this.group} value="enterprise" class="morphos-radio">Enterprise</Radio>
+        </RadioGroup>
+      </Fieldset>
+    )
+  }
+}
+```
+
+### Without a legend
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Fieldset aria-labelledby="shipping-heading">
+        <h2 id="shipping-heading">Shipping address</h2>
+        <Input name="street" placeholder="Street address" aria-label="Street" />
+        <Input name="city" placeholder="City" aria-label="City" />
+        <Input name="zip" placeholder="ZIP code" aria-label="ZIP code" />
+      </Fieldset>
+    )
+  }
+}
+```
+
+## Props — Fieldset
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | — | Disables all form controls within the fieldset at the HTML level |
+| `legend` | `string` | — | Text for the `<legend>` element; omit when using `aria-labelledby` |
+| `children` | `Children` | — | Form controls to group |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `aria-label` | `string` | — | Accessible label when no `legend` is provided |
+| `aria-labelledby` | `string` | — | ID of an external element that labels the group |
+| `aria-describedby` | `string` | — | ID of an element that describes the group |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Root | `disabled` is `true` |
+
+## Rendered structure
+
+```html
+<fieldset data-disabled? class="...">
+  <legend>Legend text</legend>
+  <!-- children -->
+</fieldset>
+```
+
+When `legend` is omitted, the `<legend>` element is not rendered.
+
+## Accessibility
+
+`Fieldset` renders a native `<fieldset>` element with an optional `<legend>`. The browser's native `disabled` propagation means that all descendant inputs, buttons, and select elements become disabled automatically when the `disabled` attribute is set on the fieldset — no extra JavaScript logic is required. Screen readers announce the legend as the label for all controls within the group.
+
+<Callout type="info">
+  Prefer using a `legend` over `aria-label` when you have a visible label. A visible `<legend>` provides context for sighted users and assistive technology alike. Use `aria-labelledby` when the label element already exists in the DOM elsewhere.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-fieldset {
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-fieldset > legend {
+  font-weight: 600;
+  color: var(--morphos-color-text);
+}
+
+.morphos-fieldset[data-disabled] {
+  opacity: 0.5;
+}
+```

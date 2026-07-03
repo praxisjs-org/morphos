@@ -1,0 +1,96 @@
+---
+title: Separator
+description: A visual or semantic divider between sections of content.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-separator--horizontal" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import { Separator } from '@morphos/layout'
+```
+
+## Usage
+
+`Separator` has no compound parts and no root state instance — use it directly.
+
+### Semantic separator
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <div>
+        <p>Section A</p>
+        <Separator orientation="horizontal" />
+        <p>Section B</p>
+      </div>
+    )
+  }
+}
+```
+
+### Decorative separator
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <div class="toolbar">
+        <button>Bold</button>
+        <Separator orientation="vertical" decorative />
+        <button>Italic</button>
+      </div>
+    )
+  }
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Direction of the separator |
+| `decorative` | `boolean` | `false` | When true, hides the separator from assistive technology (`aria-hidden="true"`, no `role`) |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-orientation` | Separator | Always — reflects the `orientation` prop |
+
+## Accessibility
+
+| `decorative` | Rendered attributes |
+|---|---|
+| `false` (default) | `role="separator"` and `aria-orientation` |
+| `true` | `aria-hidden="true"` only — no `role` |
+
+<Callout type="info">
+  Use `decorative={true}` for purely visual dividers where the separation is already communicated by the surrounding content structure. Use the semantic (default) form when the separator conveys a meaningful boundary between distinct regions.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-separator[data-orientation="horizontal"] {
+  width: 100%;
+  height: 1px;
+}
+
+.morphos-separator[data-orientation="vertical"] {
+  width: 1px;
+  align-self: stretch;
+}
+```

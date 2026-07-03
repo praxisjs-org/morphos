@@ -1,0 +1,172 @@
+---
+title: Dropdown
+description: A contextual menu that appears anchored to a trigger, offering a list of selectable actions.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-dropdown--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() dropdown = new Dropdown()
+
+  render() {
+    return (
+      <>
+        <DropdownTrigger dropdown={this.dropdown}>
+          Actions
+        </DropdownTrigger>
+        <DropdownMenu dropdown={this.dropdown}>
+          <DropdownItem dropdown={this.dropdown} label="Edit" value="edit" onSelect={() => console.log('edit')} />
+          <DropdownItem dropdown={this.dropdown} label="Delete" value="delete" onSelect={() => console.log('delete')} />
+          <DropdownItem dropdown={this.dropdown} label="Archive" value="archive" disabled />
+        </DropdownMenu>
+      </>
+    )
+  }
+}
+```
+
+<Callout type="info">
+  `Dropdown`, `DropdownTrigger`, `DropdownMenu`, and `DropdownItem` are also re-exported under the
+  aliases `Menu`, `MenuTrigger`, `MenuContent`, and `MenuItem` — they are the exact same classes,
+  just under more familiar names. There is no separate `Menu` implementation.
+
+  ```ts
+  import { Menu, MenuTrigger, MenuContent, MenuItem } from '@morphos/overlays'
+  ```
+</Callout>
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Dropdown` | Root state manager. Owns open state, the active (keyboard-focused) item index, and the computed anchor position. |
+| `DropdownTrigger` | `<button>` that toggles the menu on click. Sets `aria-haspopup="menu"`, `aria-expanded`, `aria-controls`, and `data-open`. |
+| `DropdownMenu` | `<ul role="menu">` rendered into a `Portal`, positioned with `position: fixed`. Handles arrow-key navigation. |
+| `DropdownItem` | `<li role="menuitem">`. Selectable via click or Enter/Space. Registers itself with the `Dropdown` instance for keyboard navigation. |
+
+## Props — Dropdown
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state. When set, the consumer owns the state. |
+| `defaultOpen` | `boolean` | `false` | Initial open state in uncontrolled mode. |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the open state changes. |
+| `closeOnSelect` | `boolean` | `true` | Whether selecting an item closes the menu. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Which edge of the trigger the menu is placed against. |
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Alignment of the menu along the trigger's perpendicular axis. |
+| `sideOffset` | `number` | `4` | Gap in pixels between the trigger and the menu. |
+| `children` | `Children` | — | Content — typically `DropdownTrigger` and `DropdownMenu`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `toggle()` | Opens the menu if closed, closes it if open. |
+| `openDropdown()` | Opens the menu, sets the active index to `0`, and recomputes position. Emits `onOpenChange(true)`. |
+| `closeDropdown()` | Closes the menu and resets the active index. Emits `onOpenChange(false)`. |
+| `handleKeyDown(event)` | Handles `ArrowDown` / `ArrowUp` / `Home` / `End` / `Escape` / `Tab` — called internally by `DropdownMenu`'s `onKeyDown`. |
+
+## Props — DropdownTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dropdown` | `Dropdown` | — | The `Dropdown` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label for the trigger. |
+
+## Props — DropdownMenu
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dropdown` | `Dropdown` | — | The `Dropdown` instance this menu belongs to. |
+| `children` | `Children` | — | `DropdownItem` elements. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label for the menu. |
+| `aria-labelledby` | `string` | — | ID of the element that labels the menu. Falls back to the trigger's id. |
+
+## Props — DropdownItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dropdown` | `Dropdown` | — | The `Dropdown` instance this item belongs to. |
+| `value` | `string` | — | Unique value identifier. |
+| `label` | `string` | — | Display text, used when no `children` are passed. |
+| `disabled` | `boolean` | `false` | Disables the item. |
+| `onSelect` | `() => void` | — | Called when the item is selected. |
+| `children` | `Children` | — | Item content. Falls back to `label` if omitted. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Keyboard navigation
+
+| Key | Action |
+|---|---|
+| `ArrowDown` | Move the active index to the next item (wraps around) |
+| `ArrowUp` | Move the active index to the previous item (wraps around) |
+| `Home` | Move the active index to the first item |
+| `End` | Move the active index to the last item |
+| `Enter` / `Space` | Select the focused item |
+| `Escape` | Close the menu |
+| `Tab` | Close the menu |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `DropdownTrigger` | Menu is open |
+| `data-open` | `DropdownMenu` root | Menu is open |
+| `data-disabled` | `DropdownItem` | `disabled` is `true` |
+
+<Callout type="info">
+  `DropdownMenu` renders with `role="menu"` and each `DropdownItem` renders with `role="menuitem"`
+  inside a Portal. The menu's position is computed with `computeAnchorPosition()` from
+  `@morphos/core`, using `DropdownTrigger`'s bounding rect and the `side`/`align`/`sideOffset`
+  props on `Dropdown`. Dropdown does not trap focus or lock scroll.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-dropdown-menu {
+  z-index: 100;
+  min-width: 10rem;
+  padding: var(--morphos-space-1);
+  list-style: none;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--morphos-space-2) var(--morphos-space-3);
+  border-radius: var(--morphos-radius-sm);
+  cursor: pointer;
+}
+
+.morphos-dropdown-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

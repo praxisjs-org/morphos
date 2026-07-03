@@ -1,0 +1,157 @@
+---
+title: Select
+description: A custom listbox select component with keyboard navigation and ARIA combobox semantics.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-select--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Select } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Select
+        options={[
+          { value: 'react', label: 'React' },
+          { value: 'solid', label: 'SolidJS' },
+          { value: 'praxis', label: 'PraxisJS' },
+        ]}
+        placeholder="Choose a framework"
+        aria-label="Frontend framework"
+      />
+    )
+  }
+}
+```
+
+### Controlled value
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() currency = 'usd'
+
+  render() {
+    return (
+      <Select
+        options={[
+          { value: 'usd', label: 'US Dollar' },
+          { value: 'eur', label: 'Euro' },
+          { value: 'gbp', label: 'British Pound' },
+        ]}
+        value={this.currency}
+        onValueChange={(value) => (this.currency = value)}
+        aria-label="Currency"
+      />
+    )
+  }
+}
+```
+
+### Clearable with disabled options
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Select
+        options={[
+          { value: 'free', label: 'Free tier' },
+          { value: 'pro', label: 'Pro — $9/mo' },
+          { value: 'enterprise', label: 'Enterprise', disabled: true },
+        ]}
+        placeholder="Select a plan"
+        clearable
+        onClear={() => console.log('selection cleared')}
+        aria-label="Pricing plan"
+      />
+    )
+  }
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `options` | `{ value: string; label: string; disabled?: boolean }[]` | `[]` | List of selectable options |
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Uncontrolled initial selected value |
+| `placeholder` | `string` | — | Text shown when no value is selected |
+| `disabled` | `boolean` | `false` | Disables the entire select |
+| `required` | `boolean` | `false` | Marks the field as required |
+| `name` | `string` | — | Form field name; renders a visually-hidden native `<select>` that mirrors the value for form submission |
+| `clearable` | `boolean` | `false` | Shows a clear button when a value is selected |
+| `onValueChange` | `(value: string) => void` | — | Fires when an option is selected |
+| `onClear` | `() => void` | — | Fires when the clear button is clicked |
+| `class` | `string` | — | Additional CSS classes on the root element |
+| `id` | `string` | — | HTML id attribute on the root element |
+| `aria-label` | `string` | — | Accessible label for the trigger button |
+| `aria-labelledby` | `string` | — | ID of an element that labels the trigger button |
+| `aria-describedby` | `string` | — | ID of an element that describes the trigger button |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | Root | The listbox is open |
+| `data-disabled` | Root | `disabled` is `true` |
+| `data-placeholder` | Trigger button | No value is currently selected |
+| `data-active` | Option item | The option is currently focused via keyboard |
+| `data-selected` | Option item | The option matches the current value |
+| `data-disabled` | Option item | The option has `disabled: true` |
+| `data-clear` | Clear button | Always present on the clear button (rendered only when `clearable` and a value is selected) |
+
+## Keyboard navigation
+
+| Key | Behavior |
+|---|---|
+| `Enter` / `Space` | Open the listbox (on the trigger) or confirm the focused option (in the listbox) |
+| `ArrowDown` | Open the listbox (on the trigger) or move focus to the next option (in the listbox) |
+| `ArrowUp` | Move focus to the previous option |
+| `Home` | Move focus to the first option |
+| `End` | Move focus to the last option |
+| `Escape` | Close the listbox without changing the value |
+| `Tab` | Close the listbox and move focus to the next element |
+
+## Accessibility
+
+The trigger button has `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing to the listbox. The listbox has `role="listbox"`. Each option has `role="option"`, `aria-selected`, and `aria-disabled`. When `name` is set, a visually-hidden native `<select>` mirrors the options and selected value so the component participates in native form submission.
+
+<Callout type="info">
+  If you need a native `<select>` element for maximum browser compatibility and mobile support, use a plain `<select>` instead. `Select` is designed for custom styling scenarios where the native control appearance is not sufficient.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-select > button[role="combobox"][data-placeholder] {
+  color: var(--morphos-color-placeholder);
+}
+
+.morphos-select > ul[role="listbox"] > li[role="option"][data-active] {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-select > ul[role="listbox"] > li[role="option"][data-selected] {
+  background: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+```

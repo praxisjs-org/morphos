@@ -1,0 +1,184 @@
+---
+title: Slider
+description: A range input slider with orientation support and a CSS custom property for custom track styling.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-slider--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Slider } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() volume = 50
+
+  render() {
+    return (
+      <Slider
+        value={this.volume}
+        min={0}
+        max={100}
+        step={1}
+        onValueChange={(v) => (this.volume = v)}
+        aria-label="Volume"
+      />
+    )
+  }
+}
+```
+
+### Uncontrolled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Slider
+        defaultValue={25}
+        min={0}
+        max={100}
+        step={5}
+        name="brightness"
+        aria-label="Brightness"
+      />
+    )
+  }
+}
+```
+
+### Custom filled track
+
+```tsx
+// CSS
+// .slider-track {
+//   position: relative;
+// }
+// .slider-track::before {
+//   content: '';
+//   position: absolute;
+//   inset-block: 0;
+//   inset-inline-start: 0;
+//   width: var(--slider-value);
+//   background: currentColor;
+//   border-radius: inherit;
+// }
+
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() price = 200
+
+  render() {
+    return (
+      <Slider
+        class="slider-track"
+        value={this.price}
+        min={0}
+        max={1000}
+        step={10}
+        onValueChange={(v) => (this.price = v)}
+        aria-label="Max price"
+      />
+    )
+  }
+}
+```
+
+### Vertical orientation
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() eq = 0
+
+  render() {
+    return (
+      <Slider
+        value={this.eq}
+        min={-12}
+        max={12}
+        step={0.5}
+        orientation="vertical"
+        onValueChange={(v) => (this.eq = v)}
+        aria-label="EQ gain (dB)"
+      />
+    )
+  }
+}
+```
+
+## Props — Slider
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number` | — | Controlled current value |
+| `defaultValue` | `number` | — | Uncontrolled initial value |
+| `min` | `number` | `0` | Minimum value |
+| `max` | `number` | `100` | Maximum value |
+| `step` | `number` | `1` | Increment between values |
+| `disabled` | `boolean` | `false` | Disables the slider |
+| `name` | `string` | — | Form field name for submission |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Slider orientation |
+| `onValueChange` | `(value: number) => void` | — | Fires when the value changes |
+| `class` | `string` | — | Additional CSS classes on the root element |
+| `id` | `string` | — | HTML id attribute, applied to the inner `<input type="range">` |
+| `aria-label` | `string` | — | Accessible label (required when no visible label is present) |
+| `aria-labelledby` | `string` | — | ID of an element that labels the slider |
+| `aria-describedby` | `string` | — | ID of an element that describes the slider |
+
+## CSS custom properties
+
+| Property | Value | Description |
+|---|---|---|
+| `--slider-value` | `0%` – `100%` | Current value expressed as a percentage of the range |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-orientation` | Root | Always — value is `"horizontal"` or `"vertical"` |
+| `data-disabled` | Root | `disabled` is `true` |
+| `data-value` | Root | Always — contains the current numeric value as a string |
+
+## Accessibility
+
+The `Slider` renders a `<div role="presentation">` wrapper containing a native `<input type="range">`. The native range input handles all keyboard interaction, ARIA semantics (`aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-orientation`), and form participation without extra ARIA work. The wrapper div exists only to expose `data-orientation`, `data-disabled`, and `data-value` for styling.
+
+<Callout type="info">
+  Use the `--slider-value` CSS custom property with a `::before` pseudo-element on the root element to build a custom filled portion of the track. The percentage is computed as `(value - min) / (max - min) * 100`.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-slider > input[type="range"] {
+  background: linear-gradient(
+    to right,
+    var(--morphos-color-accent) var(--slider-value, 0%),
+    var(--morphos-color-border) var(--slider-value, 0%)
+  );
+}
+
+.morphos-slider[data-orientation="vertical"] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+}
+
+.morphos-slider[data-disabled] {
+  opacity: 0.5;
+}
+```

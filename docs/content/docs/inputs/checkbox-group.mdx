@@ -1,0 +1,172 @@
+---
+title: CheckboxGroup
+description: A compound component for managing a group of related checkboxes with shared state.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-checkboxgroup--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { CheckboxGroup, CheckboxGroupItem } from '@morphos/inputs'
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `CheckboxGroup` | Root container that manages group state, rendered with `role="group"` |
+| `CheckboxGroupItem` | Individual checkbox item within the group |
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new CheckboxGroup({ defaultValue: ['notifications'], orientation: 'vertical' })
+
+  render() {
+    return (
+      <CheckboxGroup class="morphos-checkbox-group" orientation="vertical" aria-label="Notification channels">
+        <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="notifications">
+          Email notifications
+        </CheckboxGroupItem>
+        <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="sms">
+          SMS notifications
+        </CheckboxGroupItem>
+        <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="push">
+          Push notifications
+        </CheckboxGroupItem>
+      </CheckboxGroup>
+    )
+  }
+}
+```
+
+<Callout type="info">
+  The `group` prop on each `CheckboxGroupItem` must be the same `CheckboxGroup` instance backing the rendered `<CheckboxGroup>` root — `CheckboxGroupItem` reads `group.isChecked(value)` and calls `group.toggle(value)` directly on it.
+</Callout>
+
+### Controlled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new CheckboxGroup({})
+  @State() selected = ['sms']
+
+  render() {
+    return (
+      <CheckboxGroup
+        class="morphos-checkbox-group"
+        value={() => this.selected}
+        onValueChange={(values) => (this.selected = values)}
+        aria-label="Notification preferences"
+      >
+        <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="email">
+          Email
+        </CheckboxGroupItem>
+        <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="sms">
+          SMS
+        </CheckboxGroupItem>
+      </CheckboxGroup>
+    )
+  }
+}
+```
+
+### Disabled group
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() group = new CheckboxGroup({ disabled: true })
+
+  render() {
+    return (
+      <fieldset>
+        <legend>Disabled options</legend>
+        <CheckboxGroup class="morphos-checkbox-group" disabled aria-label="Disabled options">
+          <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="a">Option A</CheckboxGroupItem>
+          <CheckboxGroupItem class="morphos-checkbox-group-item" group={this.group} value="b">Option B</CheckboxGroupItem>
+        </CheckboxGroup>
+      </fieldset>
+    )
+  }
+}
+```
+
+## Props — CheckboxGroup
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string[]` | — | Controlled array of checked values |
+| `defaultValue` | `string[]` | `[]` | Uncontrolled initial checked values |
+| `disabled` | `boolean` | `false` | Disables all items in the group |
+| `required` | `boolean` | `false` | Marks the group as required (`aria-required`) |
+| `name` | `string` | — | Name shared by every item's `<input>` in the group |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Sets `aria-orientation` and `data-orientation` |
+| `onValueChange` | `(value: string[]) => void` | — | Fires when the selected values change |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `children` | `Children` | — | The `CheckboxGroupItem` items |
+| `aria-label` | `string` | — | Accessible label for the group |
+| `aria-labelledby` | `string` | — | ID of an element that labels the group |
+| `aria-describedby` | `string` | — | ID of an element that describes the group |
+
+## Props — CheckboxGroupItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `group` | `CheckboxGroup` | — | The parent `CheckboxGroup` instance (required) |
+| `value` | `string` | — | The value this item represents (required) |
+| `disabled` | `boolean` | — | Overrides the group's `disabled` for this item only |
+| `children` | `Children` | — | Label content rendered inside the `<label>`, beside the checkbox |
+| `class` | `string` | — | Additional CSS classes on the `<label>` |
+| `id` | `string` | — | HTML id attribute on the `<label>` |
+| `aria-label` | `string` | — | Accessible label for this item's `<input>` |
+| `aria-labelledby` | `string` | — | ID of an element that labels this item's `<input>` |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Group root | `disabled` is `true` |
+| `data-orientation` | Group root | Always — value is `"vertical"` or `"horizontal"` |
+| `data-checked` | Item `<label>` | Item's value is in the group's current value array |
+| `data-disabled` | Item `<label>` | Group's `disabled` or the item's own `disabled` is `true` |
+
+## Accessibility
+
+`CheckboxGroup` renders a `<div role="group">` with `aria-orientation`, `aria-required`, and `aria-disabled`. Each `CheckboxGroupItem` renders `<label><input type="checkbox" />children</label>`, so the label click target covers the checkbox and every item shares the group's `required` state and `name`. Wrap the group in a `<fieldset>` with a `<legend>` for screen readers to announce the group context — `CheckboxGroup` does not render its own `<fieldset>`.
+
+<Callout type="info">
+  Use the `Fieldset` component from `@morphos/inputs` as the container when you need a semantic group with a visible legend and proper `disabled` propagation at the HTML level.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-checkbox-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  gap: var(--morphos-space-4);
+}
+
+.morphos-checkbox-group-item input[type="checkbox"]:checked {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-checkbox-group-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

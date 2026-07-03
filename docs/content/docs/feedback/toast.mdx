@@ -1,0 +1,165 @@
+---
+title: Toast
+description: A notification queue that renders into a portal and auto-dismisses messages after a configurable duration.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="feedback-toast--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/feedback" />
+
+## Import
+
+```ts
+import { ToastProvider, Toast } from '@morphos/feedback'
+```
+
+## Usage
+
+`ToastProvider` is both the state owner and the renderer: it renders its `children` in place and
+portals its own toast list (`role="region"`) to the end of `document.body`. To trigger a toast,
+capture the mounted instance with `ref` and call its `add()` method.
+
+```tsx
+@Component()
+class MyApp extends StatefulComponent {
+  @State() provider!: ToastProvider
+
+  render() {
+    return (
+      <ToastProvider
+        ref={(inst: ToastProvider | null) => { if (inst) this.provider = inst }}
+        defaultDuration={4000}
+      >
+        <button onClick={() => {
+          this.provider.add({ title: 'Saved!', variant: 'success' })
+        }}>
+          Save
+        </button>
+      </ToastProvider>
+    )
+  }
+}
+```
+
+<Callout type="info">
+  `ToastProvider` renders its toast list into a `Portal`, so the markup ends up at the end of
+  `document.body` regardless of where `ToastProvider` is mounted in your tree.
+</Callout>
+
+## Props — ToastProvider
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `defaultDuration` | `number` | `5000` | Auto-dismiss delay in ms applied to toasts that don't set their own `duration` |
+| `class` | `string` | — | CSS class on the portaled region wrapper |
+| `id` | `string` | — | `id` on the portaled region wrapper |
+| `children` | `Children` | — | App content rendered in place (not portaled) |
+
+## Methods — ToastProvider
+
+| Method | Signature | Description |
+|---|---|---|
+| `add` | `(toast: Omit<ToastItem, "id">) => string` | Enqueues a toast, scheduling auto-dismiss if `duration` (or `defaultDuration`) is greater than `0`. Returns the generated id |
+| `dismiss` | `(id: string) => void` | Removes a specific toast by id |
+| `clear` | `() => void` | Removes all toasts immediately |
+
+`toasts` is also available as a readonly getter (`ToastItem[]`) if you want to render your own
+list UI instead of relying on the provider's built-in markup.
+
+### ToastItem shape
+
+```ts
+interface ToastItem {
+  id: string
+  title: string
+  description?: string
+  variant?: 'info' | 'success' | 'warning' | 'error'
+  /** Duration in ms before auto-dismiss. Set to 0 to disable auto-dismiss. */
+  duration?: number
+}
+```
+
+`id` is generated internally via `generateId('toast')` from `@morphos/core` — you never pass it
+to `add()`.
+
+## Props — Toast
+
+`Toast` is a standalone, stateless presentational part for rendering a single toast item outside
+of `ToastProvider`'s built-in list (for example, if you maintain your own array and just need the
+markup for one entry).
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `toast` | `ToastItem` | — | The toast data to render (required) |
+| `provider` | `ToastProvider` | — | The provider instance whose `dismiss` is called by the default dismiss button (required) |
+| `children` | `Children` | — | Custom body content. When provided, replaces the default title/description/dismiss markup |
+| `class` | `string` | — | CSS class on the root element |
+| `id` | `string` | `toast.id` | `id` on the root element |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-variant` | Each toast (`role="status"`) | Always — set to `toast.variant`, defaulting to `"info"` |
+
+## Markup structure
+
+`ToastProvider` renders a `role="region" aria-label="Notifications"` wrapper (portaled to
+`document.body`). Each toast inside is a `role="status" aria-live="polite" data-variant` element:
+
+```html
+<div role="region" aria-label="Notifications" aria-live="polite" aria-atomic="false">
+  <div role="status" aria-live="polite" data-variant="success">
+    <span>Saved!</span>
+    <button aria-label="Dismiss notification">×</button>
+  </div>
+</div>
+```
+
+## Styling example
+
+```css
+.morphos-toast-viewport {
+  position: fixed;
+  bottom: var(--morphos-space-4);
+  right: var(--morphos-space-4);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: var(--morphos-space-2);
+  width: 20rem;
+}
+
+.morphos-toast-viewport > [role="status"] {
+  padding: var(--morphos-space-3);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-toast-viewport > [role="status"][data-variant="success"] {
+  border-color: var(--morphos-color-success);
+  background: var(--morphos-color-success-bg);
+}
+
+.morphos-toast-viewport > [role="status"][data-variant="error"] {
+  border-color: var(--morphos-color-danger);
+  background: var(--morphos-color-danger-bg);
+}
+```
+
+Apply `class="morphos-toast-viewport"` to `ToastProvider` to style its auto-rendered list — its
+toasts (`role="status"`) are covered by the recipe without needing their own class. If you render
+toasts manually with the standalone `Toast` component instead, apply `class="morphos-toast"` to
+it directly.
+
+<Callout type="info">
+  Persistent toasts (`duration: 0`) must be dismissed manually. Always keep the visible dismiss
+  button to meet WCAG 2.1 SC 2.2.1 (Timing Adjustable).
+</Callout>

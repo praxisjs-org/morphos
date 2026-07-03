@@ -1,0 +1,134 @@
+---
+title: Accordion
+description: A vertically stacked set of collapsible sections that reveal content on demand.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-accordion--single" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() accordion = new Accordion({ type: 'single', collapsible: true })
+
+  render() {
+    return (
+      <Accordion accordion={this.accordion}>
+        <AccordionItem accordion={this.accordion} value="item-1">
+          <AccordionTrigger accordion={this.accordion} item="item-1">
+            What is Morphos?
+          </AccordionTrigger>
+          <AccordionContent accordion={this.accordion} item="item-1">
+            Morphos is a headless PraxisJS component library.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem accordion={this.accordion} value="item-2">
+          <AccordionTrigger accordion={this.accordion} item="item-2">
+            Is it accessible?
+          </AccordionTrigger>
+          <AccordionContent accordion={this.accordion} item="item-2">
+            Yes — it follows WAI-ARIA authoring practices.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+  }
+}
+```
+
+Set `type="multiple"` on the `Accordion` instance to allow any number of items open simultaneously instead of only one.
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Accordion` | Root state manager — tracks which item(s) are expanded |
+| `AccordionItem` | A single collapsible section |
+| `AccordionTrigger` | The button that toggles an item open or closed |
+| `AccordionContent` | The content revealed when an item is expanded |
+
+## Props — Accordion
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `type` | `"single" \| "multiple"` | `"single"` | Whether one or many items can be open at once |
+| `value` | `string \| string[]` | — | Controlled expanded item(s) |
+| `defaultValue` | `string \| string[]` | — | Initially expanded item(s) (uncontrolled) |
+| `onValueChange` | `(value: string \| string[]) => void` | — | Called when expanded items change |
+| `collapsible` | `boolean` | `true` | Whether an open item can be collapsed by clicking it again (only meaningful for `type="single"`) |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Methods — Accordion
+
+| Method | Description |
+|---|---|
+| `isOpen(item: string)` | Returns whether the given item value is currently expanded |
+| `toggle(item: string)` | Opens or closes the given item, following the `type`/`collapsible` rules |
+
+## Props — AccordionItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `accordion` | `Accordion` | — | The `Accordion` state instance |
+| `value` | `string` | — | Unique identifier for this item |
+| `disabled` | `boolean` | — | Marks the item as disabled (exposed via `data-disabled`; does not itself block interaction) |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — AccordionTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `accordion` | `Accordion` | — | The `Accordion` state instance |
+| `item` | `string` | — | The `value` of the parent `AccordionItem` |
+| `children` | `Children` | — | Trigger label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id (defaults to an auto-generated id) |
+
+## Props — AccordionContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `accordion` | `Accordion` | — | The `Accordion` state instance |
+| `item` | `string` | — | The `value` of the parent `AccordionItem` |
+| `children` | `Children` | — | Content to reveal |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-type` | Accordion | Always — reflects the `type` prop (`"single"` or `"multiple"`) |
+| `data-expanded` | AccordionItem, AccordionTrigger, AccordionContent | The item is expanded |
+| `data-disabled` | AccordionItem | The item's `disabled` prop is set |
+
+<Callout type="info">
+  `AccordionTrigger` handles `Enter` and `Space` to toggle the item, in addition to `onClick`. Arrow-key navigation between triggers is not built in — each trigger is a regular tab-stop.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-accordion-trigger[data-expanded]::after {
+  transform: rotate(-135deg);
+}
+
+.morphos-accordion-item:last-child {
+  border-bottom: none;
+}
+```

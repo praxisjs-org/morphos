@@ -1,0 +1,135 @@
+---
+title: Toolbar
+description: A container for grouping action buttons with roving tabindex keyboard navigation.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-toolbar--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import { Toolbar, ToolbarButton, ToolbarSeparator } from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() toolbar = new Toolbar({ orientation: 'horizontal', 'aria-label': 'Text formatting' })
+
+  render() {
+    return (
+      <Toolbar toolbar={this.toolbar}>
+        <ToolbarButton toolbar={this.toolbar} onClick={() => console.log('bold')}>
+          Bold
+        </ToolbarButton>
+        <ToolbarButton toolbar={this.toolbar} onClick={() => console.log('italic')}>
+          Italic
+        </ToolbarButton>
+        <ToolbarSeparator toolbar={this.toolbar} />
+        <ToolbarButton toolbar={this.toolbar} onClick={() => console.log('link')}>
+          Link
+        </ToolbarButton>
+        <ToolbarButton toolbar={this.toolbar} disabled>
+          Comment
+        </ToolbarButton>
+      </Toolbar>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Toolbar` | Root container (`role="toolbar"`) — manages roving tabindex state and arrow-key navigation |
+| `ToolbarButton` | An action button within the toolbar — registers itself with `Toolbar` on mount |
+| `ToolbarSeparator` | A visual divider (`role="separator"`) between button groups |
+
+## Props — Toolbar
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Axis of the toolbar — determines which arrow keys move focus |
+| `aria-label` | `string` | — | Accessible label for the toolbar |
+| `aria-labelledby` | `string` | — | ID of element providing the label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Methods — Toolbar
+
+| Method | Description |
+|---|---|
+| `registerItem(el: HTMLElement)` | Internal — called by `ToolbarButton` on mount to join the roving-tabindex group |
+| `unregisterItem(el: HTMLElement)` | Internal — called by `ToolbarButton` on unmount |
+| `handleKeyDown(e: KeyboardEvent)` | Handles arrow-key navigation between registered buttons, wrapping at the ends |
+
+## Props — ToolbarButton
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `toolbar` | `Toolbar` | — | The `Toolbar` state instance |
+| `disabled` | `boolean` | `false` | Disables the button and excludes it from the roving-tabindex group |
+| `onClick` | `() => void` | — | Click handler |
+| `aria-label` | `string` | — | Accessible label |
+| `children` | `Children` | — | Button label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — ToolbarSeparator
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `toolbar` | `Toolbar` | — | The `Toolbar` state instance — used to compute the separator's perpendicular orientation |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Keyboard navigation
+
+| Key | Action |
+|---|---|
+| `ArrowRight` | Move focus to the next button (`orientation="horizontal"`) |
+| `ArrowLeft` | Move focus to the previous button (`orientation="horizontal"`) |
+| `ArrowDown` | Move focus to the next button (`orientation="vertical"`) |
+| `ArrowUp` | Move focus to the previous button (`orientation="vertical"`) |
+
+Only the currently-focused button is in the tab sequence (roving tabindex) — pressing `Tab` moves focus out of the toolbar entirely.
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-orientation` | Toolbar | Always — reflects the `orientation` prop |
+| `data-disabled` | ToolbarButton | The button's `disabled` prop is set |
+| `data-orientation` | ToolbarSeparator | Always — the axis perpendicular to the toolbar's `orientation` |
+
+<Callout type="info">
+  Always provide an `aria-label` or `aria-labelledby` on `Toolbar` so screen readers can identify its purpose.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-toolbar[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.morphos-toolbar-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.morphos-toolbar-separator[data-orientation="vertical"] {
+  width: 1px;
+  align-self: stretch;
+}
+```

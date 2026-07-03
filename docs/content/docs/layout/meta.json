@@ -1,0 +1,13 @@
+{
+  "title": "Layout",
+  "pages": [
+    "accordion",
+    "tabs",
+    "disclosure",
+    "separator",
+    "scroll-area",
+    "toolbar",
+    "menubar",
+    "navigation-menu"
+  ]
+}

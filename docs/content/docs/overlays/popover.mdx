@@ -1,0 +1,126 @@
+---
+title: Popover
+description: A floating panel anchored to a trigger element, used to display rich non-modal content.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-popover--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import { Popover, PopoverTrigger, PopoverContent } from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() popover = new Popover()
+
+  render() {
+    return (
+      <>
+        <PopoverTrigger popover={this.popover}>
+          Open popover
+        </PopoverTrigger>
+        <PopoverContent popover={this.popover} aria-label="Settings">
+          <p>Popover content goes here.</p>
+        </PopoverContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Popover` | Root state manager. Owns open state, computed anchor position, and outside-click/escape behavior. |
+| `PopoverTrigger` | `<button>` that toggles the popover on click. Sets `aria-haspopup="true"`, `aria-expanded`, `aria-controls`, and `data-open`. |
+| `PopoverContent` | Renders into a `Portal`, positioned with `position: fixed`. Sets `role="dialog"` and `data-open`. Closes on outside click and Escape. |
+
+## Props — Popover
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state. When set, the consumer owns the state. |
+| `defaultOpen` | `boolean` | `false` | Initial open state in uncontrolled mode. |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the open state changes. |
+| `closeOnEscape` | `boolean` | `true` | Whether pressing Escape closes the popover. |
+| `closeOnOutsideClick` | `boolean` | `true` | Whether clicking outside the content (and outside the trigger) closes the popover. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Which edge of the trigger the popover is placed against. |
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Alignment of the popover along the trigger's perpendicular axis. |
+| `sideOffset` | `number` | `4` | Gap in pixels between the trigger and the popover. |
+| `children` | `Children` | — | Content — typically `PopoverTrigger` and `PopoverContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `toggle()` | Toggles the open state (recomputing position when opening). Emits `onOpenChange`. |
+| `closePopover()` | Closes the popover. Emits `onOpenChange(false)`. |
+
+## Props — PopoverTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `popover` | `Popover` | — | The `Popover` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — PopoverContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `popover` | `Popover` | — | The `Popover` instance this content belongs to. |
+| `children` | `Children` | — | Popover body content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label. |
+| `aria-labelledby` | `string` | — | ID of the element that labels the popover. |
+
+## Keyboard navigation
+
+| Key | Action |
+|---|---|
+| `Escape` | Closes the popover (if `closeOnEscape` is true) |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `PopoverTrigger` | Popover is open |
+| `data-open` | `PopoverContent` root | Popover is open |
+
+<Callout type="info">
+  `PopoverContent` renders with `role="dialog"` inside a Portal. Provide an `aria-label` or
+  `aria-labelledby` prop to satisfy accessibility requirements. Its position is computed with
+  `computeAnchorPosition()` from `@morphos/core`, using `PopoverTrigger`'s bounding rect and the
+  `side`/`align`/`sideOffset` props on `Popover`. Popover does not trap focus or lock scroll —
+  it is non-modal; use `Dialog` for modal content instead.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-popover-content {
+  z-index: 100;
+  min-width: 12rem;
+  max-width: 24rem;
+  padding: var(--morphos-space-4);
+  background: var(--morphos-color-bg);
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-lg);
+}
+```

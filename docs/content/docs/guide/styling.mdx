@@ -1,0 +1,97 @@
+---
+title: Styling
+description: Optional, opt-in CSS recipes for every Morphos component.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## `@morphos/styles`
+
+Morphos components ship with **no CSS at all** — that does not change. `@morphos/styles` is a
+separate, entirely optional package with a plain CSS recipe for every component, for anyone who'd
+rather start from something reasonable than write every rule from a blank file.
+
+<PackageInstall pkg="@morphos/styles" />
+
+Nothing is applied automatically just by installing it. Each recipe targets a class you opt into
+via the component's existing `class` prop, plus the same `data-*` attributes and ARIA roles
+described in [the introduction](/docs/guide/introduction#the-data--convention).
+
+```tsx
+import { Button } from '@morphos/inputs'
+import '@morphos/styles/inputs/button.css'
+
+<Button class="morphos-button">Save</Button>
+```
+
+<Callout type="info">
+  Skipping this package entirely doesn't cost you anything — it's a convenience layer on top of
+  the same public `data-*`/ARIA contract every component already exposes.
+</Callout>
+
+## Import only what you need
+
+Every component gets its own file, mirroring the package structure, so your bundle only grows by
+what you actually use.
+
+Import a single component's recipe:
+
+```ts
+import '@morphos/styles/inputs/button.css'
+import '@morphos/styles/overlays/dialog.css'
+```
+
+...a whole category's worth at once:
+
+```ts
+import '@morphos/styles/inputs.css'
+import '@morphos/styles/overlays.css'
+import '@morphos/styles/layout.css'
+import '@morphos/styles/feedback.css'
+```
+
+...or everything, in one line:
+
+```ts
+import '@morphos/styles/index.css'
+```
+
+Each of the files above pulls in `tokens.css` automatically — you never need to import it
+separately just to use a recipe. Only reach for it directly if you want the design tokens
+(colors, spacing, radii) on their own, e.g. to reuse them in your own custom CSS:
+
+```ts
+import '@morphos/styles/tokens.css'
+```
+
+## Design tokens
+
+Every recipe reads from a shared set of CSS custom properties, defined once in `tokens.css`.
+Override any of them in your own stylesheet to retheme every component at the same time:
+
+```css
+:root {
+  --morphos-color-accent: #7c3aed;
+  --morphos-radius-md: 0.375rem;
+}
+```
+
+The default palette is light-only and deliberately flat — no elevation shadows, borders carry all
+the visual separation. There's no dark theme shipped by default; add a
+`prefers-color-scheme: dark` block (or your own `[data-theme="dark"]` selector) overriding the
+same custom properties if you want one.
+
+## Class naming convention
+
+Every class follows `morphos-<component>` for a component's root, and `morphos-<component>-<part>`
+for its compound parts — e.g. `morphos-dialog-content`, `morphos-tabs-tab`. Check the header
+comment at the top of each CSS file for the exact class names it expects; every component's docs
+page also has a **Styling example** section built from the real selectors in that file.
+
+## Why isn't this built in?
+
+Baking a default class into the component itself would mean every consumer pays for styles they
+may not want, and has to fight specificity to override them. Shipping the recipes as plain,
+separately importable CSS keeps the core packages exactly as headless as
+[the philosophy](/docs/guide/introduction) describes, while still giving you something real to
+start from if you want it.

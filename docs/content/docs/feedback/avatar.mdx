@@ -1,0 +1,147 @@
+---
+title: Avatar
+description: An image with an automatic fallback when the image is loading or fails to load.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="feedback-avatar--with-image" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/feedback" />
+
+## Import
+
+```ts
+import { Avatar, AvatarImage, AvatarFallback } from '@morphos/feedback'
+```
+
+## Usage
+
+`Avatar` is the compound root — it owns the image-load status state machine. Construct it with
+`@State()` and pass the same instance to `AvatarImage` and `AvatarFallback` via the `avatar` prop.
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() avatar = new Avatar()
+
+  render() {
+    return (
+      <Avatar>
+        <AvatarImage avatar={this.avatar} src="/profile.jpg" alt="Alice Johnson" />
+        <AvatarFallback avatar={this.avatar}>AJ</AvatarFallback>
+      </Avatar>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Avatar` | Root — tracks image load status via a state machine |
+| `AvatarImage` | The `<img>` element. Hidden until the image loads |
+| `AvatarFallback` | Shown when the image has not yet loaded or failed |
+
+## Props — Avatar
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `class` | `string` | — | CSS class on the root `<span>` |
+| `id` | `string` | — | `id` on the root element |
+| `children` | `Children` | — | `AvatarImage` and `AvatarFallback` |
+
+## Props — AvatarImage
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `avatar` | `Avatar` | — | The root Avatar instance |
+| `src` | `string` | — | Image URL |
+| `alt` | `string` | — | Alternative text (required for accessibility) |
+| `class` | `string` | — | CSS class on the `<img>` |
+
+## Props — AvatarFallback
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `avatar` | `Avatar` | — | The root Avatar instance |
+| `children` | `Children` | — | Fallback content (initials, icon, etc.) |
+| `class` | `string` | — | CSS class on the fallback `<span>` |
+| `id` | `string` | — | `id` on the fallback element |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-status` | Avatar root | Always — value is `"idle"`, `"loading"`, `"loaded"`, or `"error"` |
+
+## Status state machine
+
+```
+idle → loading → loaded
+                ↘ error
+```
+
+`AvatarImage` sets status to `"loading"` on mount, then `"loaded"` or `"error"` based on the
+image's `onLoad` / `onError` events.
+
+## Visibility
+
+`AvatarImage` is hidden (`hidden` attribute) until status is `"loaded"`.
+`AvatarFallback` is hidden once the image has loaded. Both use the native `hidden` attribute —
+no JS class toggling needed.
+
+## Styling example
+
+```css
+.morphos-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  overflow: hidden;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg-subtle);
+  color: var(--morphos-color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.morphos-avatar-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.morphos-avatar-image[hidden] {
+  display: none;
+}
+
+.morphos-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.morphos-avatar-fallback[hidden] {
+  display: none;
+}
+```
+
+Apply `class="morphos-avatar"` to `Avatar`, `class="morphos-avatar-image"` to `AvatarImage`, and
+`class="morphos-avatar-fallback"` to `AvatarFallback`. You can also target `[data-status="error"]`
+or `[data-status="loading"]` on the root for state-specific styling not covered by the recipe.
+
+<Callout type="info">
+  Always provide a meaningful `alt` on `AvatarImage`. If the avatar is purely decorative, pass
+  `alt=""` so screen readers skip it.
+</Callout>

@@ -1,0 +1,148 @@
+---
+title: Toggle
+description: A stateful button that can be pressed or unpressed, with aria-pressed semantics.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-toggle--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Toggle } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() bold = false
+
+  render() {
+    return (
+      <Toggle
+        pressed={this.bold}
+        onPressedChange={(pressed) => (this.bold = pressed)}
+        aria-label="Bold"
+      >
+        <strong>B</strong>
+      </Toggle>
+    )
+  }
+}
+```
+
+### Uncontrolled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Toggle defaultPressed={false} aria-label="Mute audio">
+        <span>Mute</span>
+      </Toggle>
+    )
+  }
+}
+```
+
+### Toolbar example
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() bold = false
+  @State() italic = false
+  @State() underline = false
+
+  render() {
+    return (
+      <div role="toolbar" aria-label="Text formatting">
+        <Toggle
+          pressed={this.bold}
+          onPressedChange={(v) => (this.bold = v)}
+          aria-label="Bold"
+        >
+          B
+        </Toggle>
+        <Toggle
+          pressed={this.italic}
+          onPressedChange={(v) => (this.italic = v)}
+          aria-label="Italic"
+        >
+          I
+        </Toggle>
+        <Toggle
+          pressed={this.underline}
+          onPressedChange={(v) => (this.underline = v)}
+          aria-label="Underline"
+        >
+          U
+        </Toggle>
+      </div>
+    )
+  }
+}
+```
+
+## Props — Toggle
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `pressed` | `boolean` | — | Controlled pressed state |
+| `defaultPressed` | `boolean` | `false` | Uncontrolled initial pressed state |
+| `disabled` | `boolean` | `false` | Disables the toggle |
+| `onPressedChange` | `(pressed: boolean) => void` | — | Fires when the pressed state changes |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `children` | `Children` | — | Content rendered inside the button |
+| `aria-label` | `string` | — | Accessible label (required when children are not descriptive) |
+| `aria-labelledby` | `string` | — | ID of an element that labels the toggle |
+| `aria-describedby` | `string` | — | ID of an element that describes the toggle |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-pressed` | Root | The toggle is currently pressed |
+| `data-disabled` | Root | `disabled` is `true` |
+
+## Keyboard navigation
+
+| Key | Behavior |
+|---|---|
+| `Space` | Toggle the pressed state |
+| `Enter` | Toggle the pressed state |
+| `Tab` | Move focus to the next focusable element |
+
+## Accessibility
+
+`Toggle` renders as a `<button>` with `aria-pressed` set to `"true"` or `"false"` depending on state. When `disabled` is `true`, the button receives the native `disabled` HTML attribute (button elements are automatically excluded from focus and click when disabled). Always provide a descriptive `aria-label` when the button content is a visual icon.
+
+<Callout type="info">
+  For groups of mutually exclusive or multi-selectable toggles, use `ToggleGroup` and `ToggleGroupItem` instead — they share selection state through a single group instance.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-toggle[data-pressed] {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+  color: var(--morphos-color-accent-text);
+}
+
+.morphos-toggle[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

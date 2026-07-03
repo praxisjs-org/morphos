@@ -1,0 +1,102 @@
+---
+title: Progress
+description: A progress bar with determinate and indeterminate modes.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="feedback-progress--determinate" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/feedback" />
+
+## Import
+
+```ts
+import { Progress } from '@morphos/feedback'
+```
+
+## Usage
+
+```tsx
+// Determinate
+<Progress value={60} aria-label="Upload progress" />
+
+// Indeterminate (value omitted)
+<Progress aria-label="Loading…" />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number \| undefined` | `undefined` | Current value. Omit for indeterminate mode |
+| `min` | `number` | `0` | Minimum value |
+| `max` | `number` | `100` | Maximum value |
+| `class` | `string` | — | CSS class on the root element |
+| `id` | `string` | — | `id` on the root element |
+| `aria-label` | `string` | — | Accessible label |
+| `aria-labelledby` | `string` | — | `id` of an external label element |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-indeterminate` | Root | `value` is `undefined` |
+| `data-value` | Root | `value` is set — contains the numeric value as a string |
+
+## CSS custom property
+
+| Property | Value |
+|---|---|
+| `--progress` | Percentage (`0%`–`100%`), set as an inline style on the root only when determinate |
+
+## Styling example
+
+```css
+.morphos-progress {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--morphos-radius-full);
+  background: var(--morphos-color-bg-subtle);
+}
+
+.morphos-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: var(--progress, 0%);
+  background: var(--morphos-color-accent);
+  border-radius: var(--morphos-radius-full);
+  transition: width var(--morphos-transition-medium);
+}
+
+.morphos-progress[data-indeterminate]::after {
+  width: 40%;
+  animation: morphos-progress-indeterminate 1.2s ease-in-out infinite;
+}
+
+@keyframes morphos-progress-indeterminate {
+  0% { left: -40%; }
+  100% { left: 100%; }
+}
+```
+
+Apply `class="morphos-progress"` to `Progress` to use this recipe.
+
+## Accessibility
+
+Progress renders as `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow`,
+and `aria-valuetext` (shows the percentage string). In indeterminate mode, `aria-valuenow` and
+`aria-valuetext` are omitted.
+
+<Callout type="info">
+  Always provide either `aria-label` or `aria-labelledby`. Without a label, screen readers have no
+  way to describe what is progressing.
+</Callout>

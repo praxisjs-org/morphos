@@ -1,0 +1,175 @@
+---
+title: NavigationMenu
+description: A site navigation bar with expandable submenus, sharing active-item state across a compound of parts.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-navigationmenu--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() nav = new NavigationMenu({ 'aria-label': 'Main navigation' })
+  @State() productsItem = new NavigationMenuItem({ nav: this.nav, value: 'products' })
+
+  render() {
+    return (
+      <NavigationMenu nav={this.nav}>
+        <NavigationMenuList nav={this.nav}>
+          <NavigationMenuItem nav={this.nav} value="products">
+            <NavigationMenuTrigger item={this.productsItem}>Products</NavigationMenuTrigger>
+            <NavigationMenuContent item={this.productsItem}>
+              <NavigationMenuLink href="/analytics">Analytics</NavigationMenuLink>
+              <NavigationMenuLink href="/automation">Automation</NavigationMenuLink>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+
+          <li>
+            <NavigationMenuLink href="/pricing">Pricing</NavigationMenuLink>
+          </li>
+        </NavigationMenuList>
+      </NavigationMenu>
+    )
+  }
+}
+```
+
+Plain links that don't need a submenu can skip `NavigationMenuItem` entirely and sit directly in an `<li>` inside `NavigationMenuList`, as shown with "Pricing" above.
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `NavigationMenu` | Root — renders `<nav>`, tracks which item's submenu is active |
+| `NavigationMenuList` | Renders `<ul role="list">` |
+| `NavigationMenuItem` | One item in the list — bridges the root and its trigger/content |
+| `NavigationMenuTrigger` | Button that expands/collapses the item's submenu |
+| `NavigationMenuContent` | The submenu panel |
+| `NavigationMenuLink` | A plain navigation link (`<a>`) |
+
+## Props — NavigationMenu
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction |
+| `aria-label` | `string` | — | Accessible label for the `<nav>` |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Methods — NavigationMenu
+
+| Method | Description |
+|---|---|
+| `open(item: string)` | Opens the submenu for the given item value, closing any other open one |
+| `close()` | Closes the currently open submenu |
+| `toggle(item: string)` | Opens the given item's submenu if closed, or closes it if it's the currently open one |
+
+## Props — NavigationMenuList
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `nav` | `NavigationMenu` | — | The root `NavigationMenu` instance |
+| `children` | `Children` | — | `NavigationMenuItem` and plain `<li>` elements |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — NavigationMenuItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `nav` | `NavigationMenu` | — | The root `NavigationMenu` instance |
+| `value` | `string` | — | Unique identifier for this item |
+| `children` | `Children` | — | Typically a `NavigationMenuTrigger` + `NavigationMenuContent` pair |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — NavigationMenuTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `item` | `NavigationMenuItem` | — | The parent `NavigationMenuItem` |
+| `children` | `Children` | — | Trigger label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id (defaults to the item's generated trigger id) |
+
+## Props — NavigationMenuContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `item` | `NavigationMenuItem` | — | The parent `NavigationMenuItem` |
+| `children` | `Children` | — | Submenu content |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id (defaults to the item's generated content id) |
+
+## Props — NavigationMenuLink
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `href` | `string` | — | Link destination |
+| `target` | `string` | — | Anchor `target` attribute |
+| `rel` | `string` | — | Anchor `rel` attribute |
+| `onClick` | `(event: MouseEvent) => void` | — | Click handler |
+| `children` | `Children` | — | Link content |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Keyboard and pointer interaction
+
+| Interaction | Action |
+|---|---|
+| Click a trigger | Toggle its submenu open/closed; opening one closes any other open submenu |
+| Click outside the trigger and content | Close the open submenu |
+| `Escape` | Close the open submenu |
+
+<Callout type="info">
+  Arrow-key navigation between triggers or between links inside a submenu is not implemented — `NavigationMenuContent` only listens for `Escape` and outside `mousedown` on `document` while its item's submenu is open.
+</Callout>
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-orientation` | NavigationMenu | Always — reflects the `orientation` prop |
+| `data-active` | NavigationMenuItem | The item's submenu is currently open |
+
+<Callout type="info">
+  There is no `data-open` attribute on `NavigationMenuTrigger` or `NavigationMenuContent` — only `NavigationMenuItem` exposes state, via `data-active`. `NavigationMenuContent` uses the native `hidden` attribute to hide closed submenus.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-navigation-menu[data-orientation="vertical"] .morphos-navigation-menu-list {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.morphos-navigation-menu-trigger:hover,
+.morphos-navigation-menu-item[data-active] .morphos-navigation-menu-trigger {
+  background: var(--morphos-color-bg-hover);
+}
+
+.morphos-navigation-menu-content[hidden] {
+  display: none;
+}
+```

@@ -1,0 +1,151 @@
+---
+title: Checkbox
+description: A primitive checkbox input with support for checked, unchecked, and indeterminate states.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-checkbox--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Checkbox } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() accepted = false
+
+  render() {
+    return (
+      <label>
+        <Checkbox
+          checked={this.accepted}
+          onCheckedChange={(checked) => (this.accepted = checked)}
+        />
+        Accept terms and conditions
+      </label>
+    )
+  }
+}
+```
+
+### Uncontrolled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <label>
+        <Checkbox defaultChecked={true} name="newsletter" />
+        Subscribe to newsletter
+      </label>
+    )
+  }
+}
+```
+
+### Indeterminate state
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() items = [
+    { label: 'Option A', checked: true },
+    { label: 'Option B', checked: false },
+  ]
+
+  get allChecked() {
+    return this.items.every((i) => i.checked)
+  }
+
+  get someChecked() {
+    return this.items.some((i) => i.checked)
+  }
+
+  toggleAll() {
+    const next = !this.allChecked
+    this.items = this.items.map((i) => ({ ...i, checked: next }))
+  }
+
+  render() {
+    return (
+      <label>
+        <Checkbox
+          checked={this.allChecked}
+          indeterminate={this.someChecked && !this.allChecked}
+          onCheckedChange={() => this.toggleAll()}
+        />
+        Select all
+      </label>
+    )
+  }
+}
+```
+
+## Props — Checkbox
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled initial checked state |
+| `indeterminate` | `boolean` | `false` | Displays the indeterminate (mixed) state |
+| `disabled` | `boolean` | `false` | Disables the checkbox |
+| `required` | `boolean` | `false` | Marks the checkbox as required |
+| `name` | `string` | — | Form field name for submission |
+| `value` | `string` | — | Value submitted with the form when checked |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Fires when the checked state changes |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `children` | `Children` | — | Not rendered by `Checkbox` itself (it renders a bare `<input>`); accepted for API consistency |
+| `aria-label` | `string` | — | Accessible label when no visible label is present |
+| `aria-labelledby` | `string` | — | ID of an element that labels the checkbox |
+| `aria-describedby` | `string` | — | ID of an element that describes the checkbox |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-checked` | Root | `checked` is `true` |
+| `data-indeterminate` | Root | `indeterminate` is `true` |
+| `data-disabled` | Root | `disabled` is `true` |
+
+## Accessibility
+
+`Checkbox` renders as a native `<input type="checkbox">`. When `indeterminate` is `true`, the component sets the DOM `.indeterminate` property directly (this cannot be set via an HTML attribute) and applies `aria-checked="mixed"` so assistive technologies announce the state correctly.
+
+<Callout type="warning">
+  The `indeterminate` prop controls a DOM property, not an HTML attribute. It cannot be serialized in server-side rendered HTML — the component will always hydrate from the `checked` or `defaultChecked` value and apply `indeterminate` after mounting.
+</Callout>
+
+## Styling example
+
+`Checkbox` renders a bare `<input type="checkbox">` — apply the class directly to it and pair it with your own `<label>` markup.
+
+```css
+.morphos-checkbox[data-checked] {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-checkbox:indeterminate {
+  background: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+
+.morphos-checkbox[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

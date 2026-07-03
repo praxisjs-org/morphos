@@ -1,0 +1,173 @@
+---
+title: Dialog
+description: An accessible modal dialog with focus trapping and scroll locking.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-dialog--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() dialog = new Dialog()
+
+  render() {
+    return (
+      <>
+        <DialogTrigger dialog={this.dialog}>Open</DialogTrigger>
+        <DialogContent dialog={this.dialog} aria-labelledby="my-dialog-title">
+          <DialogTitle id="my-dialog-title">Confirm</DialogTitle>
+          <DialogDescription>Are you sure you want to proceed?</DialogDescription>
+          <DialogClose dialog={this.dialog}>Cancel</DialogClose>
+          <button onClick={() => this.dialog.closeDialog()}>Confirm</button>
+        </DialogContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Dialog` | Root state manager. Owns open state and exposes `openDialog()` / `closeDialog()` / `toggle()`. |
+| `DialogTrigger` | `<button>` that opens the dialog. Sets `aria-haspopup="dialog"`, `aria-expanded`, and `data-open`. |
+| `DialogContent` | Renders into a `Portal` with a sibling backdrop `<div data-morphos-backdrop>`. Sets `role="dialog"` and `aria-modal="true"`. Applies focus trap and scroll lock while open. |
+| `DialogTitle` | Renders as `<h2>` by default (configurable via `as`). Pair its `id` with `aria-labelledby` on `DialogContent`. |
+| `DialogDescription` | Renders as `<p>`. Pair its `id` with `aria-describedby` on `DialogContent`. |
+| `DialogClose` | `<button>` that calls `closeDialog()`. |
+
+## Props — Dialog
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state. When set, the consumer owns the state. |
+| `defaultOpen` | `boolean` | `false` | Initial open state in uncontrolled mode. |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the open state changes. |
+| `closeOnEscape` | `boolean` | `true` | Whether pressing Escape closes the dialog. |
+| `closeOnBackdropClick` | `boolean` | `true` | Whether clicking the backdrop closes the dialog. |
+| `children` | `Children` | — | Content — typically `DialogTrigger` and `DialogContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `openDialog()` | Opens the dialog. Emits `onOpenChange(true)`. |
+| `closeDialog()` | Closes the dialog. Emits `onOpenChange(false)`. |
+| `toggle()` | Toggles the open state. Emits `onOpenChange`. |
+
+## Props — DialogTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dialog` | `Dialog` | — | The `Dialog` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — DialogContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dialog` | `Dialog` | — | The `Dialog` instance this content belongs to. |
+| `children` | `Children` | — | Dialog body content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label. Use when no `DialogTitle` is present. |
+| `aria-labelledby` | `string` | — | ID of the element that labels the dialog (e.g. a `DialogTitle`). |
+| `aria-describedby` | `string` | — | ID of the element that describes the dialog (e.g. a `DialogDescription`). |
+
+## Props — DialogTitle
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | `"h2"` | The HTML heading element to render. |
+| `children` | `Children` | — | Title text. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — DialogDescription
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `Children` | — | Description text. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — DialogClose
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dialog` | `Dialog` | — | The `Dialog` instance this close button controls. |
+| `children` | `Children` | — | Button content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `DialogTrigger` | Dialog is open |
+| `data-open` | `DialogContent` root | Dialog is open |
+
+<Callout type="info">
+  Always provide either `aria-label` or `aria-labelledby` on `DialogContent`. Point
+  `aria-labelledby` at the `id` of your `DialogTitle` for best accessibility.
+</Callout>
+
+<Callout type="info">
+  `DialogContent` calls `trapFocus()` and `lockScroll()` from `@morphos/core` when it mounts
+  while open (and again whenever the dialog's open state changes). Focus cycles through the
+  focusable elements inside the content element, and the page scroll lock is released
+  automatically when the dialog closes or `DialogContent` unmounts.
+</Callout>
+
+## Styling example
+
+```css
+[data-morphos-backdrop] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.morphos-dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 28rem;
+  padding: var(--morphos-space-4);
+  border-radius: var(--morphos-radius-lg);
+}
+
+.morphos-dialog-close {
+  position: absolute;
+  top: var(--morphos-space-3);
+  right: var(--morphos-space-3);
+}
+```

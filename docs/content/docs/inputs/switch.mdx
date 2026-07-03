@@ -1,0 +1,138 @@
+---
+title: Switch
+description: A toggle switch component with ARIA switch semantics and optional form participation.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-switch--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Switch } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() darkMode = false
+
+  render() {
+    return (
+      <label>
+        <Switch
+          checked={this.darkMode}
+          onCheckedChange={(checked) => (this.darkMode = checked)}
+        />
+        Dark mode
+      </label>
+    )
+  }
+}
+```
+
+### Uncontrolled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <label>
+        <Switch defaultChecked={true} name="notifications" value="enabled" />
+        Enable notifications
+      </label>
+    )
+  }
+}
+```
+
+### Inside a form
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  handleSubmit(e: SubmitEvent) {
+    e.preventDefault()
+    const data = new FormData(e.target as HTMLFormElement)
+    console.log('marketing:', data.get('marketing'))
+  }
+
+  render() {
+    return (
+      <form onSubmit={(e) => this.handleSubmit(e)}>
+        <label>
+          <Switch defaultChecked={false} name="marketing" value="yes" />
+          Receive marketing emails
+        </label>
+        <button type="submit">Save preferences</button>
+      </form>
+    )
+  }
+}
+```
+
+## Props — Switch
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled initial checked state |
+| `disabled` | `boolean` | `false` | Disables the switch |
+| `name` | `string` | — | Form field name; enables form participation |
+| `value` | `string` | — | Value submitted when the switch is on |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Fires when the switch state changes |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `children` | `Children` | — | Content rendered inside the switch's button element (e.g. screen-reader-only text or an icon). For a visible label, wrap the `Switch` in your own `<label>` as shown above — the button is a labelable element, so clicking the label text toggles it. |
+| `aria-label` | `string` | — | Accessible label when no visible label is present |
+| `aria-labelledby` | `string` | — | ID of an element that labels the switch |
+| `aria-describedby` | `string` | — | ID of an element that describes the switch |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-checked` | Root | The switch is currently on |
+| `data-disabled` | Root | `disabled` is `true` |
+
+## Keyboard navigation
+
+| Key | Behavior |
+|---|---|
+| `Space` | Toggle the switch state |
+| `Enter` | Toggle the switch state |
+
+## Accessibility
+
+The `Switch` renders a `<button>` element with `role="switch"` and `aria-checked` reflecting the current state. When the `name` prop is provided, a hidden `<input type="checkbox">` is rendered alongside it to participate in HTML form submission. Screen readers will announce the element as a switch with on/off state.
+
+<Callout type="info">
+  Unlike a `Checkbox`, a `Switch` represents an immediate action (like enabling a feature right now) rather than a form selection. If the switch controls a setting that only takes effect on form submit, consider using a `Checkbox` instead to set user expectations correctly.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-switch[data-checked] {
+  background: var(--morphos-color-accent);
+}
+
+.morphos-switch[data-checked]::before {
+  transform: translateX(1rem);
+}
+
+.morphos-switch[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

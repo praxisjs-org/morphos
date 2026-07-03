@@ -1,0 +1,143 @@
+---
+title: Tabs
+description: A set of layered panels where only one panel is visible at a time, selected via a tab list.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-tabs--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import { Tabs, TabList, Tab, TabPanel } from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() tabs = new Tabs({ defaultValue: 'overview' })
+
+  render() {
+    return (
+      <Tabs tabs={this.tabs}>
+        <TabList tabs={this.tabs} aria-label="Product information">
+          <Tab tabs={this.tabs} value="overview">Overview</Tab>
+          <Tab tabs={this.tabs} value="settings">Settings</Tab>
+          <Tab tabs={this.tabs} value="billing">Billing</Tab>
+        </TabList>
+        <TabPanel tabs={this.tabs} value="overview">
+          <p>Overview content.</p>
+        </TabPanel>
+        <TabPanel tabs={this.tabs} value="settings">
+          <p>Settings content.</p>
+        </TabPanel>
+        <TabPanel tabs={this.tabs} value="billing">
+          <p>Billing content.</p>
+        </TabPanel>
+      </Tabs>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Tabs` | Root state manager — tracks the selected tab value and the registered tab order |
+| `TabList` | Container for the tab buttons (`role="tablist"`) — handles arrow-key navigation |
+| `Tab` | An individual tab button (`role="tab"`) |
+| `TabPanel` | The content panel associated with a tab (`role="tabpanel"`) |
+
+## Props — Tabs
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | — | Controlled active tab value |
+| `defaultValue` | `string` | — | Initial active tab (uncontrolled) |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Axis of the tab list — determines which arrow keys navigate |
+| `onValueChange` | `(value: string) => void` | — | Called when the active tab changes |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Methods — Tabs
+
+| Method | Description |
+|---|---|
+| `select(value: string)` | Selects the given tab value |
+| `navigate(direction: "next" \| "prev" \| "first" \| "last")` | Moves selection to the next/previous/first/last registered tab, wrapping around the ends |
+
+## Props — TabList
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `tabs` | `Tabs` | — | The `Tabs` state instance |
+| `aria-label` | `string` | — | Accessible label for the tab list |
+| `aria-labelledby` | `string` | — | ID of the element labelling the tab list |
+| `children` | `Children` | — | `Tab` elements |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — Tab
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `tabs` | `Tabs` | — | The `Tabs` state instance |
+| `value` | `string` | — | Unique identifier for this tab |
+| `disabled` | `boolean` | `false` | Disables this tab |
+| `children` | `Children` | — | Tab label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id (defaults to an auto-generated id) |
+
+## Props — TabPanel
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `tabs` | `Tabs` | — | The `Tabs` state instance |
+| `value` | `string` | — | The tab value this panel belongs to |
+| `children` | `Children` | — | Panel content |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Keyboard navigation
+
+`TabList` handles these keys directly:
+
+| Key | Action |
+|---|---|
+| `ArrowRight` | Move to the next tab (`orientation="horizontal"`) |
+| `ArrowLeft` | Move to the previous tab (`orientation="horizontal"`) |
+| `ArrowDown` | Move to the next tab (`orientation="vertical"`) |
+| `ArrowUp` | Move to the previous tab (`orientation="vertical"`) |
+| `Home` | Move to the first tab |
+| `End` | Move to the last tab |
+
+Navigation always selects the target tab immediately (activation follows focus) — there is no separate manual-activation mode.
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-orientation` | Tabs | Always — reflects the `orientation` prop |
+| `data-selected` | Tab, TabPanel | The tab (or its panel) is the active one |
+| `data-disabled` | Tab | The tab's `disabled` prop is set |
+
+## Styling example
+
+```css
+.morphos-tabs[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+.morphos-tabs-tab[data-selected] {
+  color: var(--morphos-color-accent);
+  border-color: var(--morphos-color-accent);
+}
+```

@@ -1,0 +1,151 @@
+---
+title: Context Menu
+description: A menu that appears at the cursor position on right-click, offering context-specific actions.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-contextmenu--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+} from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() contextMenu = new ContextMenu()
+
+  render() {
+    return (
+      <>
+        <ContextMenuTrigger contextMenu={this.contextMenu}>
+          Right-click anywhere in this area
+        </ContextMenuTrigger>
+        <ContextMenuContent contextMenu={this.contextMenu}>
+          <ContextMenuItem contextMenu={this.contextMenu} label="Copy" value="copy" onSelect={() => console.log('copy')} />
+          <ContextMenuItem contextMenu={this.contextMenu} label="Paste" value="paste" onSelect={() => console.log('paste')} />
+          <ContextMenuItem contextMenu={this.contextMenu} label="Delete" value="delete" disabled />
+        </ContextMenuContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `ContextMenu` | Root state manager. Tracks open state and the cursor coordinates captured on `contextmenu`. |
+| `ContextMenuTrigger` | `<div>` that listens for the native `contextmenu` event, prevents the default browser menu, and opens the menu at the cursor. Sets `data-open`. |
+| `ContextMenuContent` | `<ul role="menu">` rendered into a `Portal`, positioned with `position: fixed` at the captured coordinates. Closes on outside click or Escape. |
+| `ContextMenuItem` | `<li role="menuitem">`. Selectable via click or Enter/Space. |
+
+## Props — ContextMenu
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the menu opens or closes. |
+| `children` | `Children` | — | Content — typically `ContextMenuTrigger` and `ContextMenuContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `open()` | Opens the context menu. Emits `onOpenChange(true)`. |
+| `close()` | Closes the context menu. Emits `onOpenChange(false)`. |
+| `setPosition(x, y)` | Sets the cursor coordinates used to position the menu. Called internally by `ContextMenuTrigger`'s `contextmenu` handler. |
+
+<Callout type="info">
+  Unlike the other overlays in this package, `ContextMenu` has no `open` / `defaultOpen` props —
+  it is always uncontrolled, since it is driven entirely by the browser's native `contextmenu`
+  event rather than a click on a fixed trigger element.
+</Callout>
+
+## Props — ContextMenuTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `contextMenu` | `ContextMenu` | — | The `ContextMenu` instance this trigger controls. |
+| `children` | `Children` | — | The trigger area content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — ContextMenuContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `contextMenu` | `ContextMenu` | — | The `ContextMenu` instance this content belongs to. |
+| `children` | `Children` | — | `ContextMenuItem` elements. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+| `aria-label` | `string` | — | Accessible label for the menu. |
+
+## Props — ContextMenuItem
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `contextMenu` | `ContextMenu` | — | The `ContextMenu` instance this item belongs to. |
+| `value` | `string` | — | Unique value identifier. |
+| `label` | `string` | — | Display text, used when no `children` are passed. |
+| `disabled` | `boolean` | `false` | Disables the item. |
+| `onSelect` | `() => void` | — | Called when the item is selected. |
+| `children` | `Children` | — | Item content. Falls back to `label` if omitted. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Positioning
+
+`ContextMenuContent` is rendered with `position: fixed` at the coordinates captured on the most
+recent `contextmenu` event, read from the internal `_x` / `_y` state on the `ContextMenu`
+instance. Unlike Dropdown, Popover, Tooltip, and PreviewCard, `ContextMenu` does not use
+`computeAnchorPosition()` from `@morphos/core` — there is no anchor element to measure, only a
+cursor position.
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `ContextMenuTrigger` | Menu is open |
+| `data-open` | `ContextMenuContent` root | Menu is open |
+| `data-disabled` | `ContextMenuItem` | `disabled` is `true` |
+
+<Callout type="info">
+  `ContextMenuContent` renders with `role="menu"` and each `ContextMenuItem` renders with
+  `role="menuitem"`. The menu closes automatically when the user clicks outside, presses
+  Escape, or selects an item.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-context-menu-content {
+  z-index: 100;
+  min-width: 10rem;
+  padding: var(--morphos-space-1);
+  list-style: none;
+  border: 1px solid var(--morphos-color-border);
+  border-radius: var(--morphos-radius-md);
+}
+
+.morphos-context-menu-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

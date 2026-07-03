@@ -1,0 +1,182 @@
+---
+title: Drawer
+description: A panel that slides in from an edge of the viewport, used for navigation or supplementary content.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="overlays-drawer--right" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/overlays" />
+
+## Import
+
+```ts
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+} from '@morphos/overlays'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() drawer = new Drawer({ side: 'right' })
+
+  render() {
+    return (
+      <>
+        <DrawerTrigger drawer={this.drawer}>
+          Open drawer
+        </DrawerTrigger>
+        <DrawerContent drawer={this.drawer} aria-labelledby="drawer-title">
+          <DrawerTitle id="drawer-title">Settings</DrawerTitle>
+          <DrawerDescription>Adjust your preferences below.</DrawerDescription>
+          <p>Drawer body content.</p>
+          <DrawerClose drawer={this.drawer}>Close</DrawerClose>
+        </DrawerContent>
+      </>
+    )
+  }
+}
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Drawer` | Root state manager. Owns open state and the `side` the panel slides from. Exposes `openDrawer()` / `closeDrawer()` / `toggle()`. |
+| `DrawerTrigger` | `<button>` that opens the drawer. Sets `aria-haspopup="dialog"`, `aria-expanded`, and `data-open`. |
+| `DrawerContent` | Renders into a `Portal` with a sibling backdrop `<div data-morphos-backdrop>`. Sets `role="dialog"`, `aria-modal="true"`, and `data-side`. Applies focus trap and scroll lock while open. |
+| `DrawerTitle` | Renders as `<h2>` by default (configurable via `as`). |
+| `DrawerDescription` | Renders as `<p>`. |
+| `DrawerClose` | `<button>` that calls `closeDrawer()`. |
+
+## The `DrawerSide` type
+
+```ts
+type DrawerSide = "top" | "right" | "bottom" | "left"
+```
+
+Controls which edge of the viewport `DrawerContent` slides in from, via the `side` prop on
+`Drawer`. The current value is reflected on `DrawerContent` as `data-side` so it can drive
+directional CSS animations.
+
+## Props — Drawer
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state. When set, the consumer owns the state. |
+| `defaultOpen` | `boolean` | `false` | Initial open state in uncontrolled mode. |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when the open state changes. |
+| `closeOnEscape` | `boolean` | `true` | Whether pressing Escape closes the drawer. |
+| `closeOnBackdropClick` | `boolean` | `true` | Whether clicking the backdrop closes the drawer. |
+| `side` | `DrawerSide` | `"right"` | Which edge of the viewport the drawer slides from. |
+| `children` | `Children` | — | Content — typically `DrawerTrigger` and `DrawerContent`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `openDrawer()` | Opens the drawer. Emits `onOpenChange(true)`. |
+| `closeDrawer()` | Closes the drawer. Emits `onOpenChange(false)`. |
+| `toggle()` | Toggles the open state. Emits `onOpenChange`. |
+
+## Props — DrawerTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `drawer` | `Drawer` | — | The `Drawer` instance this trigger controls. |
+| `children` | `Children` | — | The trigger element content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — DrawerContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `drawer` | `Drawer` | — | The `Drawer` instance this content belongs to. |
+| `children` | `Children` | — | Drawer body content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. Falls back to an auto-generated id. |
+| `aria-label` | `string` | — | Accessible label for the drawer. |
+| `aria-labelledby` | `string` | — | ID of the element that labels the drawer (e.g. a `DrawerTitle`). |
+| `aria-describedby` | `string` | — | ID of the element that describes the drawer (e.g. a `DrawerDescription`). |
+
+## Props — DrawerTitle
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | `"h2"` | The HTML heading element to render. |
+| `children` | `Children` | — | Title text. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — DrawerDescription
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `Children` | — | Description text. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## Props — DrawerClose
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `drawer` | `Drawer` | — | The `Drawer` instance this close button controls. |
+| `children` | `Children` | — | Button content. |
+| `class` | `string` | — | CSS class. |
+| `id` | `string` | — | HTML id. |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | `DrawerTrigger` | Drawer is open |
+| `data-open` | `DrawerContent` root | Drawer is open |
+| `data-side` | `DrawerContent` root | Always — reflects the `side` prop value (`"top"`, `"right"`, `"bottom"`, or `"left"`) |
+
+<Callout type="info">
+  Use the `data-side` attribute on `DrawerContent` to apply directional slide-in animations via
+  CSS. For example, `[data-side="right"]` slides in from the right.
+</Callout>
+
+<Callout type="info">
+  `DrawerContent` calls `trapFocus()` and `lockScroll()` from `@morphos/core` while open, the
+  same way `Dialog` does.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-drawer-content {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding: var(--morphos-space-4);
+}
+
+.morphos-drawer-content[data-side="right"] {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(24rem, 100vw);
+  animation: morphos-slide-in-right var(--morphos-transition-medium);
+}
+
+@keyframes morphos-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+```

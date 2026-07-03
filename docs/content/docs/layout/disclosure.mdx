@@ -1,0 +1,109 @@
+---
+title: Disclosure
+description: A single collapsible section that shows or hides content when a trigger is activated.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-disclosure--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import { Disclosure, DisclosureTrigger, DisclosureContent } from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() disclosure = new Disclosure({ defaultOpen: false })
+
+  render() {
+    return (
+      <Disclosure disclosure={this.disclosure}>
+        <DisclosureTrigger disclosure={this.disclosure}>
+          Show details
+        </DisclosureTrigger>
+        <DisclosureContent disclosure={this.disclosure}>
+          <p>This content is revealed when the trigger is activated.</p>
+        </DisclosureContent>
+      </Disclosure>
+    )
+  }
+}
+```
+
+## Aliases
+
+`Disclosure`, `DisclosureTrigger`, and `DisclosureContent` are also exported as `Collapsible`, `CollapsibleTrigger`, and `CollapsibleContent` — they are the exact same classes, just re-exported under alternate names for consumers who prefer that naming.
+
+```ts
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@morphos/layout'
+```
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `Disclosure` | Root state manager — controls open state |
+| `DisclosureTrigger` | The button that toggles content visibility |
+| `DisclosureContent` | The collapsible content area |
+
+## Props — Disclosure
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when open state changes |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Methods — Disclosure
+
+| Method | Description |
+|---|---|
+| `toggle()` | Toggles the disclosure open/closed |
+
+## Props — DisclosureTrigger
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `disclosure` | `Disclosure` | — | The `Disclosure` state instance |
+| `children` | `Children` | — | Trigger label |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+| `aria-label` | `string` | — | Accessible label when trigger text is not descriptive |
+
+## Props — DisclosureContent
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `disclosure` | `Disclosure` | — | The `Disclosure` state instance |
+| `children` | `Children` | — | Content to reveal |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id (defaults to the disclosure's generated content id) |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-open` | Disclosure, DisclosureTrigger, DisclosureContent | Content is visible |
+
+<Callout type="info">
+  `DisclosureContent` uses the native `hidden` attribute to hide content when closed, which removes it from the accessibility tree and prevents focus from reaching hidden elements.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-disclosure-trigger[data-open]::before {
+  transform: rotate(-135deg);
+}
+```

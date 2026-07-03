@@ -1,0 +1,145 @@
+---
+title: Input
+description: A primitive text input component with support for controlled and uncontrolled usage.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-input--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { Input } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() name = ''
+
+  render() {
+    return (
+      <Input
+        type="text"
+        placeholder="Enter your name"
+        value={this.name}
+        onInput={(value) => (this.name = value)}
+      />
+    )
+  }
+}
+```
+
+### Uncontrolled
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <Input
+        type="text"
+        defaultValue="Initial value"
+        name="username"
+      />
+    )
+  }
+}
+```
+
+### With validation state
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() email = ''
+  @State() isInvalid = false
+
+  validate() {
+    this.isInvalid = !this.email.includes('@')
+  }
+
+  render() {
+    return (
+      <Input
+        type="email"
+        value={this.email}
+        invalid={this.isInvalid}
+        aria-describedby="email-error"
+        onInput={(value) => (this.email = value)}
+        onBlur={() => this.validate()}
+      />
+    )
+  }
+}
+```
+
+## Props — Input
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `type` | `"text" \| "email" \| "password" \| "number" \| "search" \| "tel" \| "url"` | `"text"` | HTML input type |
+| `value` | `string` | — | Controlled value |
+| `defaultValue` | `string` | — | Uncontrolled initial value |
+| `placeholder` | `string` | — | Placeholder text shown when empty |
+| `disabled` | `boolean` | — | Disables the input |
+| `readonly` | `boolean` | — | Makes the input read-only |
+| `required` | `boolean` | — | Marks the input as required |
+| `invalid` | `boolean` | — | Marks the input as invalid |
+| `name` | `string` | — | Form field name for submission |
+| `autoComplete` | `string` | — | HTML autocomplete attribute |
+| `maxLength` | `number` | — | Maximum number of characters |
+| `minLength` | `number` | — | Minimum number of characters |
+| `onInput` | `(value: string, event: Event) => void` | — | Fires on every keystroke |
+| `onChange` | `(value: string, event: Event) => void` | — | Fires when the value is committed |
+| `onFocus` | `(event: FocusEvent) => void` | — | Fires when the input gains focus |
+| `onBlur` | `(event: FocusEvent) => void` | — | Fires when the input loses focus |
+| `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | HTML id attribute |
+| `aria-label` | `string` | — | Accessible label when no visible label is present |
+| `aria-labelledby` | `string` | — | ID of an element that labels the input |
+| `aria-describedby` | `string` | — | ID of an element that describes the input |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Root | `disabled` prop is `true` |
+| `data-invalid` | Root | `invalid` prop is `true` |
+| `data-focused` | Root | The input currently has focus |
+
+## Accessibility
+
+The `Input` component renders a native `<input>` element, inheriting full browser accessibility support. When `invalid` is `true`, the component sets `aria-invalid="true"` on the element, and when `required` is `true` it sets `aria-required="true"`, so screen readers announce those states. Pair `invalid` with `aria-describedby` pointing to a visible error message for the best experience.
+
+<Callout type="info">
+  For complete accessible form fields — with a label, description, and error message — pair `Input` with the `Field` compound component (`FieldLabel`, `FieldDescription`, `FieldError`), which wires up `aria-describedby` for you.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-input[data-focused] {
+  outline: none;
+  border-color: var(--morphos-color-accent);
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-input[data-invalid] {
+  border-color: var(--morphos-color-danger);
+}
+
+.morphos-input[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```

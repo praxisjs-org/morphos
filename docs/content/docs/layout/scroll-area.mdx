@@ -1,0 +1,128 @@
+---
+title: Scroll Area
+description: A custom scrollable container with styled scrollbars that integrates with the design system.
+---
+
+## Interactive example
+
+<StorybookEmbed story="layout-scrollarea--contact-list" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/layout" />
+
+## Import
+
+```ts
+import { ScrollArea, ScrollAreaViewport, ScrollAreaScrollbar, ScrollAreaThumb } from '@morphos/layout'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() scrollArea = new ScrollArea({ type: 'hover' })
+
+  render() {
+    return (
+      <ScrollArea scrollArea={this.scrollArea}>
+        <ScrollAreaViewport scrollArea={this.scrollArea}>
+          <p>Long content that overflows the container...</p>
+          {/* more content */}
+        </ScrollAreaViewport>
+        <ScrollAreaScrollbar scrollArea={this.scrollArea} orientation="vertical">
+          <ScrollAreaThumb scrollArea={this.scrollArea} orientation="vertical" />
+        </ScrollAreaScrollbar>
+      </ScrollArea>
+    )
+  }
+}
+```
+
+Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is hidden with CSS, and `ScrollAreaScrollbar`/`ScrollAreaThumb` render a decorative, ARIA-described overlay driven by the real scroll metrics.
+
+## Compound components
+
+| Component | Description |
+|---|---|
+| `ScrollArea` | Root container — tracks scroll metrics and whether the content overflows |
+| `ScrollAreaViewport` | The actual scrollable element (`overflow: auto`) — reports scroll metrics to `ScrollArea` |
+| `ScrollAreaScrollbar` | The scrollbar track (`role="scrollbar"`) |
+| `ScrollAreaThumb` | The draggable-looking thumb, sized/positioned from real scroll metrics via CSS custom properties |
+
+## Props — ScrollArea
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `type` | `"auto" \| "always" \| "scroll" \| "hover" \| "hidden"` | `"hover"` | When scrollbars are visible. This is exposed as `data-type` for CSS to act on — `"hidden"` is expected to hide the custom scrollbar entirely via CSS while the viewport still scrolls natively. |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Methods — ScrollArea
+
+| Method | Description |
+|---|---|
+| `_onScroll(el: HTMLElement)` | Internal — called by `ScrollAreaViewport` on mount and on every `scroll` event to update tracked metrics |
+
+## Props — ScrollAreaViewport
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `scrollArea` | `ScrollArea` | — | The `ScrollArea` state instance |
+| `children` | `Children` | — | The scrollable content |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — ScrollAreaScrollbar
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `scrollArea` | `ScrollArea` | — | The `ScrollArea` state instance |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Scrollbar axis |
+| `children` | `Children` | — | Typically a `ScrollAreaThumb` |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## Props — ScrollAreaThumb
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `scrollArea` | `ScrollArea` | — | The `ScrollArea` state instance — used to size/position the thumb proportionally to the visible fraction of content |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Which scroll axis to size/position against |
+| `class` | `string` | — | CSS class |
+| `id` | `string` | — | HTML id |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-type` | ScrollArea | Always — reflects the `type` prop value |
+| `data-scrollable` | ScrollArea | Content overflows the viewport on either axis |
+| `data-orientation` | ScrollAreaScrollbar | Always — reflects the `orientation` prop |
+
+<Callout type="info">
+  `ScrollAreaThumb` doesn't read `data-*` attributes for sizing — it sets the CSS custom properties `--morphos-thumb-size` and `--morphos-thumb-offset` directly on its own inline `style`, computed from the tracked scroll metrics.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-scroll-area-viewport {
+  scrollbar-width: none;
+}
+
+.morphos-scroll-area[data-type="hover"] .morphos-scroll-area-scrollbar {
+  opacity: 0;
+  transition: opacity var(--morphos-transition-medium);
+}
+
+.morphos-scroll-area[data-type="hover"]:hover .morphos-scroll-area-scrollbar {
+  opacity: 1;
+}
+
+.morphos-scroll-area-scrollbar[data-orientation="vertical"] .morphos-scroll-area-thumb {
+  top: var(--morphos-thumb-offset, 0%);
+  height: var(--morphos-thumb-size, 100%);
+}
+```

@@ -1,0 +1,185 @@
+---
+title: OtpField
+description: A one-time password input with individual cells, paste support, and a completion callback.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="inputs-otpfield--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/inputs" />
+
+## Import
+
+```ts
+import { OtpField } from '@morphos/inputs'
+```
+
+## Usage
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  verify(code: string) {
+    console.log('OTP submitted:', code)
+  }
+
+  render() {
+    return (
+      <OtpField
+        class="morphos-otp-field"
+        length={6}
+        onComplete={(value) => this.verify(value)}
+        aria-label="One-time password"
+      />
+    )
+  }
+}
+```
+
+### Controlled value
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  @State() code = ''
+
+  render() {
+    return (
+      <OtpField
+        class="morphos-otp-field"
+        length={4}
+        value={this.code}
+        onValueChange={(value) => (this.code = value)}
+        onComplete={(value) => console.log('Done:', value)}
+        aria-label="PIN"
+      />
+    )
+  }
+}
+```
+
+### Alphanumeric OTP
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  submitCode(code: string) {
+    fetch('/api/verify', { method: 'POST', body: JSON.stringify({ code }) })
+  }
+
+  render() {
+    return (
+      <OtpField
+        class="morphos-otp-field"
+        length={8}
+        pattern="[A-Za-z0-9]"
+        inputMode="text"
+        onComplete={(value) => this.submitCode(value)}
+        aria-label="Verification code"
+      />
+    )
+  }
+}
+```
+
+### With name for form submission
+
+```tsx
+@Component()
+class MyComponent extends StatefulComponent {
+  render() {
+    return (
+      <form method="post" action="/verify">
+        <OtpField
+          class="morphos-otp-field"
+          length={6}
+          name="otp"
+          inputMode="numeric"
+          pattern="[0-9]"
+          aria-label="One-time password"
+        />
+        <button type="submit">Verify</button>
+      </form>
+    )
+  }
+}
+```
+
+## Props — OtpField
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `length` | `number` | `6` | Number of individual input cells |
+| `value` | `string` | — | Controlled value (indexed per-cell; extra characters beyond `length` are ignored) |
+| `defaultValue` | `string` | — | Uncontrolled initial value |
+| `onValueChange` | `(value: string) => void` | — | Fires on every cell change with the combined value |
+| `onComplete` | `(value: string) => void` | — | Fires once all cells hold a non-empty value |
+| `disabled` | `boolean` | `false` | Disables all cell inputs |
+| `name` | `string` | — | A hidden `<input type="hidden">` with this name carries the combined value for form submission |
+| `pattern` | `string` | `"[0-9]"` | Regex pattern applied to each cell's `pattern` attribute |
+| `inputMode` | `"numeric" \| "text"` | `"numeric"` | Virtual keyboard hint for mobile browsers |
+| `class` | `string` | — | Additional CSS classes on the root element |
+| `id` | `string` | — | Base id — the group container gets `id`, and each cell gets `{id}-0`, `{id}-1`, etc. (falls back to an auto-generated base when omitted) |
+| `aria-label` | `string` | — | Accessible label for the group container |
+
+## `data-*` attributes
+
+| Attribute | Element | When present |
+|---|---|---|
+| `data-disabled` | Root | `disabled` is `true` |
+| `data-index` | Each input cell | Always — zero-based index of the cell |
+
+## Keyboard navigation
+
+| Key | Behavior |
+|---|---|
+| Any character | Fills the current cell with the last typed character and advances to the next cell |
+| `ArrowRight` | Move focus to the next cell |
+| `ArrowLeft` | Move focus to the previous cell |
+| `Backspace` | Clear the current cell; if already empty, move to the previous cell and clear it |
+| Paste | Distribute the pasted text across cells, starting at the focused cell, one character per cell |
+
+## Rendered structure
+
+```html
+<div role="group" aria-label="..." data-disabled?>
+  <input type="text" maxlength="1" data-index="0" inputmode="numeric" pattern="[0-9]" />
+  <input type="text" maxlength="1" data-index="1" inputmode="numeric" pattern="[0-9]" />
+  <!-- ... repeated `length` times -->
+  <input type="hidden" name="otp" value="..." /><!-- only when `name` is set -->
+</div>
+```
+
+## Accessibility
+
+The root element has `role="group"` and the `aria-label` provided as a prop. Each cell is a separate `<input type="text" maxlength="1">` with an auto-generated id and an `aria-label` like "Digit 1 of 6". `onComplete` fires as soon as every cell holds a non-empty value, allowing immediate action without requiring an explicit submit.
+
+<Callout type="warning">
+  Pasting distributes the clipboard text starting at the focused cell, one character per remaining cell, and characters beyond `length` are discarded. Cells before the paste start point and cells past the end of the pasted text are left untouched.
+</Callout>
+
+## Styling example
+
+```css
+.morphos-otp-field > input[data-index] {
+  width: 2.5rem;
+  height: 3rem;
+  text-align: center;
+}
+
+.morphos-otp-field > input[data-index]:focus-visible {
+  outline: none;
+  border-color: var(--morphos-color-accent);
+  box-shadow: var(--morphos-focus-ring);
+}
+
+.morphos-otp-field[data-disabled] > input[data-index] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```
