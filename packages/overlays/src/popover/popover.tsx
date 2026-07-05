@@ -145,10 +145,12 @@ export class PopoverContent extends StatefulComponent {
 
   onMount() {
     document.addEventListener("mousedown", this._handleOutsideClick);
+    document.addEventListener("keydown", this._handleKeyDown);
   }
 
   onUnmount() {
     document.removeEventListener("mousedown", this._handleOutsideClick);
+    document.removeEventListener("keydown", this._handleKeyDown);
   }
 
   render() {
@@ -173,7 +175,6 @@ export class PopoverContent extends StatefulComponent {
                   aria-labelledby={this["aria-labelledby"]}
                   class={this.class}
                   data-open=""
-                  onKeyDown={this._handleKeyDown}
                 >
                   {this.children}
                 </div>
