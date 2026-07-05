@@ -1,6 +1,6 @@
 {
   "name": "@morphos/styles",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Optional, unstyled-by-default CSS recipes for Morphos components. Import only what you need, one file per component.",
   "type": "module",
   "types": "./src/css.d.ts",
