@@ -40,7 +40,7 @@ class MyComponent extends StatefulComponent {
 }
 ```
 
-Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is hidden with CSS, and `ScrollAreaScrollbar`/`ScrollAreaThumb` render a decorative, ARIA-described overlay driven by the real scroll metrics.
+Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is hidden with CSS, and `ScrollAreaScrollbar`/`ScrollAreaThumb` render an ARIA-described overlay driven by the real scroll metrics. The overlay is also interactive: clicking the track jumps to that position, and the thumb can be dragged, both calling back into `ScrollArea` to scroll the viewport.
 
 ## Compound components
 
@@ -49,7 +49,7 @@ Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is h
 | `ScrollArea` | Root container — tracks scroll metrics and whether the content overflows |
 | `ScrollAreaViewport` | The actual scrollable element (`overflow: auto`) — reports scroll metrics to `ScrollArea` |
 | `ScrollAreaScrollbar` | The scrollbar track (`role="scrollbar"`) |
-| `ScrollAreaThumb` | The draggable-looking thumb, sized/positioned from real scroll metrics via CSS custom properties |
+| `ScrollAreaThumb` | The draggable thumb, sized/positioned from real scroll metrics via CSS custom properties |
 
 ## Props — ScrollArea
 
@@ -63,6 +63,7 @@ Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is h
 
 | Method | Description |
 |---|---|
+| `scrollTo(position: { top?: number; left?: number })` | Imperatively scrolls the viewport to the given position, clamped to the valid scroll range. Used internally by `ScrollAreaScrollbar` (track click) and `ScrollAreaThumb` (drag), but can be called directly too |
 | `_onScroll(el: HTMLElement)` | Internal — called by `ScrollAreaViewport` on mount and on every `scroll` event to update tracked metrics |
 
 ## Props — ScrollAreaViewport
@@ -83,6 +84,8 @@ Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is h
 | `children` | `Children` | — | Typically a `ScrollAreaThumb` |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+
+Clicking the track (outside the thumb) jumps the scroll position to wherever was clicked, matching native scrollbar track-click behavior.
 
 ## Props — ScrollAreaThumb
 

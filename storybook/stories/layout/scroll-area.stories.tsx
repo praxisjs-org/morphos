@@ -142,7 +142,7 @@ class LogViewerDemo extends StatefulComponent {
           </ScrollAreaScrollbar>
         </div>
         <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
-          type="always" — scrollbar always visible
+          type="always" — scrollbar always visible. Drag the thumb or click the track to jump.
         </p>
       </div>
     );
@@ -211,7 +211,7 @@ const meta: Meta<{ type: ScrollAreaType }> = {
     docs: {
       description: {
         component:
-          "Custom-styled scrollable containers with native scroll behavior. Hides the browser scrollbar and optionally replaces it with a styled track and thumb. Styled here with the `@morphos/styles` `morphos-scroll-area` recipe. `type=\"hover\"` fades the scrollbar out until the pointer enters the area — use the control below instead of hovering to see it toggle.",
+          "Custom-styled scrollable containers with native scroll behavior. Hides the browser scrollbar and optionally replaces it with a styled track and thumb. The thumb is draggable and clicking the track jumps the scroll position to that spot, same as a native scrollbar. Styled here with the `@morphos/styles` `morphos-scroll-area` recipe. `type=\"hover\"` fades the scrollbar out until the pointer enters the area — use the control below instead of hovering to see it toggle.",
       },
     },
   },
