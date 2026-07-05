@@ -8,41 +8,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@morphos/overlays";
 // Shared styles
 // ---------------------------------------------------------------------------
 
-const SHARED_STYLES = `
-  .icon-btn {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .demo-wrapper {
-    font-family: sans-serif;
-    padding: 40px;
-  }
-  .demo-row {
-    display: flex;
-    gap: 32px;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-  .demo-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .demo-label {
-    font-size: 0.6875rem;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-  }
-`;
-
 // ---------------------------------------------------------------------------
 // Default story — single button with configurable tooltip content
 // ---------------------------------------------------------------------------
@@ -57,11 +22,10 @@ class TooltipDefaultDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-row">
-          <div class="demo-col">
-            <span class="demo-label">Hover the button</span>
+      <div style="font-family:sans-serif;padding:40px">
+        <div style="display:flex;gap:32px;align-items:center;flex-wrap:wrap;margin-top:8px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Hover the button</span>
             <TooltipTrigger tooltip={this.tooltip}>
               <button class="morphos-button morphos-button--outline" type="button">Hover me</button>
             </TooltipTrigger>
@@ -95,43 +59,42 @@ class TooltipPositionsDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper" style="padding:80px 40px">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-row" style="justify-content:center">
-          <div class="demo-col">
-            <span class="demo-label">Top</span>
+      <div style="font-family:sans-serif;padding:80px 40px">
+        <div style="display:flex;gap:32px;align-items:center;flex-wrap:wrap;margin-top:8px;justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Top</span>
             <TooltipTrigger tooltip={this.ttTop}>
-              <button class="morphos-button morphos-button--outline icon-btn" type="button">↑</button>
+              <button class="morphos-button morphos-button--outline" style="width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center" type="button">↑</button>
             </TooltipTrigger>
             <TooltipContent tooltip={this.ttTop} class="morphos-tooltip-content">
               Tooltip above
             </TooltipContent>
           </div>
 
-          <div class="demo-col">
-            <span class="demo-label">Right</span>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Right</span>
             <TooltipTrigger tooltip={this.ttRight}>
-              <button class="morphos-button morphos-button--outline icon-btn" type="button">→</button>
+              <button class="morphos-button morphos-button--outline" style="width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center" type="button">→</button>
             </TooltipTrigger>
             <TooltipContent tooltip={this.ttRight} class="morphos-tooltip-content">
               Tooltip to the right
             </TooltipContent>
           </div>
 
-          <div class="demo-col">
-            <span class="demo-label">Bottom</span>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Bottom</span>
             <TooltipTrigger tooltip={this.ttBottom}>
-              <button class="morphos-button morphos-button--outline icon-btn" type="button">↓</button>
+              <button class="morphos-button morphos-button--outline" style="width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center" type="button">↓</button>
             </TooltipTrigger>
             <TooltipContent tooltip={this.ttBottom} class="morphos-tooltip-content">
               Tooltip below
             </TooltipContent>
           </div>
 
-          <div class="demo-col">
-            <span class="demo-label">Left</span>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Left</span>
             <TooltipTrigger tooltip={this.ttLeft}>
-              <button class="morphos-button morphos-button--outline icon-btn" type="button">←</button>
+              <button class="morphos-button morphos-button--outline" style="width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center" type="button">←</button>
             </TooltipTrigger>
             <TooltipContent tooltip={this.ttLeft} class="morphos-tooltip-content">
               Tooltip to the left
@@ -157,16 +120,15 @@ class TooltipDisabledDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <p style="color:#6b7280;font-size:0.875rem;margin:0 0 24px">
+      <div style="font-family:sans-serif;padding:40px">
+        <p style="color:var(--morphos-color-text-muted);font-size:0.875rem;margin:0 0 24px">
           A disabled button cannot receive pointer events. Wrap it in a{" "}
           <code>&lt;span&gt;</code> so the tooltip trigger can still handle
           hover events.
         </p>
-        <div class="demo-row">
-          <div class="demo-col">
-            <span class="demo-label">Disabled with tooltip</span>
+        <div style="display:flex;gap:32px;align-items:center;flex-wrap:wrap;margin-top:8px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Disabled with tooltip</span>
             <TooltipTrigger tooltip={this.tooltip}>
               {/* span wrapper so hover events work despite button being disabled */}
               <span style="display:inline-block;cursor:not-allowed">

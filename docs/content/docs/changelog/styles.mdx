@@ -3,6 +3,13 @@ title: "@morphos/styles"
 description: Changelog for @morphos/styles.
 ---
 
+## 0.2.0
+
+- Added a `--danger` variant to the `Button` recipe (`morphos-button--danger`), combinable with `--outline`.
+- Added `morphos-dropdown-item--danger` and `morphos-context-menu-item--danger` for destructive menu items.
+- Fixed `morphos-alert-dialog-action`, which previously defaulted to the danger color for every confirmation regardless of context; it now uses the accent color by default. Added `morphos-alert-dialog-action--danger` for destructive confirmations.
+- Added `morphos-dropdown-trigger` (pair with `morphos-button`) so `DropdownTrigger` lays out its label and chevron correctly (label left, chevron right) instead of leaving that to consumer CSS.
+
 ## 0.1.0
 
 Initial release.

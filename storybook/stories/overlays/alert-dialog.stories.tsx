@@ -13,42 +13,9 @@ import {
 } from "@morphos/overlays";
 
 // ---------------------------------------------------------------------------
-// Shared styles — layout/demo-only rules not covered by @morphos/styles.
 // AlertDialogContent renders its own (inert, non-dismissing) backdrop, styled
 // via the `[data-morphos-backdrop]` recipe in `@morphos/styles/overlays/alert-dialog.css`.
 // ---------------------------------------------------------------------------
-
-const SHARED_STYLES = `
-  .alert-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin-bottom: 14px;
-  }
-  .alert-icon-danger { background: #fef2f2; }
-  .btn-trigger-danger {
-    background: transparent;
-    border-color: #dc2626;
-    color: #dc2626;
-  }
-  .btn-trigger-danger:hover { background: #fef2f2; }
-  .result-note {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-  .result-confirmed { background: #fef2f2; color: #dc2626; }
-  .result-cancelled { background: #f0fdf4; color: #16a34a; }
-`;
 
 // ---------------------------------------------------------------------------
 // Default story — "Are you sure?" confirmation
@@ -67,13 +34,12 @@ class AlertDialogDefaultDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:40px">
-        <style>{SHARED_STYLES}</style>
         <AlertDialogTrigger alertDialog={this.alertDialog} class="morphos-button morphos-button--outline">
           Publish changes
         </AlertDialogTrigger>
 
         <AlertDialogContent alertDialog={this.alertDialog} class="morphos-alert-dialog-content" aria-labelledby="alert-default-title">
-          <div class="alert-icon" style="background:#eff6ff">📢</div>
+          <div style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;background:var(--morphos-color-info-bg)">📢</div>
           <AlertDialogTitle id="alert-default-title" class="morphos-alert-dialog-title">
             Publish these changes?
           </AlertDialogTitle>
@@ -100,7 +66,7 @@ class AlertDialogDefaultDemo extends StatefulComponent {
         </AlertDialogContent>
 
         {() => this.lastAction && (
-          <p class={`result-note ${this.lastAction === "published" ? "result-confirmed" : "result-cancelled"}`}>
+          <p style={`display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;border-radius:20px;font-size:0.8rem;font-weight:500;${this.lastAction === "published" ? "background:var(--morphos-color-danger-bg);color:var(--morphos-color-danger)" : "background:var(--morphos-color-success-bg);color:var(--morphos-color-success)"}`}>
             {this.lastAction === "published" ? "Changes published" : "Publishing cancelled"}
           </p>
         )}
@@ -126,13 +92,12 @@ class AlertDialogDestructiveDeleteDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:40px">
-        <style>{SHARED_STYLES}</style>
-        <AlertDialogTrigger alertDialog={this.alertDialog} class="morphos-button morphos-button--outline btn-trigger-danger">
+        <AlertDialogTrigger alertDialog={this.alertDialog} class="morphos-button morphos-button--outline morphos-button--danger">
           Delete account
         </AlertDialogTrigger>
 
         <AlertDialogContent alertDialog={this.alertDialog} class="morphos-alert-dialog-content" aria-labelledby="alert-delete-title">
-          <div class="alert-icon alert-icon-danger">🗑️</div>
+          <div style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;background:var(--morphos-color-danger-bg)">🗑️</div>
           <AlertDialogTitle id="alert-delete-title" class="morphos-alert-dialog-title">
             Delete your account?
           </AlertDialogTitle>
@@ -151,7 +116,7 @@ class AlertDialogDestructiveDeleteDemo extends StatefulComponent {
             </AlertDialogCancel>
             <AlertDialogAction
               alertDialog={this.alertDialog}
-              class="morphos-alert-dialog-action"
+              class="morphos-alert-dialog-action morphos-alert-dialog-action--danger"
               onClick={() => { this.lastAction = "deleted"; }}
             >
               Yes, delete permanently
@@ -160,7 +125,7 @@ class AlertDialogDestructiveDeleteDemo extends StatefulComponent {
         </AlertDialogContent>
 
         {() => this.lastAction && (
-          <p class={`result-note ${this.lastAction === "deleted" ? "result-confirmed" : "result-cancelled"}`}>
+          <p style={`display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;border-radius:20px;font-size:0.8rem;font-weight:500;${this.lastAction === "deleted" ? "background:var(--morphos-color-danger-bg);color:var(--morphos-color-danger)" : "background:var(--morphos-color-success-bg);color:var(--morphos-color-success)"}`}>
             {this.lastAction === "deleted" ? "Account deletion confirmed" : "Deletion cancelled — account is safe"}
           </p>
         )}

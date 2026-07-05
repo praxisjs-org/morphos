@@ -11,14 +11,6 @@ import {
   NavigationMenuTrigger,
 } from "@morphos/layout";
 
-const NAV_STYLE = `
-  .nav-root { background:#fff;border-bottom:1px solid #e5e7eb;padding:0 20px; }
-  .demo-label {
-    font-size:11px;color:#9ca3af;text-transform:uppercase;
-    letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif;
-  }
-`;
-
 // ---------- Default (site nav with submenus) ----------
 
 @Component()
@@ -36,9 +28,9 @@ class SiteNavDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{NAV_STYLE}</style>
-        <p class="demo-label">Click a trigger to open its submenu</p>
-        <NavigationMenu aria-label="Main navigation" class="morphos-navigation-menu nav-root">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif">Click a trigger to open its submenu</p>
+        <div style="background:var(--morphos-color-bg);border-bottom:1px solid var(--morphos-color-border);padding:0 20px">
+        <NavigationMenu aria-label="Main navigation" class="morphos-navigation-menu">
           <NavigationMenuList nav={this.nav} class="morphos-navigation-menu-list">
             <NavigationMenuItem nav={this.nav} value="products" class="morphos-navigation-menu-item">
               <NavigationMenuTrigger item={this.productsItem} class="morphos-navigation-menu-trigger">
@@ -80,11 +72,12 @@ class SiteNavDemo extends StatefulComponent {
               </NavigationMenuContent>
             </NavigationMenuItem>
 
-            <li><NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link nav-bare">Pricing</NavigationMenuLink></li>
-            <li><NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link nav-bare">About</NavigationMenuLink></li>
+            <li><NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link">Pricing</NavigationMenuLink></li>
+            <li><NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link">About</NavigationMenuLink></li>
           </NavigationMenuList>
         </NavigationMenu>
-        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        </div>
+        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           Click outside or press Escape to close the active submenu.
         </p>
       </div>
@@ -106,18 +99,19 @@ class FlatNavDemo extends StatefulComponent {
     const links = ["Home", "Features", "Pricing", "Blog", "About"];
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{NAV_STYLE}</style>
-        <p class="demo-label">Flat navigation — links only</p>
-        <NavigationMenu aria-label="Simple navigation" class="morphos-navigation-menu nav-root">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif">Flat navigation — links only</p>
+        <div style="background:var(--morphos-color-bg);border-bottom:1px solid var(--morphos-color-border);padding:0 20px">
+        <NavigationMenu aria-label="Simple navigation" class="morphos-navigation-menu">
           <NavigationMenuList nav={this.nav} class="morphos-navigation-menu-list">
             {links.map((label) => (
               <li key={label}>
-                <NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link nav-bare">{label}</NavigationMenuLink>
+                <NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link">{label}</NavigationMenuLink>
               </li>
             ))}
           </NavigationMenuList>
         </NavigationMenu>
-        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        </div>
+        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           NavigationMenuLink renders a semantic anchor with aria-current support.
         </p>
       </div>
@@ -142,21 +136,17 @@ class MultiSectionDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{NAV_STYLE + `
-          .nav-grid { display:grid;grid-template-columns:1fr 1fr;gap:4px;min-width:380px; }
-          .nav-section-title { font-size:.7rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;padding:4px 12px 6px; }
-          .nav-divider { height:1px;background:#f3f4f6;margin:4px 0; }
-        `}</style>
-        <p class="demo-label">Multi-section submenu with grid layout</p>
-        <NavigationMenu aria-label="Product navigation" class="morphos-navigation-menu nav-root">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif">Multi-section submenu with grid layout</p>
+        <div style="background:var(--morphos-color-bg);border-bottom:1px solid var(--morphos-color-border);padding:0 20px">
+        <NavigationMenu aria-label="Product navigation" class="morphos-navigation-menu">
           <NavigationMenuList nav={this.nav} class="morphos-navigation-menu-list">
             <NavigationMenuItem nav={this.nav} value="platform" class="morphos-navigation-menu-item">
               <NavigationMenuTrigger item={this.platformItem} class="morphos-navigation-menu-trigger">
                 Platform ▾
               </NavigationMenuTrigger>
               <NavigationMenuContent item={this.platformItem} class="morphos-navigation-menu-content">
-                <p class="nav-section-title">Core</p>
-                <div class="nav-grid">
+                <p style="font-size:.7rem;font-weight:600;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;padding:4px 12px 6px">Core</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;min-width:380px">
                   <NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link">
                     <strong>Dashboard</strong>
                     <span>Overview of your workspace</span>
@@ -190,7 +180,7 @@ class MultiSectionDemo extends StatefulComponent {
                   <strong>Careers</strong>
                   <span>Join the team</span>
                 </NavigationMenuLink>
-                <div class="nav-divider" />
+                <div style="height:1px;background:var(--morphos-color-border);margin:4px 0" />
                 <NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link">
                   <strong>Press</strong>
                   <span>News and media</span>
@@ -198,9 +188,10 @@ class MultiSectionDemo extends StatefulComponent {
               </NavigationMenuContent>
             </NavigationMenuItem>
 
-            <li><NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link nav-bare">Docs</NavigationMenuLink></li>
+            <li><NavigationMenuLink href="#" onClick={(e: MouseEvent) => { e.preventDefault(); }} class="morphos-navigation-menu-link">Docs</NavigationMenuLink></li>
           </NavigationMenuList>
         </NavigationMenu>
+        </div>
       </div>
     );
   }

@@ -4,28 +4,16 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "@morphos/overlays";
 
+// [data-open] is real component state, and PreviewCardTrigger only accepts
+// `class` (not `style`) — kept minimal; everything else below is inlined.
 const CARD_STYLE = `
   .preview-trigger {
     display:inline-flex;align-items:center;gap:5px;
-    color:#4f46e5;text-decoration:underline;text-decoration-style:dotted;
+    color:var(--morphos-color-accent);text-decoration:underline;text-decoration-style:dotted;
     text-underline-offset:3px;cursor:pointer;font-size:14px;
     background:none;border:none;padding:0;font-family:sans-serif;
   }
-  .preview-trigger[data-open] { color:#4338ca; }
-  .pv-hero {
-    width:100%;height:130px;display:flex;align-items:center;
-    justify-content:center;font-size:44px;
-  }
-  .pv-body { padding:14px; }
-  .pv-title { font-size:14px;font-weight:700;color:#111827;margin:0 0 4px; }
-  .pv-desc { font-size:12px;color:#6b7280;line-height:1.5;margin:0 0 10px; }
-  .pv-meta { display:flex;align-items:center;gap:8px; }
-  .pv-avatar { width:22px;height:22px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:12px; }
-  .pv-author { font-size:12px;color:#9ca3af; }
-  .pv-tag { margin-left:auto;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500; }
-  .pv-tag-green { background:#f0fdf4;color:#16a34a; }
-  .pv-tag-blue { background:#eff6ff;color:#2563eb; }
-  .demo-label { font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif; }
+  .preview-trigger[data-open] { color:var(--morphos-color-accent-hover); }
 `;
 
 // ---------- Default ----------
@@ -53,8 +41,8 @@ class DefaultPreviewCardDemo extends StatefulComponent {
     return (
       <div style="font-family:sans-serif;padding:32px">
         <style>{CARD_STYLE}</style>
-        <p class="demo-label">Hover over the trigger to see the preview</p>
-        <p style="font-size:15px;color:#374151;line-height:1.8;margin:0">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif">Hover over the trigger to see the preview</p>
+        <p style="font-size:15px;color:var(--morphos-color-text);line-height:1.8;margin:0">
           The{" "}
           <PreviewCardTrigger card={this.card} class="preview-trigger">
             Morphos component library
@@ -62,20 +50,20 @@ class DefaultPreviewCardDemo extends StatefulComponent {
           {" "}is a headless primitive set for PraxisJS.
         </p>
         <PreviewCardContent card={this.card} class="morphos-preview-card-content">
-          <div class="pv-hero" style="background:linear-gradient(135deg,#667eea,#764ba2)">📦</div>
-          <div class="pv-body">
-            <p class="pv-title">Morphos Component Library</p>
-            <p class="pv-desc">
+          <div style="width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#667eea,#764ba2)">📦</div>
+          <div style="padding:14px">
+            <p style="font-size:14px;font-weight:700;color:var(--morphos-color-text);margin:0 0 4px">Morphos Component Library</p>
+            <p style="font-size:12px;color:var(--morphos-color-text-muted);line-height:1.5;margin:0 0 10px">
               A headless, accessible component library for PraxisJS. Zero styles, full control.
             </p>
-            <div class="pv-meta">
-              <div class="pv-avatar">⭐</div>
-              <span class="pv-author">4.2k stars · MIT License</span>
-              <span class="pv-tag pv-tag-green">Open source</span>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--morphos-color-bg-hover);display:flex;align-items:center;justify-content:center;font-size:12px">⭐</div>
+              <span style="font-size:12px;color:var(--morphos-color-text-muted)">4.2k stars · MIT License</span>
+              <span style="margin-left:auto;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;background:var(--morphos-color-success-bg);color:var(--morphos-color-success)">Open source</span>
             </div>
           </div>
         </PreviewCardContent>
-        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           openDelay={String(this.openDelay ?? 300)}ms | closeDelay={String(this.closeDelay ?? 100)}ms
         </p>
       </div>
@@ -96,19 +84,9 @@ class UserProfilePreviewDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{CARD_STYLE + `
-          .up-card { display:flex;align-items:center;gap:12px;padding:16px; }
-          .up-avatar { width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex-shrink:0; }
-          .up-name { font-size:14px;font-weight:700;color:#111827; }
-          .up-handle { font-size:12px;color:#9ca3af; }
-          .up-stats { display:flex;gap:16px;padding:10px 16px 16px;border-top:1px solid #f3f4f6; }
-          .up-stat { display:flex;flex-direction:column;align-items:center; }
-          .up-stat-val { font-size:15px;font-weight:700;color:#111827; }
-          .up-stat-lbl { font-size:11px;color:#9ca3af; }
-          .up-bio { font-size:12px;color:#6b7280;line-height:1.5;padding:0 16px 14px; }
-        `}</style>
-        <p class="demo-label">Hover to reveal a user profile card</p>
-        <p style="font-size:15px;color:#374151;line-height:1.8;margin:0">
+        <style>{CARD_STYLE}</style>
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif">Hover to reveal a user profile card</p>
+        <p style="font-size:15px;color:var(--morphos-color-text);line-height:1.8;margin:0">
           Article written by{" "}
           <PreviewCardTrigger card={this.card} class="preview-trigger">
             Author Name
@@ -116,29 +94,29 @@ class UserProfilePreviewDemo extends StatefulComponent {
           , design engineer.
         </p>
         <PreviewCardContent card={this.card} class="morphos-preview-card-content">
-          <div class="up-card">
-            <div class="up-avatar">A</div>
+          <div style="display:flex;align-items:center;gap:12px;padding:16px">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex-shrink:0">A</div>
             <div>
-              <p class="up-name">Author Name</p>
-              <p class="up-handle">@author · Design Engineer</p>
+              <p style="font-size:14px;font-weight:700;color:var(--morphos-color-text)">Author Name</p>
+              <p style="font-size:12px;color:var(--morphos-color-text-muted)">@author · Design Engineer</p>
             </div>
           </div>
-          <p class="up-bio">
+          <p style="font-size:12px;color:var(--morphos-color-text-muted);line-height:1.5;padding:0 16px 14px">
             Building accessible UI systems. Open source contributor. Writes about design
             engineering and component architecture.
           </p>
-          <div class="up-stats">
-            <div class="up-stat">
-              <span class="up-stat-val">142</span>
-              <span class="up-stat-lbl">Articles</span>
+          <div style="display:flex;gap:16px;padding:10px 16px 16px;border-top:1px solid var(--morphos-color-border)">
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <span style="font-size:15px;font-weight:700;color:var(--morphos-color-text)">142</span>
+              <span style="font-size:11px;color:var(--morphos-color-text-muted)">Articles</span>
             </div>
-            <div class="up-stat">
-              <span class="up-stat-val">18.4k</span>
-              <span class="up-stat-lbl">Followers</span>
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <span style="font-size:15px;font-weight:700;color:var(--morphos-color-text)">18.4k</span>
+              <span style="font-size:11px;color:var(--morphos-color-text-muted)">Followers</span>
             </div>
-            <div class="up-stat">
-              <span class="up-stat-val">312</span>
-              <span class="up-stat-lbl">Following</span>
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <span style="font-size:15px;font-weight:700;color:var(--morphos-color-text)">312</span>
+              <span style="font-size:11px;color:var(--morphos-color-text-muted)">Following</span>
             </div>
           </div>
         </PreviewCardContent>
@@ -165,8 +143,8 @@ class MultipleCardsDemo extends StatefulComponent {
     return (
       <div style="font-family:sans-serif;padding:32px">
         <style>{CARD_STYLE}</style>
-        <p class="demo-label">Multiple independent hover previews in a paragraph</p>
-        <p style="font-size:15px;color:#374151;line-height:1.8;max-width:540px;margin:0">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px;font-family:sans-serif">Multiple independent hover previews in a paragraph</p>
+        <p style="font-size:15px;color:var(--morphos-color-text);line-height:1.8;max-width:540px;margin:0">
           This article was written by{" "}
           <PreviewCardTrigger card={this.card2} class="preview-trigger">Author Name</PreviewCardTrigger>
           {" "}and covers patterns introduced in the{" "}
@@ -177,44 +155,44 @@ class MultipleCardsDemo extends StatefulComponent {
         </p>
 
         <PreviewCardContent card={this.card1} class="morphos-preview-card-content">
-          <div class="pv-hero" style="background:linear-gradient(135deg,#667eea,#764ba2)">📦</div>
-          <div class="pv-body">
-            <p class="pv-title">Morphos Component Library</p>
-            <p class="pv-desc">A headless, accessible component library for PraxisJS. Zero styles, full control.</p>
-            <div class="pv-meta">
-              <div class="pv-avatar">⭐</div>
-              <span class="pv-author">4.2k stars · MIT License</span>
-              <span class="pv-tag pv-tag-green">Open source</span>
+          <div style="width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#667eea,#764ba2)">📦</div>
+          <div style="padding:14px">
+            <p style="font-size:14px;font-weight:700;color:var(--morphos-color-text);margin:0 0 4px">Morphos Component Library</p>
+            <p style="font-size:12px;color:var(--morphos-color-text-muted);line-height:1.5;margin:0 0 10px">A headless, accessible component library for PraxisJS. Zero styles, full control.</p>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--morphos-color-bg-hover);display:flex;align-items:center;justify-content:center;font-size:12px">⭐</div>
+              <span style="font-size:12px;color:var(--morphos-color-text-muted)">4.2k stars · MIT License</span>
+              <span style="margin-left:auto;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;background:var(--morphos-color-success-bg);color:var(--morphos-color-success)">Open source</span>
             </div>
           </div>
         </PreviewCardContent>
 
         <PreviewCardContent card={this.card2} class="morphos-preview-card-content">
-          <div class="pv-body" style="padding-top:16px">
-            <p class="pv-title" style="margin-bottom:6px">Author Name</p>
-            <p class="pv-desc">@author · Design Engineer. Building accessible UI systems and component architecture.</p>
-            <div class="pv-meta">
-              <div class="pv-avatar">A</div>
-              <span class="pv-author">18.4k followers</span>
-              <span class="pv-tag pv-tag-blue">Author</span>
+          <div style="padding:14px;padding-top:16px">
+            <p style="font-size:14px;font-weight:700;color:var(--morphos-color-text);margin:0 0 4px;margin-bottom:6px">Author Name</p>
+            <p style="font-size:12px;color:var(--morphos-color-text-muted);line-height:1.5;margin:0 0 10px">@author · Design Engineer. Building accessible UI systems and component architecture.</p>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--morphos-color-bg-hover);display:flex;align-items:center;justify-content:center;font-size:12px">A</div>
+              <span style="font-size:12px;color:var(--morphos-color-text-muted)">18.4k followers</span>
+              <span style="margin-left:auto;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;background:var(--morphos-color-info-bg);color:var(--morphos-color-info)">Author</span>
             </div>
           </div>
         </PreviewCardContent>
 
         <PreviewCardContent card={this.card3} class="morphos-preview-card-content">
-          <div class="pv-hero" style="background:linear-gradient(135deg,#f093fb,#f5576c)">🎨</div>
-          <div class="pv-body">
-            <p class="pv-title">Headless UI Patterns</p>
-            <p class="pv-desc">A curated collection of accessible, unstyled UI patterns for modern frameworks.</p>
-            <div class="pv-meta">
-              <div class="pv-avatar">🔗</div>
-              <span class="pv-author">github.com/headless-ui</span>
-              <span class="pv-tag pv-tag-green">New</span>
+          <div style="width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#f093fb,#f5576c)">🎨</div>
+          <div style="padding:14px">
+            <p style="font-size:14px;font-weight:700;color:var(--morphos-color-text);margin:0 0 4px">Headless UI Patterns</p>
+            <p style="font-size:12px;color:var(--morphos-color-text-muted);line-height:1.5;margin:0 0 10px">A curated collection of accessible, unstyled UI patterns for modern frameworks.</p>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--morphos-color-bg-hover);display:flex;align-items:center;justify-content:center;font-size:12px">🔗</div>
+              <span style="font-size:12px;color:var(--morphos-color-text-muted)">github.com/headless-ui</span>
+              <span style="margin-left:auto;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;background:var(--morphos-color-success-bg);color:var(--morphos-color-success)">New</span>
             </div>
           </div>
         </PreviewCardContent>
 
-        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           Each card has its own openDelay: 300ms, 600ms, 150ms respectively.
         </p>
       </div>

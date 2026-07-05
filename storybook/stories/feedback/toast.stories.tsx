@@ -5,20 +5,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 import { ToastProvider } from "@morphos/feedback";
 
 // ---------------------------------------------------------------------------
-// Shared style block — demo-only rules not covered by @morphos/styles.
-// The toast list itself uses the `morphos-toast-viewport` recipe, which
-// already styles direct `[role="status"]` children and their dismiss
-// button, so no toast-item/toast-dismiss classes are needed here.
-// ---------------------------------------------------------------------------
-
-const TOAST_STYLE = `
-  .toast-body { flex: 1; min-width: 0 }
-  .toast-title { font-weight: 600 }
-  .toast-desc  { font-size: .8em; opacity: .8; margin-top: 2px }
-  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px }
-`;
-
-// ---------------------------------------------------------------------------
 // Meta
 // ---------------------------------------------------------------------------
 
@@ -59,13 +45,11 @@ class DefaultDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;min-height:160px">
-        <style>{TOAST_STYLE}</style>
-
-        <h4 style="margin:0 0 12px;font-size:.875rem;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:.05em">
+        <h4 style="margin:0 0 12px;font-size:.875rem;color:var(--morphos-color-text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em">
           Trigger a toast
         </h4>
 
-        <div class="btn-group">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
           <button
             type="button"
             class="morphos-button morphos-button--outline"
@@ -131,7 +115,7 @@ class DefaultDemo extends StatefulComponent {
           </button>
         </div>
 
-        <p style="margin:0;font-size:.78rem;color:#9ca3af">
+        <p style="margin:0;font-size:.78rem;color:var(--morphos-color-text-muted)">
           Toasts auto-dismiss after 5 s. Check bottom-right of the viewport.
         </p>
 
@@ -149,10 +133,10 @@ class DefaultDemo extends StatefulComponent {
                 role="status"
                 data-variant={toast.variant ?? "info"}
               >
-                <div class="toast-body">
-                  <div class="toast-title">{toast.title}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:600">{toast.title}</div>
                   {toast.description && (
-                    <div class="toast-desc">{toast.description}</div>
+                    <div style="font-size:.8em;opacity:.8;margin-top:2px">{toast.description}</div>
                   )}
                 </div>
                 <button
@@ -192,16 +176,14 @@ class PersistentDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;min-height:160px">
-        <style>{TOAST_STYLE}</style>
-
-        <h4 style="margin:0 0 8px;font-size:.875rem;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:.05em">
+        <h4 style="margin:0 0 8px;font-size:.875rem;color:var(--morphos-color-text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em">
           Persistent toast (duration: 0)
         </h4>
-        <p style="margin:0 0 12px;font-size:.875rem;color:#374151">
+        <p style="margin:0 0 12px;font-size:.875rem;color:var(--morphos-color-text)">
           These toasts will not auto-dismiss. The user must press × to close them.
         </p>
 
-        <div class="btn-group">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
           <button
             type="button"
             class="morphos-button morphos-button--outline"
@@ -254,10 +236,10 @@ class PersistentDemo extends StatefulComponent {
                 role="status"
                 data-variant={toast.variant ?? "info"}
               >
-                <div class="toast-body">
-                  <div class="toast-title">{toast.title}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:600">{toast.title}</div>
                   {toast.description && (
-                    <div class="toast-desc">{toast.description}</div>
+                    <div style="font-size:.8em;opacity:.8;margin-top:2px">{toast.description}</div>
                   )}
                 </div>
                 <button

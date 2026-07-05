@@ -46,7 +46,7 @@ class DefaultSelectDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <label style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
           Country
         </label>
         <Select
@@ -56,7 +56,7 @@ class DefaultSelectDemo extends StatefulComponent {
           onValueChange={(val: string) => { this.selected = val; }}
           aria-label="Country selector"
         />
-        <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           selected: "{() => this.selected ?? "(none)"}"
         </p>
       </div>
@@ -73,7 +73,7 @@ export const Disabled: Story = {
   name: "Disabled",
   render: () => (
     <div style="font-family:sans-serif;padding:24px">
-      <label style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+      <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
         Country (disabled)
       </label>
       <Select
@@ -83,7 +83,7 @@ export const Disabled: Story = {
         disabled
         aria-label="Disabled country selector"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled="" — trigger and listbox non-interactive
       </p>
     </div>
@@ -94,7 +94,7 @@ export const WithDefault: Story = {
   name: "With Default Value",
   render: () => (
     <div style="font-family:sans-serif;padding:24px">
-      <label style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+      <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
         Country
       </label>
       <Select
@@ -104,7 +104,7 @@ export const WithDefault: Story = {
         placeholder="Select a country…"
         aria-label="Country with default"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         defaultValue="ca" — uncontrolled, pre-selected
       </p>
     </div>
@@ -122,7 +122,7 @@ class ControlledSelectDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <label style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
           Country (controlled)
         </label>
         <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
@@ -141,7 +141,7 @@ class ControlledSelectDemo extends StatefulComponent {
             Reset
           </button>
         </div>
-        <p style="margin:0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           value: "{() => this.value ?? "(none)"}"
         </p>
       </div>
@@ -165,7 +165,7 @@ class ClearableSelectDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <label style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
           Country (clearable)
         </label>
         <Select
@@ -178,7 +178,7 @@ class ClearableSelectDemo extends StatefulComponent {
           placeholder="Select a country…"
           aria-label="Clearable country selector"
         />
-        <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           value: "{() => this.value ?? "(none)"}"
         </p>
       </div>

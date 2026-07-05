@@ -12,41 +12,6 @@ import {
 } from "@morphos/overlays";
 
 // ---------------------------------------------------------------------------
-// Shared styles — layout/demo-only rules not covered by @morphos/styles
-// ---------------------------------------------------------------------------
-
-const SHARED_STYLES = `
-  .dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 4px;
-  }
-  .btn-danger {
-    background: #dc2626;
-    border-color: #dc2626;
-  }
-  .btn-danger:hover { background: #b91c1c; }
-  .btn-trigger-danger {
-    background: transparent;
-    border-color: #dc2626;
-    color: #dc2626;
-  }
-  .btn-trigger-danger:hover { background: #fef2f2; }
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 14px;
-  }
-  .form-field label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #374151;
-  }
-`;
-
-// ---------------------------------------------------------------------------
 // Default story — standard confirmation dialog
 // ---------------------------------------------------------------------------
 
@@ -61,7 +26,6 @@ class DialogDefaultDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:40px">
-        <style>{SHARED_STYLES}</style>
         <DialogTrigger dialog={this.dialog} class="morphos-button morphos-button--outline">
           Open dialog
         </DialogTrigger>
@@ -71,7 +35,7 @@ class DialogDefaultDemo extends StatefulComponent {
             Are you sure you want to proceed? This operation will save your changes
             and cannot be undone without manually reverting them.
           </DialogDescription>
-          <div class="dialog-actions">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
             <DialogClose dialog={this.dialog} class="morphos-button morphos-button--ghost">Cancel</DialogClose>
             <button type="button" class="morphos-button" onClick={() => { this.dialog.closeDialog(); }}>
               Confirm
@@ -98,8 +62,7 @@ class DialogDestructiveDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:40px">
-        <style>{SHARED_STYLES}</style>
-        <DialogTrigger dialog={this.dialog} class="morphos-button morphos-button--outline btn-trigger-danger">
+        <DialogTrigger dialog={this.dialog} class="morphos-button morphos-button--outline morphos-button--danger">
           Delete record
         </DialogTrigger>
         <DialogContent dialog={this.dialog} class="morphos-dialog-content" aria-labelledby="destr-title" aria-describedby="destr-desc">
@@ -109,9 +72,9 @@ class DialogDestructiveDemo extends StatefulComponent {
             deleted, it cannot be recovered. Please make sure you have a backup
             before continuing.
           </DialogDescription>
-          <div class="dialog-actions">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
             <DialogClose dialog={this.dialog} class="morphos-button morphos-button--ghost">Keep it</DialogClose>
-            <button type="button" class="morphos-button btn-danger" onClick={() => { this.dialog.closeDialog(); }}>
+            <button type="button" class="morphos-button morphos-button--danger" onClick={() => { this.dialog.closeDialog(); }}>
               Yes, delete
             </button>
           </div>
@@ -136,7 +99,6 @@ class DialogFormDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:40px">
-        <style>{SHARED_STYLES}</style>
         <DialogTrigger dialog={this.dialog} class="morphos-button morphos-button--outline">
           Edit profile
         </DialogTrigger>
@@ -145,15 +107,15 @@ class DialogFormDemo extends StatefulComponent {
           <DialogDescription id="form-desc" class="morphos-dialog-description">
             Update your display name and email address. Changes take effect immediately.
           </DialogDescription>
-          <div class="form-field">
-            <label for="dialog-name">Full name</label>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+            <label style="font-size:0.8rem;font-weight:600;color:var(--morphos-color-text)" for="dialog-name">Full name</label>
             <input id="dialog-name" type="text" class="morphos-input" placeholder="Full Name" />
           </div>
-          <div class="form-field">
-            <label for="dialog-email">Email address</label>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+            <label style="font-size:0.8rem;font-weight:600;color:var(--morphos-color-text)" for="dialog-email">Email address</label>
             <input id="dialog-email" type="email" class="morphos-input" placeholder="you@example.com" />
           </div>
-          <div class="dialog-actions">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
             <DialogClose dialog={this.dialog} class="morphos-button morphos-button--ghost">Cancel</DialogClose>
             <button type="button" class="morphos-button" onClick={() => { this.dialog.closeDialog(); }}>
               Save changes

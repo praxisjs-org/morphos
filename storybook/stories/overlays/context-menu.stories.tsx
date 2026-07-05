@@ -13,9 +13,13 @@ import {
 // Shared styles
 // ---------------------------------------------------------------------------
 
+// .ctx-zone[data-open]/:hover is tied to real component state, and
+// ContextMenuTrigger only accepts `class` (not `style`) — kept as a small
+// scoped stylesheet. The danger item variant now comes from
+// @morphos/styles' `morphos-context-menu-item--danger`.
 const SHARED_STYLES = `
   .ctx-zone {
-    border: 2px dashed #d1d5db;
+    border: 2px dashed var(--morphos-color-border);
     border-radius: 10px;
     padding: 48px 24px;
     text-align: center;
@@ -24,54 +28,12 @@ const SHARED_STYLES = `
     transition: border-color 0.15s, background 0.15s;
   }
   .ctx-zone:hover {
-    border-color: #a5b4fc;
-    background: #fafafe;
+    border-color: var(--morphos-color-accent);
+    background: var(--morphos-color-bg-hover);
   }
   .ctx-zone[data-open] {
-    border-color: #4f46e5;
-    background: #f5f3ff;
-  }
-  .ctx-zone-hint {
-    font-size: 0.875rem;
-    color: #9ca3af;
-    margin: 0;
-  }
-  .ctx-zone-hint strong { color: #6b7280; }
-  .ctx-item-danger { color: #dc2626; }
-  .ctx-item-danger:hover, .ctx-item-danger:focus { background: #fef2f2; }
-  .ctx-separator {
-    height: 1px;
-    background: #f3f4f6;
-    margin: 4px 0;
-  }
-  .demo-wrapper {
-    font-family: sans-serif;
-    padding: 40px;
-  }
-  .action-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    padding: 6px 14px;
-    background: #eef2ff;
-    color: #4f46e5;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  .zone-label {
-    font-size: 0.6875rem;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .zone-icon {
-    font-size: 36px;
-    display: block;
-    margin-bottom: 10px;
+    border-color: var(--morphos-color-accent);
+    background: var(--morphos-color-bg-hover);
   }
 `;
 
@@ -91,13 +53,13 @@ class ContextMenuDefaultDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
+      <div style="font-family:sans-serif;padding:40px">
         <style>{SHARED_STYLES}</style>
-        <p class="zone-label">Canvas area</p>
+        <p style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:6px">Canvas area</p>
         <ContextMenuTrigger contextMenu={this.menu} class="ctx-zone">
-          <span class="zone-icon">🖼️</span>
-          <p class="ctx-zone-hint">
-            <strong>Right-click</strong> anywhere in this zone
+          <span style="font-size:36px;display:block;margin-bottom:10px">🖼️</span>
+          <p style="font-size:0.875rem;color:var(--morphos-color-text-muted);margin:0">
+            <strong style="color:var(--morphos-color-text-muted)">Right-click</strong> anywhere in this zone
           </p>
         </ContextMenuTrigger>
 
@@ -114,15 +76,15 @@ class ContextMenuDefaultDemo extends StatefulComponent {
             onSelect={() => { this.lastAction = "paste"; }}>
             📌 Paste
           </ContextMenuItem>
-          <div class="ctx-separator" />
-          <ContextMenuItem contextMenu={this.menu} value="delete" class="morphos-context-menu-item ctx-item-danger"
+          <div style="height:1px;background:var(--morphos-color-border);margin:4px 0" />
+          <ContextMenuItem contextMenu={this.menu} value="delete" class="morphos-context-menu-item morphos-context-menu-item--danger"
             onSelect={() => { this.lastAction = "delete"; }}>
             🗑️ Delete
           </ContextMenuItem>
         </ContextMenuContent>
 
         {() => this.lastAction && (
-          <p class="action-pill">Last action: {this.lastAction}</p>
+          <p style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;background:var(--morphos-color-bg-hover);color:var(--morphos-color-accent);border-radius:20px;font-size:0.75rem;font-weight:500">Last action: {this.lastAction}</p>
         )}
       </div>
     );
@@ -145,33 +107,13 @@ class ContextMenuCustomTriggerDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}{`
-          .img-placeholder {
-            width: 280px;
-            height: 180px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: context-menu;
-            user-select: none;
-            font-size: 2.5rem;
-          }
-          .img-caption {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.8);
-            font-family: sans-serif;
-          }
-        `}</style>
-        <p class="zone-label">Image asset</p>
+      <div style="font-family:sans-serif;padding:40px">
+        <style>{SHARED_STYLES}</style>
+        <p style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:6px">Image asset</p>
         <ContextMenuTrigger contextMenu={this.menu}>
-          <div class="img-placeholder">
+          <div style="width:280px;height:180px;border-radius:10px;background:linear-gradient(135deg, #667eea, #764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:context-menu;user-select:none;font-size:2.5rem">
             🌄
-            <span class="img-caption">Right-click for options</span>
+            <span style="font-size:0.75rem;color:rgba(255,255,255,0.8);font-family:sans-serif">Right-click for options</span>
           </div>
         </ContextMenuTrigger>
 
@@ -188,19 +130,19 @@ class ContextMenuCustomTriggerDemo extends StatefulComponent {
             onSelect={() => { this.lastAction = "download"; }}>
             ⬇️ Download
           </ContextMenuItem>
-          <div class="ctx-separator" />
+          <div style="height:1px;background:var(--morphos-color-border);margin:4px 0" />
           <ContextMenuItem contextMenu={this.menu} value="replace" class="morphos-context-menu-item"
             onSelect={() => { this.lastAction = "replace image"; }}>
             🔄 Replace image
           </ContextMenuItem>
-          <ContextMenuItem contextMenu={this.menu} value="delete" class="morphos-context-menu-item ctx-item-danger"
+          <ContextMenuItem contextMenu={this.menu} value="delete" class="morphos-context-menu-item morphos-context-menu-item--danger"
             onSelect={() => { this.lastAction = "delete image"; }}>
             🗑️ Remove image
           </ContextMenuItem>
         </ContextMenuContent>
 
         {() => this.lastAction && (
-          <p class="action-pill">Last action: {this.lastAction}</p>
+          <p style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;background:var(--morphos-color-bg-hover);color:var(--morphos-color-accent);border-radius:20px;font-size:0.75rem;font-weight:500">Last action: {this.lastAction}</p>
         )}
       </div>
     );

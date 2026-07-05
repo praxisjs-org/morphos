@@ -1,0 +1,70 @@
+/**
+ * "Morphos" story theme — re-themes the @morphos/styles design tokens to match
+ * the docs site's visual identity (see docs/app/global.css `--color-fd-*`).
+ * Applied to <body> (toggled in preview.ts) when the Storybook toolbar's
+ * Style control is set to "morphos", so the page background matches the docs
+ * too; the "default" option leaves @morphos/styles' own tokens.css untouched.
+ */
+.morphos-theme-docs {
+  min-height: 100vh;
+  color-scheme: light;
+  --morphos-color-bg: hsl(38, 22%, 97%);
+  --morphos-color-bg-subtle: hsl(36, 16%, 93%);
+  --morphos-color-bg-hover: hsl(36, 14%, 87%);
+  --morphos-color-border: hsl(33, 16%, 82%);
+  --morphos-color-border-hover: hsl(32, 82%, 34%);
+  --morphos-color-text: hsl(24, 22%, 9%);
+  --morphos-color-text-muted: hsl(28, 10%, 46%);
+  --morphos-color-placeholder: hsl(28, 10%, 62%);
+
+  --morphos-color-accent: hsl(32, 82%, 34%);
+  --morphos-color-accent-hover: hsl(32, 82%, 28%);
+  --morphos-color-accent-text: hsl(38, 24%, 98%);
+
+  --morphos-radius-sm: 0.375rem;
+  --morphos-radius-md: 0.625rem;
+  --morphos-radius-lg: 0.875rem;
+
+  --morphos-shadow-sm: 0 1px 2px hsla(24, 22%, 9%, 0.05);
+  --morphos-shadow-md: 0 6px 16px hsla(24, 22%, 9%, 0.08);
+  --morphos-shadow-lg: 0 16px 40px hsla(24, 22%, 9%, 0.12);
+
+  --morphos-focus-ring: 0 0 0 2px var(--morphos-color-bg), 0 0 0 4px hsl(32, 82%, 34%);
+
+  background: var(--morphos-color-bg);
+  color: var(--morphos-color-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .morphos-theme-docs {
+    color-scheme: dark;
+    --morphos-color-bg: hsl(24, 8%, 6%);
+    --morphos-color-bg-subtle: hsl(24, 7%, 9%);
+    --morphos-color-bg-hover: hsl(24, 6%, 14%);
+    --morphos-color-border: hsl(24, 8%, 18%);
+    --morphos-color-border-hover: hsl(40, 88%, 56%);
+    --morphos-color-text: hsl(36, 14%, 88%);
+    --morphos-color-text-muted: hsl(30, 6%, 50%);
+    --morphos-color-placeholder: hsl(30, 6%, 38%);
+
+    --morphos-color-accent: hsl(40, 88%, 56%);
+    --morphos-color-accent-hover: hsl(40, 88%, 62%);
+    --morphos-color-accent-text: hsl(24, 20%, 7%);
+
+    /* Translucent tints over the dark page bg — keep the light `--morphos-color-text` legible. */
+    --morphos-color-danger: hsl(0, 91%, 71%);
+    --morphos-color-danger-bg: hsla(0, 91%, 60%, 0.14);
+    --morphos-color-success: hsl(142, 71%, 60%);
+    --morphos-color-success-bg: hsla(142, 71%, 45%, 0.14);
+    --morphos-color-warning: hsl(40, 88%, 56%);
+    --morphos-color-warning-bg: hsla(40, 88%, 56%, 0.14);
+    --morphos-color-info: hsl(217, 91%, 70%);
+    --morphos-color-info-bg: hsla(217, 91%, 60%, 0.14);
+
+    --morphos-shadow-sm: 0 1px 2px hsla(0, 0%, 0%, 0.3);
+    --morphos-shadow-md: 0 6px 16px hsla(0, 0%, 0%, 0.4);
+    --morphos-shadow-lg: 0 16px 40px hsla(0, 0%, 0%, 0.5);
+
+    --morphos-focus-ring: 0 0 0 2px var(--morphos-color-bg), 0 0 0 4px hsl(40, 84%, 52%);
+  }
+}

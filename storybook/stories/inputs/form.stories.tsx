@@ -4,17 +4,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { Form } from "@morphos/inputs";
 
-const FORM_STYLE = `
-  .frm-root { max-width:400px; font-family:sans-serif; }
-  .frm-field { margin-bottom:16px; }
-  .frm-field label { display:block; font-size:.8125rem; font-weight:500; color:#374151; margin-bottom:4px; }
-  .frm-field label span.frm-required { color:#ef4444; margin-left:2px; }
-  .frm-actions { display:flex; gap:8px; margin-top:20px; }
-  .frm-success { margin-top:12px; padding:10px 14px; background:#dcfce7; color:#166534; border-radius:6px; font-size:.8125rem; font-weight:500; }
-  .frm-status { margin-top:10px; font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:6px 10px; border-radius:4px; }
-  .frm-payload { font-size:.75rem; font-family:monospace; white-space:pre-wrap; color:#374151; margin:0; }
-`;
-
 const meta: Meta = {
   title: "Inputs/Form",
   tags: ["autodocs"],
@@ -64,18 +53,17 @@ class DefaultFormDemo extends StatefulComponent {
 
   render() {
     return (
-      <div style="font-family:sans-serif;padding:24px">
-        <style>{FORM_STYLE}</style>
-        <h3 style="margin:0 0 16px;font-size:1rem;color:#111827">Log in to your account</h3>
+      <div style="font-family:sans-serif;padding:24px;max-width:400px">
+        <h3 style="margin:0 0 16px;font-size:1rem;color:var(--morphos-color-text)">Log in to your account</h3>
         <Form
-          class="morphos-form frm-root"
+          class="morphos-form"
           onSubmit={(e: SubmitEvent) => { this.handleSubmit(e); }}
           onReset={() => { this.handleReset(); }}
           aria-label="Login form"
         >
-          <div class="frm-field">
-            <label for="frm-email">
-              Email address<span class="frm-required">*</span>
+          <div style="margin-bottom:16px">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:4px" for="frm-email">
+              Email address<span style="color:var(--morphos-color-danger);margin-left:2px">*</span>
             </label>
             <input
               class="morphos-input"
@@ -87,9 +75,9 @@ class DefaultFormDemo extends StatefulComponent {
               autoComplete="email"
             />
           </div>
-          <div class="frm-field">
-            <label for="frm-password">
-              Password<span class="frm-required">*</span>
+          <div style="margin-bottom:16px">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:4px" for="frm-password">
+              Password<span style="color:var(--morphos-color-danger);margin-left:2px">*</span>
             </label>
             <input
               class="morphos-input"
@@ -101,7 +89,7 @@ class DefaultFormDemo extends StatefulComponent {
               minLength={8}
             />
           </div>
-          <div class="frm-actions">
+          <div style="display:flex;gap:8px;margin-top:20px">
             <button type="submit" class="morphos-button">Sign in</button>
             <button type="reset" class="morphos-button morphos-button--outline">Clear</button>
           </div>
@@ -109,19 +97,19 @@ class DefaultFormDemo extends StatefulComponent {
 
         {() =>
           this.showSuccess && (
-            <div class="frm-success">Submitted — check the payload below.</div>
+            <div style="margin-top:12px;padding:10px 14px;background:var(--morphos-color-success-bg);color:var(--morphos-color-text);border-radius:6px;font-size:.8125rem;font-weight:500">Submitted — check the payload below.</div>
           )
         }
 
-        <div class="frm-status">
+        <div style="margin-top:10px;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:6px 10px;border-radius:4px">
           onSubmit: {() => this.submitCount}x | onReset: {() => this.resetCount}x
         </div>
 
         {() =>
           Object.keys(this.lastPayload).length > 0 && (
-            <div style="margin-top:8px;padding:10px;border:1px solid #e5e7eb;border-radius:6px;background:#fff">
-              <div style="font-size:.75rem;font-weight:600;color:#374151;margin-bottom:6px">Last payload:</div>
-              <pre class="frm-payload">{() => JSON.stringify(this.lastPayload, null, 2)}</pre>
+            <div style="margin-top:8px;padding:10px;border:1px solid var(--morphos-color-border);border-radius:6px;background:var(--morphos-color-bg-subtle)">
+              <div style="font-size:.75rem;font-weight:600;color:var(--morphos-color-text);margin-bottom:6px">Last payload:</div>
+              <pre style="font-size:.75rem;font-family:monospace;white-space:pre-wrap;color:var(--morphos-color-text);margin:0">{() => JSON.stringify(this.lastPayload, null, 2)}</pre>
             </div>
           )
         }
@@ -158,17 +146,16 @@ class WithValidationDemo extends StatefulComponent {
 
   render() {
     return (
-      <div style="font-family:sans-serif;padding:24px">
-        <style>{FORM_STYLE}</style>
-        <h3 style="margin:0 0 16px;font-size:1rem;color:#111827">Create account</h3>
+      <div style="font-family:sans-serif;padding:24px;max-width:400px">
+        <h3 style="margin:0 0 16px;font-size:1rem;color:var(--morphos-color-text)">Create account</h3>
         <Form
-          class="morphos-form frm-root"
+          class="morphos-form"
           onSubmit={(e: SubmitEvent) => { this.handleSubmit(e); }}
           aria-label="Registration form with HTML5 validation"
         >
-          <div class="frm-field">
-            <label for="reg-name">
-              Full name<span class="frm-required">*</span>
+          <div style="margin-bottom:16px">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:4px" for="reg-name">
+              Full name<span style="color:var(--morphos-color-danger);margin-left:2px">*</span>
             </label>
             <input
               class="morphos-input"
@@ -181,9 +168,9 @@ class WithValidationDemo extends StatefulComponent {
               autoComplete="name"
             />
           </div>
-          <div class="frm-field">
-            <label for="reg-email">
-              Email address<span class="frm-required">*</span>
+          <div style="margin-bottom:16px">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:4px" for="reg-email">
+              Email address<span style="color:var(--morphos-color-danger);margin-left:2px">*</span>
             </label>
             <input
               class="morphos-input"
@@ -195,8 +182,8 @@ class WithValidationDemo extends StatefulComponent {
               autoComplete="email"
             />
           </div>
-          <div class="frm-field">
-            <label for="reg-url">Website</label>
+          <div style="margin-bottom:16px">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:4px" for="reg-url">Website</label>
             <input
               class="morphos-input"
               type="url"
@@ -206,18 +193,18 @@ class WithValidationDemo extends StatefulComponent {
               autoComplete="url"
             />
           </div>
-          <div class="frm-actions">
+          <div style="display:flex;gap:8px;margin-top:20px">
             <button type="submit" class="morphos-button">Create account</button>
           </div>
         </Form>
 
         {() =>
           this.submitted && (
-            <div class="frm-success">Account created — HTML5 validation passed.</div>
+            <div style="margin-top:12px;padding:10px 14px;background:var(--morphos-color-success-bg);color:var(--morphos-color-text);border-radius:6px;font-size:.8125rem;font-weight:500">Account created — HTML5 validation passed.</div>
           )
         }
 
-        <div class="frm-status">
+        <div style="margin-top:10px;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:6px 10px;border-radius:4px">
           noValidate=false — browser constraint validation active (submit with empty fields to see)
         </div>
       </div>

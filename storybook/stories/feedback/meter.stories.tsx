@@ -4,12 +4,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { Meter } from "@morphos/feedback";
 
-const METER_STYLE = `
-  .meter-row   { margin-bottom: 18px; font-family: sans-serif }
-  .meter-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: .875rem; color: #374151 }
-  .meter-label small { color: #9ca3af }
-`;
-
 type Args = {
   value: number;
   min: number;
@@ -72,11 +66,10 @@ export const Default: Story = {
   },
   render: (args) => (
     <div style="font-family:sans-serif;max-width:400px;padding:24px">
-      <style>{METER_STYLE}</style>
-      <div class="meter-row">
-        <div class="meter-label">
+      <div style="margin-bottom:18px;font-family:sans-serif">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.875rem;color:var(--morphos-color-text)">
           <span>Measurement</span>
-          <small>{args.value} / {args.max}</small>
+          <small style="color:var(--morphos-color-text-muted)">{args.value} / {args.max}</small>
         </div>
         <Meter
           class="morphos-meter"
@@ -88,7 +81,7 @@ export const Default: Story = {
           aria-label="Measurement"
         />
       </div>
-      <p style="margin:0;font-size:.75rem;font-family:monospace;color:#9ca3af">
+      <p style="margin:0;font-size:.75rem;font-family:monospace;color:var(--morphos-color-text-muted)">
         data-low toggles below {args.low} · data-high toggles above {args.high}
       </p>
     </div>
@@ -110,12 +103,11 @@ class BatteryDemo extends StatefulComponent {
     ];
     return (
       <div style="font-family:sans-serif;max-width:400px;padding:24px">
-        <style>{METER_STYLE}</style>
-        {levels.map(({ value, label, sub }) => (
-          <div class="meter-row" key={label}>
-            <div class="meter-label">
+          {levels.map(({ value, label, sub }) => (
+          <div style="margin-bottom:18px;font-family:sans-serif" key={label}>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.875rem;color:var(--morphos-color-text)">
               <span>{label}</span>
-              <small>{sub}</small>
+              <small style="color:var(--morphos-color-text-muted)">{sub}</small>
             </div>
             <Meter
               class="morphos-meter"
@@ -128,7 +120,7 @@ class BatteryDemo extends StatefulComponent {
             />
           </div>
         ))}
-        <p style="margin:8px 0 0;font-size:.75rem;font-family:monospace;color:#9ca3af">
+        <p style="margin:8px 0 0;font-size:.75rem;font-family:monospace;color:var(--morphos-color-text-muted)">
           low={String(this.low)} high={String(this.high)} — adjust via controls
         </p>
       </div>
@@ -171,11 +163,10 @@ class DiskUsageDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;max-width:400px;padding:24px">
-        <style>{METER_STYLE}</style>
-        <div class="meter-row">
-          <div class="meter-label">
+          <div style="margin-bottom:18px;font-family:sans-serif">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.875rem;color:var(--morphos-color-text)">
             <span>Disk usage</span>
-            <small>{() => String(this.used)}% — {() => this.label}</small>
+            <small style="color:var(--morphos-color-text-muted)">{() => String(this.used)}% — {() => this.label}</small>
           </div>
           <Meter
             class="morphos-meter"
@@ -210,7 +201,7 @@ class DiskUsageDemo extends StatefulComponent {
             Reset
           </button>
         </div>
-        <div style="margin-top:16px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;font-size:.78rem;color:#0369a1">
+        <div style="margin-top:16px;padding:10px 14px;background:var(--morphos-color-info-bg);border:1px solid var(--morphos-color-info);border-radius:6px;font-size:.78rem;color:var(--morphos-color-text)">
           Cross the <code>low</code> ({() => String(this.low)}%) or <code>high</code> ({() => String(this.high)}%)
           thresholds to see the fill colour change. Adjust the thresholds via controls.
         </div>

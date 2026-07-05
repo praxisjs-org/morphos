@@ -35,7 +35,7 @@ export const Default: Story = {
       <Button disabled={args.disabled} class="morphos-button">
         {args.label}
       </Button>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled={args.disabled ? '""' : "undefined"}
       </p>
     </div>
@@ -49,7 +49,7 @@ export const AsLink: Story = {
       <Button as="a" href="#" class="morphos-button morphos-button--ghost">
         Link button
       </Button>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted)">
         Rendered as <code>&lt;a&gt;</code> via <code>as="a"</code>. Sets{" "}
         <code>aria-disabled</code> instead of the HTML <code>disabled</code>{" "}
         attribute.
@@ -65,7 +65,7 @@ export const Disabled: Story = {
       <Button disabled class="morphos-button">
         Disabled
       </Button>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled=""
       </p>
     </div>
@@ -83,7 +83,7 @@ class ClickCounterDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 12px;font-size:.875rem;color:#374151">
+        <p style="margin:0 0 12px;font-size:.875rem;color:var(--morphos-color-text)">
           Clicked <strong>{() => this.count}</strong>{" "}
           {() => (this.count === 1 ? "time" : "times")}
         </p>

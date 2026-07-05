@@ -24,12 +24,6 @@ const TECH_SUGGESTIONS = [
   { value: "Lit", label: "Lit" },
 ];
 
-const SHARED_STYLE = `
-  .ac-wrap { font-family:sans-serif; padding:24px; max-width:360px; }
-  .ac-label { display:block; font-size:.875rem; font-weight:500; color:#374151; margin-bottom:6px; }
-  .ac-status { font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:5px 10px; border-radius:4px; margin-top:8px; }
-`;
-
 const meta: Meta = {
   title: "Inputs/Autocomplete",
   tags: ["autodocs"],
@@ -56,9 +50,8 @@ class DefaultAutocompleteDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="ac-wrap">
-        <style>{SHARED_STYLE}</style>
-        <label class="ac-label" for="ac-default">
+      <div style="font-family:sans-serif;padding:24px;max-width:360px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="ac-default">
           Departure city
         </label>
         <Autocomplete
@@ -72,7 +65,7 @@ class DefaultAutocompleteDemo extends StatefulComponent {
           id="ac-default"
           aria-label="City search"
         />
-        <div class="ac-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           selected: "{() => this.selected ?? "(none)"}"
         </div>
       </div>
@@ -95,9 +88,8 @@ class CustomFilterDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="ac-wrap">
-        <style>{SHARED_STYLE}</style>
-        <label class="ac-label" for="ac-tech">
+      <div style="font-family:sans-serif;padding:24px;max-width:360px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="ac-tech">
           Framework (starts-with filter)
         </label>
         <Autocomplete
@@ -114,7 +106,7 @@ class CustomFilterDemo extends StatefulComponent {
           id="ac-tech"
           aria-label="Framework autocomplete"
         />
-        <div class="ac-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           filterFn: startsWith | selected: "{() => this.selected ?? "(none)"}"
         </div>
       </div>
@@ -130,9 +122,8 @@ export const CustomFilter: Story = {
 export const Disabled: Story = {
   name: "Disabled",
   render: () => (
-    <div class="ac-wrap">
-      <style>{SHARED_STYLE}</style>
-      <label class="ac-label" for="ac-disabled">
+    <div style="font-family:sans-serif;padding:24px;max-width:360px">
+      <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="ac-disabled">
         City (disabled)
       </label>
       <Autocomplete
@@ -144,7 +135,7 @@ export const Disabled: Story = {
         id="ac-disabled"
         aria-label="Disabled city search"
       />
-      <div class="ac-status">
+      <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
         data-disabled="" | defaultValue="Berlin"
       </div>
     </div>
@@ -154,9 +145,8 @@ export const Disabled: Story = {
 export const WithDefaultValue: Story = {
   name: "With Default Value",
   render: () => (
-    <div class="ac-wrap">
-      <style>{SHARED_STYLE}</style>
-      <label class="ac-label" for="ac-prefilled">
+    <div style="font-family:sans-serif;padding:24px;max-width:360px">
+      <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="ac-prefilled">
         City (pre-filled)
       </label>
       <Autocomplete
@@ -167,7 +157,7 @@ export const WithDefaultValue: Story = {
         id="ac-prefilled"
         aria-label="Pre-filled city search"
       />
-      <div class="ac-status">
+      <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
         defaultValue="Tokyo" | free-text editing allowed
       </div>
     </div>

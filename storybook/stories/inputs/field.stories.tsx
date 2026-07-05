@@ -4,11 +4,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { Field, FieldControl, FieldDescription, FieldError, FieldLabel } from "@morphos/inputs";
 
-const SHARED_STYLE = `
-  .fd-wrap { font-family:sans-serif; padding:24px; max-width:420px; }
-  .fd-status { font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:5px 10px; border-radius:4px; margin-top:8px; }
-`;
-
 const meta: Meta = {
   title: "Inputs/Field",
   tags: ["autodocs"],
@@ -50,8 +45,7 @@ class DefaultFieldDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="fd-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px;max-width:420px">
         <Field class="morphos-field" invalid={this.invalid} required={this.required} disabled={this.disabled}>
           <FieldLabel field={this.field} class="morphos-field-label">Email address</FieldLabel>
           <FieldControl class="morphos-field-control">
@@ -70,7 +64,7 @@ class DefaultFieldDemo extends StatefulComponent {
             Please enter a valid email address.
           </FieldError>
         </Field>
-        <div class="fd-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           invalid={String(this.invalid)} | required={String(this.required)} |
           disabled={String(this.disabled)}
         </div>
@@ -101,8 +95,7 @@ class WithErrorFieldDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="fd-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px;max-width:420px">
         <Field class="morphos-field" invalid={true} required={true}>
           <FieldLabel field={this.field} class="morphos-field-label">Username</FieldLabel>
           <FieldControl class="morphos-field-control">
@@ -122,7 +115,7 @@ class WithErrorFieldDemo extends StatefulComponent {
             &#9888; Username is too short (minimum 3 characters).
           </FieldError>
         </Field>
-        <div class="fd-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           invalid=true | FieldError renders because field.invalid is true
         </div>
       </div>
@@ -146,8 +139,7 @@ class RequiredFieldDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="fd-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px;max-width:420px">
         <Field class="morphos-field" required={true}>
           <FieldLabel field={this.field} class="morphos-field-label">Full name</FieldLabel>
           <FieldControl class="morphos-field-control">
@@ -163,7 +155,7 @@ class RequiredFieldDemo extends StatefulComponent {
             Your legal full name as it appears on ID.
           </FieldDescription>
         </Field>
-        <div class="fd-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           required=true | label gets "&#42;" via the morphos-field recipe's [data-required] selector
         </div>
       </div>

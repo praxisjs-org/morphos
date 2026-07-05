@@ -53,8 +53,8 @@ class TabsDefaultDemo extends StatefulComponent {
                   ["Keyboard", "Complete keyboard navigation"],
                 ].map(([label, value]) => (
                   <tr key={label} style="border-bottom:1px solid #f3f4f6">
-                    <td style="padding:8px 0;color:#6b7280;width:160px">{label}</td>
-                    <td style="padding:8px 0;color:#111827;font-weight:500">{value}</td>
+                    <td style="padding:8px 0;color:var(--morphos-color-text-muted);width:160px">{label}</td>
+                    <td style="padding:8px 0;color:var(--morphos-color-text);font-weight:500">{value}</td>
                   </tr>
                 ))}
               </tbody>
@@ -71,13 +71,13 @@ class TabsDefaultDemo extends StatefulComponent {
                   <strong style="font-size:13px">{r.author}</strong>
                   <span style="color:#f59e0b;font-size:12px">{"★".repeat(r.stars)}</span>
                 </div>
-                <p style="margin:0;font-size:13px;color:#4b5563">{r.text}</p>
+                <p style="margin:0;font-size:13px;color:var(--morphos-color-text-muted)">{r.text}</p>
               </div>
             ))}
           </TabPanel>
         </div>
 
-        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           defaultValue="{this.defaultValue}" &nbsp; selectedValue="{() => this.tabs.selectedValue ?? "none"}"
         </p>
       </div>
@@ -103,7 +103,7 @@ class TabsVerticalDemo extends StatefulComponent {
         content: (
           <div>
             <p style="margin:0 0 12px;font-weight:600;font-size:15px">Account details</p>
-            <p style="margin:0;font-size:13px;color:#4b5563">
+            <p style="margin:0;font-size:13px;color:var(--morphos-color-text-muted)">
               Manage your display name, email address, and login credentials.
             </p>
           </div>
@@ -115,7 +115,7 @@ class TabsVerticalDemo extends StatefulComponent {
         content: (
           <div>
             <p style="margin:0 0 12px;font-weight:600;font-size:15px">Privacy settings</p>
-            <p style="margin:0;font-size:13px;color:#4b5563">
+            <p style="margin:0;font-size:13px;color:var(--morphos-color-text-muted)">
               Control who can see your profile, activity, and contact information.
             </p>
           </div>
@@ -127,7 +127,7 @@ class TabsVerticalDemo extends StatefulComponent {
         content: (
           <div>
             <p style="margin:0 0 12px;font-weight:600;font-size:15px">Notification preferences</p>
-            <p style="margin:0;font-size:13px;color:#4b5563">
+            <p style="margin:0;font-size:13px;color:var(--morphos-color-text-muted)">
               Choose which events trigger email, push, or in-app notifications.
             </p>
           </div>
@@ -139,7 +139,7 @@ class TabsVerticalDemo extends StatefulComponent {
         content: (
           <div>
             <p style="margin:0 0 12px;font-weight:600;font-size:15px">Billing & subscription</p>
-            <p style="margin:0;font-size:13px;color:#4b5563">
+            <p style="margin:0;font-size:13px;color:var(--morphos-color-text-muted)">
               View invoices, update your payment method, or change your plan.
             </p>
           </div>
@@ -149,7 +149,7 @@ class TabsVerticalDemo extends StatefulComponent {
 
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <div class="morphos-tabs" style="max-width:640px;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;background:#fff" data-orientation="vertical">
+        <div class="morphos-tabs" style="max-width:640px;border:1px solid var(--morphos-color-border);border-radius:10px;overflow:hidden;background:var(--morphos-color-bg-subtle)" data-orientation="vertical">
           <TabList tabs={this.tabs} aria-label="Settings" class="morphos-tabs-list">
             {sections.map((s) => (
               <Tab key={s.value} tabs={this.tabs} value={s.value} class="morphos-tabs-tab">
@@ -165,7 +165,7 @@ class TabsVerticalDemo extends StatefulComponent {
           ))}
         </div>
 
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           orientation="vertical"
         </p>
       </div>
@@ -204,7 +204,7 @@ class TabsControlledDemo extends StatefulComponent {
 
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Controlled mode — parent owns the <code>value</code> prop. External buttons
           switch tabs independently of the tab list.
         </p>
@@ -234,14 +234,14 @@ class TabsControlledDemo extends StatefulComponent {
             Canvas and component properties would render here.
           </TabPanel>
           <TabPanel tabs={this.tabs} value="code" class="morphos-tabs-panel">
-            <code style="font-size:13px;color:#374151">{"<Button disabled={false}>Click me</Button>"}</code>
+            <code style="font-size:13px;color:var(--morphos-color-text)">{"<Button disabled={false}>Click me</Button>"}</code>
           </TabPanel>
           <TabPanel tabs={this.tabs} value="preview" class="morphos-tabs-panel">
             Rendered component preview would appear here.
           </TabPanel>
         </div>
 
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           value="{() => this.value}"&nbsp; changes={"{"}
           {() => String(this.changeCount)}
           {"}"}

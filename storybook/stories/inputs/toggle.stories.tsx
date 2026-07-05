@@ -40,7 +40,7 @@ export const Default: Story = {
       >
         Bookmark
       </Toggle>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         defaultPressed={String(args.defaultPressed)} | click to toggle
       </p>
     </div>
@@ -62,7 +62,7 @@ class WithIconDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:#374151">
+        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">
           Text formatting
         </p>
         <div style="display:flex;gap:4px;margin-bottom:16px">
@@ -94,7 +94,7 @@ class WithIconDemo extends StatefulComponent {
         <div
           style={() => {
             const styles = [
-              "padding:12px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:15px;min-height:40px;color:#111827",
+              "padding:12px 14px;border:1px solid var(--morphos-color-border);border-radius:6px;font-size:15px;min-height:40px;color:var(--morphos-color-text)",
               this.bold ? "font-weight:700" : "",
               this.italic ? "font-style:italic" : "",
               this.underline ? "text-decoration:underline" : "",
@@ -104,7 +104,7 @@ class WithIconDemo extends StatefulComponent {
         >
           The quick brown fox jumps over the lazy dog.
         </div>
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           bold:{() => String(this.bold)} italic:{() => String(this.italic)} underline:{() => String(this.underline)}
         </p>
       </div>
@@ -129,7 +129,7 @@ export const DisabledPressed: Story = {
           Archived
         </Toggle>
       </div>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled="" — both non-interactive; first is data-pressed=""
       </p>
     </div>

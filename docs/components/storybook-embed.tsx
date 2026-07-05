@@ -1,4 +1,10 @@
+'use client';
+
+import { useState } from 'react';
+
 const STORYBOOK_BASE = 'https://storybook.morphos.praxisjs.org';
+
+type EmbedStyle = 'default' | 'morphos';
 
 interface StorybookEmbedProps {
   /** Storybook story id, e.g. "inputs-button--default" (kebab-case title + "--" + kebab-case story name). */
@@ -10,7 +16,8 @@ interface StorybookEmbedProps {
 }
 
 export function StorybookEmbed({ story, title, height = 380 }: StorybookEmbedProps) {
-  const iframeSrc = `${STORYBOOK_BASE}/iframe.html?id=${story}&viewMode=story`;
+  const [style, setStyle] = useState<EmbedStyle>('morphos');
+  const iframeSrc = `${STORYBOOK_BASE}/iframe.html?id=${story}&viewMode=story&globals=style:${style}`;
   const linkHref = `${STORYBOOK_BASE}/?path=/story/${story}`;
 
   return (
@@ -18,6 +25,24 @@ export function StorybookEmbed({ story, title, height = 380 }: StorybookEmbedPro
       className="not-prose my-6 overflow-hidden rounded-xl border"
       style={{ borderColor: 'var(--color-fd-border)' }}
     >
+      <div
+        className="flex items-center justify-end gap-2 border-b px-3 py-1.5"
+        style={{ borderColor: 'var(--color-fd-border)' }}
+      >
+        <label htmlFor={`${story}-style`} className="text-xs font-medium text-fd-muted-foreground">
+          Style
+        </label>
+        <select
+          id={`${story}-style`}
+          value={style}
+          onChange={(e) => setStyle(e.target.value as EmbedStyle)}
+          className="rounded-md border bg-fd-background px-1.5 py-0.5 text-xs text-fd-foreground"
+          style={{ borderColor: 'var(--color-fd-border)' }}
+        >
+          <option value="morphos">Morphos</option>
+          <option value="default">Default</option>
+        </select>
+      </div>
       <iframe
         src={iframeSrc}
         title={title ?? `${story} — interactive example`}

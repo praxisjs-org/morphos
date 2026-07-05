@@ -11,32 +11,6 @@ import {
   MenubarTrigger,
 } from "@morphos/layout";
 
-const SHARED_STYLE = `
-  .mb-shortcut {
-    font-size: 11px;
-    color: #9ca3af;
-    font-family: monospace;
-  }
-  .status-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    padding: 8px 12px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    font-size: 12px;
-    color: #6b7280;
-    font-family: sans-serif;
-    min-height: 36px;
-  }
-  .status-action {
-    font-weight: 600;
-    color: #111827;
-  }
-`;
-
 // ---------- Default story ----------
 
 @Component()
@@ -62,8 +36,7 @@ class MenubarDefaultDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{SHARED_STYLE}</style>
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Click a menu label to open it. Opening a new menu automatically closes the previous one.
           Press Escape to close the active menu.
         </p>
@@ -75,11 +48,11 @@ class MenubarDefaultDemo extends StatefulComponent {
             <MenubarContent menu={this.fileMenu} class="morphos-menubar-content">
               <MenubarItem menu={this.fileMenu} label="New File" class="morphos-menubar-item" onSelect={() => { this.act("New File"); }}>
                 New File
-                <span class="mb-shortcut">Ctrl N</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl N</span>
               </MenubarItem>
               <MenubarItem menu={this.fileMenu} label="Open…" class="morphos-menubar-item" onSelect={() => { this.act("Open"); }}>
                 Open…
-                <span class="mb-shortcut">Ctrl O</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl O</span>
               </MenubarItem>
               <MenubarItem menu={this.fileMenu} label="Open Recent" class="morphos-menubar-item" onSelect={() => { this.act("Open Recent"); }}>
                 Open Recent
@@ -87,20 +60,20 @@ class MenubarDefaultDemo extends StatefulComponent {
               <MenubarSeparator class="morphos-menubar-separator" />
               <MenubarItem menu={this.fileMenu} label="Save" class="morphos-menubar-item" onSelect={() => { this.act("Save"); }}>
                 Save
-                <span class="mb-shortcut">Ctrl S</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl S</span>
               </MenubarItem>
               <MenubarItem menu={this.fileMenu} label="Save As…" class="morphos-menubar-item" onSelect={() => { this.act("Save As"); }}>
                 Save As…
-                <span class="mb-shortcut">Ctrl Shift S</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl Shift S</span>
               </MenubarItem>
               <MenubarSeparator class="morphos-menubar-separator" />
               <MenubarItem menu={this.fileMenu} label="Close" class="morphos-menubar-item" onSelect={() => { this.act("Close"); }}>
                 Close
-                <span class="mb-shortcut">Ctrl W</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl W</span>
               </MenubarItem>
               <MenubarItem menu={this.fileMenu} label="Quit" class="morphos-menubar-item" onSelect={() => { this.act("Quit"); }}>
                 Quit
-                <span class="mb-shortcut">Ctrl Q</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl Q</span>
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
@@ -111,29 +84,29 @@ class MenubarDefaultDemo extends StatefulComponent {
             <MenubarContent menu={this.editMenu} class="morphos-menubar-content">
               <MenubarItem menu={this.editMenu} label="Undo" class="morphos-menubar-item" onSelect={() => { this.act("Undo"); }}>
                 Undo
-                <span class="mb-shortcut">Ctrl Z</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl Z</span>
               </MenubarItem>
               <MenubarItem menu={this.editMenu} label="Redo" class="morphos-menubar-item" onSelect={() => { this.act("Redo"); }}>
                 Redo
-                <span class="mb-shortcut">Ctrl Shift Z</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl Shift Z</span>
               </MenubarItem>
               <MenubarSeparator class="morphos-menubar-separator" />
               <MenubarItem menu={this.editMenu} label="Cut" class="morphos-menubar-item" onSelect={() => { this.act("Cut"); }}>
                 Cut
-                <span class="mb-shortcut">Ctrl X</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl X</span>
               </MenubarItem>
               <MenubarItem menu={this.editMenu} label="Copy" class="morphos-menubar-item" onSelect={() => { this.act("Copy"); }}>
                 Copy
-                <span class="mb-shortcut">Ctrl C</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl C</span>
               </MenubarItem>
               <MenubarItem menu={this.editMenu} label="Paste" class="morphos-menubar-item" onSelect={() => { this.act("Paste"); }}>
                 Paste
-                <span class="mb-shortcut">Ctrl V</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl V</span>
               </MenubarItem>
               <MenubarSeparator class="morphos-menubar-separator" />
               <MenubarItem menu={this.editMenu} label="Find" class="morphos-menubar-item" disabled onSelect={() => { /* no-op */ }}>
                 Find
-                <span class="mb-shortcut">Ctrl F</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl F</span>
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
@@ -144,34 +117,34 @@ class MenubarDefaultDemo extends StatefulComponent {
             <MenubarContent menu={this.viewMenu} class="morphos-menubar-content">
               <MenubarItem menu={this.viewMenu} label="Zoom In" class="morphos-menubar-item" onSelect={() => { this.act("Zoom In"); }}>
                 Zoom In
-                <span class="mb-shortcut">Ctrl +</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl +</span>
               </MenubarItem>
               <MenubarItem menu={this.viewMenu} label="Zoom Out" class="morphos-menubar-item" onSelect={() => { this.act("Zoom Out"); }}>
                 Zoom Out
-                <span class="mb-shortcut">Ctrl -</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl -</span>
               </MenubarItem>
               <MenubarItem menu={this.viewMenu} label="Reset Zoom" class="morphos-menubar-item" onSelect={() => { this.act("Reset Zoom"); }}>
                 Reset Zoom
-                <span class="mb-shortcut">Ctrl 0</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">Ctrl 0</span>
               </MenubarItem>
               <MenubarSeparator class="morphos-menubar-separator" />
               <MenubarItem menu={this.viewMenu} label="Full Screen" class="morphos-menubar-item" onSelect={() => { this.act("Full Screen"); }}>
                 Full Screen
-                <span class="mb-shortcut">F11</span>
+                <span style="font-size:11px;color:var(--morphos-color-text-muted);font-family:monospace">F11</span>
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
 
-        <div class="status-bar">
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:8px 12px;background:var(--morphos-color-bg-subtle);border:1px solid var(--morphos-color-border);border-radius:6px;font-size:12px;color:var(--morphos-color-text-muted);font-family:sans-serif;min-height:36px">
           {() =>
             this.lastAction
-              ? <>Last action: <span class="status-action">{this.lastAction}</span></>
+              ? <>Last action: <span style="font-weight:600;color:var(--morphos-color-text)">{this.lastAction}</span></>
               : "Select a menu item to see the action here."
           }
         </div>
 
-        <div style="margin-top:14px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;font-size:12px;color:#0369a1;font-family:sans-serif">
+        <div style="margin-top:14px;padding:10px 14px;background:var(--morphos-color-info-bg);border:1px solid var(--morphos-color-info);border-radius:6px;font-size:12px;color:var(--morphos-color-text);font-family:sans-serif">
           <strong>Compound pattern:</strong> Each <code>MenubarMenu</code> receives the shared
           <code> Menubar</code> instance — opening one menu calls <code>menubar.open(value)</code>
           which automatically closes others.

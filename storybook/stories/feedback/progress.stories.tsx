@@ -48,7 +48,7 @@ export const Determinate: StoryObj<DeterminateArgs> = {
   },
   render: (args) => (
     <div style="font-family:sans-serif;max-width:360px">
-      <p style="margin:0 0 6px;font-size:.875rem;color:#374151">
+      <p style="margin:0 0 6px;font-size:.875rem;color:var(--morphos-color-text)">
         Upload progress: {args.value}%
       </p>
       <Progress class="morphos-progress" value={args.value} aria-label="Upload progress" />
@@ -65,9 +65,9 @@ class IndeterminateDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;max-width:360px">
-          <p style="margin:0 0 6px;font-size:.875rem;color:#374151">Connecting to server…</p>
+          <p style="margin:0 0 6px;font-size:.875rem;color:var(--morphos-color-text)">Connecting to server…</p>
         <Progress class="morphos-progress" aria-label="Connecting" />
-        <p style="margin:8px 0 0;font-size:.78rem;color:#9ca3af">
+        <p style="margin:8px 0 0;font-size:.78rem;color:var(--morphos-color-text-muted)">
           No <code>value</code> prop — <code>data-indeterminate</code> is set automatically.
         </p>
       </div>
@@ -106,11 +106,11 @@ class AnimatedDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;max-width:360px">
-          <p style="margin:0 0 6px;font-size:.875rem;color:#374151">
+          <p style="margin:0 0 6px;font-size:.875rem;color:var(--morphos-color-text)">
           Processing… {() => this.progress}%
         </p>
         <Progress class="morphos-progress" value={() => this.progress} aria-label="Processing" />
-        <p style="margin:8px 0 0;font-size:.78rem;color:#9ca3af">
+        <p style="margin:8px 0 0;font-size:.78rem;color:var(--morphos-color-text-muted)">
           Driven by <code>setInterval</code> in <code>onMount</code>. Cleared in <code>onUnmount</code>.
         </p>
       </div>
@@ -142,9 +142,9 @@ export const SpinnerStory: StoryObj<SpinnerArgs> = {
     <div style="font-family:sans-serif;padding:24px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
         <Spinner class="morphos-spinner" aria-label={args.label} />
-        <span style="font-size:.875rem;color:#6b7280">{args.label + "..."}</span>
+        <span style="font-size:.875rem;color:var(--morphos-color-text-muted)">{args.label + "..."}</span>
       </div>
-      <p style="margin:0;font-size:.78rem;color:#9ca3af">
+      <p style="margin:0;font-size:.78rem;color:var(--morphos-color-text-muted)">
         <code>{"aria-label=\"" + args.label + "\""}</code>
         {" · "}<code>role="status"</code>
         {" · "}<code>aria-busy="true"</code>

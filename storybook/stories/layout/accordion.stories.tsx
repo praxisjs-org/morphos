@@ -56,7 +56,7 @@ class AccordionSingleDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 20px">
           Single mode — only one item open at a time.
           {() => this.accordion.collapsible
             ? " Collapsible: clicking the active trigger closes it."
@@ -74,7 +74,7 @@ class AccordionSingleDemo extends StatefulComponent {
             </AccordionItem>
           ))}
         </div>
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           type="single" collapsible={"{"}
           {() => String(this.accordion.collapsible)}
           {"}"}
@@ -97,7 +97,7 @@ class AccordionMultipleDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 20px">
           Multiple mode — any number of items can be open simultaneously.
         </p>
         <div class="morphos-accordion" style="max-width:560px">
@@ -112,7 +112,7 @@ class AccordionMultipleDemo extends StatefulComponent {
             </AccordionItem>
           ))}
         </div>
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           type="multiple"
         </p>
       </div>
@@ -133,7 +133,7 @@ class AccordionDefaultOpenDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 20px">
           Starts with item 2 open via <code>defaultValue="q2"</code>. Uncontrolled — the
           accordion owns its state after mount.
         </p>
@@ -149,7 +149,7 @@ class AccordionDefaultOpenDemo extends StatefulComponent {
             </AccordionItem>
           ))}
         </div>
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           defaultValue="q2"
         </p>
       </div>

@@ -42,7 +42,7 @@ export const Default: Story = {
         class="morphos-input"
         aria-label="Default input"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled={args.disabled ? '""' : "undefined"} |
         data-invalid={args.invalid ? '""' : "undefined"}
       </p>
@@ -67,7 +67,7 @@ class WithValidationDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px;max-width:360px">
-        <label style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px" for="email-input">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="email-input">
           Email address
         </label>
         <Input
@@ -85,7 +85,7 @@ class WithValidationDemo extends StatefulComponent {
           this._isInvalid ? (
             <p id="email-error" style="margin:6px 0 0;font-size:.75rem;color:#ef4444">Please enter a valid email address.</p>
           ) : (
-            <p style="margin:6px 0 0;font-size:.75rem;color:#6b7280">We will never share your email.</p>
+            <p style="margin:6px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted)">We will never share your email.</p>
           )
         }
       </div>
@@ -102,7 +102,7 @@ export const Disabled: Story = {
   name: "Disabled",
   render: () => (
     <div style="font-family:sans-serif;padding:24px;max-width:360px">
-      <label for="input-disabled" style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+      <label for="input-disabled" style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
         Username
       </label>
       <Input
@@ -112,7 +112,7 @@ export const Disabled: Story = {
         class="morphos-input"
         aria-label="Disabled input"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled=""
       </p>
     </div>
@@ -123,7 +123,7 @@ export const Readonly: Story = {
   name: "Readonly",
   render: () => (
     <div style="font-family:sans-serif;padding:24px;max-width:360px">
-      <label for="input-readonly" style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:6px">
+      <label for="input-readonly" style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px">
         Account ID
       </label>
       <Input
@@ -133,7 +133,7 @@ export const Readonly: Story = {
         class="morphos-input"
         aria-label="Readonly account ID"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         readonly — value selectable but not editable
       </p>
     </div>

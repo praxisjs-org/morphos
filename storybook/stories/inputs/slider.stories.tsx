@@ -45,9 +45,9 @@ class DefaultSliderDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px;max-width:400px">
-        <div style="display:flex;justify-content:space-between;font-size:.875rem;color:#374151;margin-bottom:4px">
+        <div style="display:flex;justify-content:space-between;font-size:.875rem;color:var(--morphos-color-text);margin-bottom:4px">
           <span>Value</span>
-          <span style="font-weight:600;color:#6d5bbd;font-variant-numeric:tabular-nums;min-width:3ch;text-align:right">{() => this.value}</span>
+          <span style="font-weight:600;color:var(--morphos-color-accent);font-variant-numeric:tabular-nums;min-width:3ch;text-align:right">{() => this.value}</span>
         </div>
         <Slider
           class="morphos-slider"
@@ -58,7 +58,7 @@ class DefaultSliderDemo extends StatefulComponent {
           onValueChange={(val: number) => { this.value = val; }}
           aria-label="Slider"
         />
-        <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           min=0 max=100 step=1 | value: {() => this.value}
         </p>
       </div>
@@ -90,9 +90,9 @@ class SteppedSliderDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px;max-width:400px">
-        <div style="display:flex;justify-content:space-between;font-size:.875rem;color:#374151;margin-bottom:4px">
+        <div style="display:flex;justify-content:space-between;font-size:.875rem;color:var(--morphos-color-text);margin-bottom:4px">
           <span>Quality</span>
-          <span style="font-weight:600;color:#6d5bbd">{() => this._label}</span>
+          <span style="font-weight:600;color:var(--morphos-color-accent)">{() => this._label}</span>
         </div>
         <Slider
           class="morphos-slider"
@@ -103,12 +103,12 @@ class SteppedSliderDemo extends StatefulComponent {
           onValueChange={(val: number) => { this.value = val; }}
           aria-label="Quality level"
         />
-        <div style="display:flex;justify-content:space-between;font-size:.6875rem;color:#9ca3af;margin-top:4px">
+        <div style="display:flex;justify-content:space-between;font-size:.6875rem;color:var(--morphos-color-text-muted);margin-top:4px">
           <span>Low</span>
           <span>Med</span>
           <span>High</span>
         </div>
-        <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           step=25 | value: {() => this.value}
         </p>
       </div>
@@ -125,9 +125,9 @@ export const Disabled: Story = {
   name: "Disabled",
   render: () => (
     <div style="font-family:sans-serif;padding:24px;max-width:400px">
-      <div style="display:flex;justify-content:space-between;font-size:.875rem;color:#374151;margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between;font-size:.875rem;color:var(--morphos-color-text);margin-bottom:4px">
         <span>Volume</span>
-        <span style="font-weight:600;color:#9ca3af">40</span>
+        <span style="font-weight:600;color:var(--morphos-color-text-muted)">40</span>
       </div>
       <Slider
         class="morphos-slider"
@@ -137,7 +137,7 @@ export const Disabled: Story = {
         disabled
         aria-label="Disabled slider"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled="" — non-interactive
       </p>
     </div>
@@ -155,9 +155,9 @@ class RangeSliderDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px;max-width:400px">
-        <div style="display:flex;justify-content:space-between;font-size:.875rem;color:#374151;margin-bottom:4px">
+        <div style="display:flex;justify-content:space-between;font-size:.875rem;color:var(--morphos-color-text);margin-bottom:4px">
           <span>Temperature</span>
-          <span style="font-weight:600;color:#6d5bbd;font-variant-numeric:tabular-nums;min-width:4ch;text-align:right">{() => this.temp.toFixed(1)}°C</span>
+          <span style="font-weight:600;color:var(--morphos-color-accent);font-variant-numeric:tabular-nums;min-width:4ch;text-align:right">{() => this.temp.toFixed(1)}°C</span>
         </div>
         <Slider
           class="morphos-slider"
@@ -168,12 +168,12 @@ class RangeSliderDemo extends StatefulComponent {
           onValueChange={(val: number) => { this.temp = val; }}
           aria-label="Room temperature"
         />
-        <div style="display:flex;justify-content:space-between;font-size:.6875rem;color:#9ca3af;margin-top:4px">
+        <div style="display:flex;justify-content:space-between;font-size:.6875rem;color:var(--morphos-color-text-muted);margin-top:4px">
           <span>10°C</span>
           <span>20°C</span>
           <span>30°C</span>
         </div>
-        <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           min=10 max=30 step=0.5 | value: {() => this.temp.toFixed(1)}
         </p>
       </div>

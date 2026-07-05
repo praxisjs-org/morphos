@@ -39,9 +39,9 @@ export const Default: Story = {
           disabled={args.disabled}
           aria-label="Toggle feature"
         />
-        <span style="font-size:.875rem;color:#374151">Enable feature</span>
+        <span style="font-size:.875rem;color:var(--morphos-color-text)">Enable feature</span>
       </div>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-checked={args.defaultChecked ? '""' : "undefined"} (initial) |
         data-disabled={args.disabled ? '""' : "undefined"}
       </p>
@@ -55,9 +55,9 @@ export const Checked: Story = {
     <div style="font-family:sans-serif;padding:24px">
       <div style="display:flex;align-items:center;gap:12px">
         <Switch class="morphos-switch" defaultChecked={true} aria-label="Checked switch" />
-        <span style="font-size:.875rem;color:#374151">Notifications enabled</span>
+        <span style="font-size:.875rem;color:var(--morphos-color-text)">Notifications enabled</span>
       </div>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         defaultChecked=true — starts in on state
       </p>
     </div>
@@ -71,14 +71,14 @@ export const Disabled: Story = {
       <div style="display:flex;flex-direction:column;gap:14px">
         <div style="display:flex;align-items:center;gap:12px">
           <Switch class="morphos-switch" disabled defaultChecked={false} aria-label="Disabled off switch" />
-          <span style="font-size:.875rem;color:#9ca3af">Disabled (off)</span>
+          <span style="font-size:.875rem;color:var(--morphos-color-text-muted)">Disabled (off)</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <Switch class="morphos-switch" disabled defaultChecked={true} aria-label="Disabled on switch" />
-          <span style="font-size:.875rem;color:#9ca3af">Disabled (on)</span>
+          <span style="font-size:.875rem;color:var(--morphos-color-text-muted)">Disabled (on)</span>
         </div>
       </div>
-      <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled="" on both
       </p>
     </div>
@@ -103,7 +103,7 @@ class ControlledSwitchDemo extends StatefulComponent {
             onCheckedChange={(val: boolean) => { this.checked = val; }}
             aria-label="Controlled switch"
           />
-          <span style="font-size:.875rem;color:#374151">
+          <span style="font-size:.875rem;color:var(--morphos-color-text)">
             {() => this.checked ? "Dark mode on" : "Dark mode off"}
           </span>
         </div>
@@ -121,7 +121,7 @@ class ControlledSwitchDemo extends StatefulComponent {
             Force off
           </button>
         </div>
-        <p style="margin:12px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:12px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           checked: {() => String(this.checked)}
         </p>
       </div>

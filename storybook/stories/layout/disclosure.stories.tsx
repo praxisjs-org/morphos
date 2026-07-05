@@ -24,7 +24,7 @@ class DisclosureDefaultDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px;max-width:520px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Toggle additional details with an accessible button.
           Use the <strong>defaultOpen</strong> control to set the initial state.
         </p>
@@ -36,7 +36,7 @@ class DisclosureDefaultDemo extends StatefulComponent {
           You own the visual design completely — the library handles focus management,
           keyboard interactions, and ARIA attributes.
         </DisclosureContent>
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           defaultOpen={"{"}
           {() => String(this.disclosure.defaultOpen)}
           {"}"}&nbsp; isOpen={"{"}
@@ -61,7 +61,7 @@ class DisclosureOpenByDefaultDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px;max-width:520px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Starts expanded — useful for primary content that should be visible on load.
         </p>
         <DisclosureTrigger disclosure={this.disclosure} class="morphos-disclosure-trigger">
@@ -115,12 +115,11 @@ class DisclosureAsDetailsDemo extends StatefulComponent {
 
     return (
       <div style="font-family:sans-serif;padding:32px;max-width:560px">
-        <style>{`.details-list { display:flex;flex-direction:column;gap:8px }`}</style>
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Mimicking an HTML <code>&lt;details&gt;</code> / <code>&lt;summary&gt;</code> pattern
           with full ARIA semantics and keyboard support.
         </p>
-        <div class="details-list">
+        <div style="display:flex;flex-direction:column;gap:8px">
           {entries.map(({ d, term, def }) => (
             <div key={term}>
               <DisclosureTrigger disclosure={d} class="morphos-disclosure-trigger">
@@ -164,7 +163,7 @@ class DisclosureControlledDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px;max-width:520px">
-        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 20px">
           Controlled mode — parent owns the open state via the <code>open</code> prop
           and <code>onOpenChange</code> callback.
         </p>
@@ -199,7 +198,7 @@ class DisclosureControlledDemo extends StatefulComponent {
           decides whether to update its state.
         </DisclosureContent>
 
-        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:14px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           open={"{"}
           {() => String(this.open)}
           {"}"}&nbsp; changes={"{"}

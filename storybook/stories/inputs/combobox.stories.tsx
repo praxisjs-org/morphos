@@ -28,12 +28,6 @@ const OPTIONS_WITH_DISABLED = [
   { value: "lit", label: "Lit" },
 ];
 
-const SHARED_STYLE = `
-  .cmb-wrap { font-family:sans-serif; padding:24px; max-width:360px; }
-  .cmb-label { display:block; font-size:.875rem; font-weight:500; color:#374151; margin-bottom:6px; }
-  .cmb-status { font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:5px 10px; border-radius:4px; margin-top:8px; }
-`;
-
 const meta: Meta = {
   title: "Inputs/Combobox",
   tags: ["autodocs"],
@@ -60,9 +54,8 @@ class DefaultComboboxDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cmb-wrap">
-        <style>{SHARED_STYLE}</style>
-        <label class="cmb-label" for="cmb-country">
+      <div style="font-family:sans-serif;padding:24px;max-width:360px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="cmb-country">
           Country
         </label>
         <Combobox
@@ -76,7 +69,7 @@ class DefaultComboboxDemo extends StatefulComponent {
           name="country"
           aria-label="Select country"
         />
-        <div class="cmb-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           selected: "{() => this.selected ?? "(none)"}"
         </div>
       </div>
@@ -99,12 +92,11 @@ class WithDisabledOptionsDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cmb-wrap">
-        <style>{SHARED_STYLE}</style>
-        <label class="cmb-label" for="cmb-fw">
+      <div style="font-family:sans-serif;padding:24px;max-width:360px">
+        <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="cmb-fw">
           Framework
         </label>
-        <p style="margin:0 0 8px;font-size:.8125rem;color:#6b7280">
+        <p style="margin:0 0 8px;font-size:.8125rem;color:var(--morphos-color-text-muted)">
           Angular and Qwik are disabled options.
         </p>
         <Combobox
@@ -117,7 +109,7 @@ class WithDisabledOptionsDemo extends StatefulComponent {
           id="cmb-fw"
           aria-label="Select framework"
         />
-        <div class="cmb-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           selected: "{() => this.selected ?? "(none)"}" | some options
           data-disabled=""
         </div>
@@ -134,9 +126,8 @@ export const WithDisabledOptions: Story = {
 export const Disabled: Story = {
   name: "Disabled",
   render: () => (
-    <div class="cmb-wrap">
-      <style>{SHARED_STYLE}</style>
-      <label class="cmb-label" for="cmb-disabled">
+    <div style="font-family:sans-serif;padding:24px;max-width:360px">
+      <label style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:6px" for="cmb-disabled">
         Country (disabled)
       </label>
       <Combobox
@@ -148,7 +139,7 @@ export const Disabled: Story = {
         id="cmb-disabled"
         aria-label="Disabled country selector"
       />
-      <div class="cmb-status">
+      <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
         data-disabled="" | defaultValue="br" (Brazil)
       </div>
     </div>

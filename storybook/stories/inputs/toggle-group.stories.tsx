@@ -32,13 +32,13 @@ class SingleDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:#374151">Text alignment</p>
+        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">Text alignment</p>
         <ToggleGroup class="morphos-toggle-group" type="single" orientation="horizontal" aria-label="Text alignment">
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="left" aria-label="Align left">Left</ToggleGroupItem>
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="center" aria-label="Align center">Center</ToggleGroupItem>
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="right" aria-label="Align right">Right</ToggleGroupItem>
         </ToggleGroup>
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           type="single" | selected: "{() => String(this.group._value ?? "(none)")}"
         </p>
       </div>
@@ -63,7 +63,7 @@ class MultipleDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:#374151">Text formatting</p>
+        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">Text formatting</p>
         <ToggleGroup class="morphos-toggle-group" type="multiple" orientation="horizontal" aria-label="Text formatting">
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="bold" aria-label="Bold">
             <strong>B</strong>
@@ -78,7 +78,7 @@ class MultipleDemo extends StatefulComponent {
             <span style="text-decoration:line-through">S</span>
           </ToggleGroupItem>
         </ToggleGroup>
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           type="multiple" | active: [{() => Array.isArray(this.group._value) ? (this.group._value.join(", ") || "none") : "none"}]
         </p>
       </div>
@@ -103,13 +103,13 @@ class HorizontalDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:#374151">View mode</p>
+        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">View mode</p>
         <ToggleGroup class="morphos-toggle-group" type="single" orientation="horizontal" aria-label="View mode">
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="list" aria-label="List view">List</ToggleGroupItem>
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="grid" aria-label="Grid view">Grid</ToggleGroupItem>
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="kanban" aria-label="Kanban view">Kanban</ToggleGroupItem>
         </ToggleGroup>
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           data-orientation="horizontal" | view: "{() => String(this.group._value ?? "none")}"
         </p>
       </div>
@@ -134,13 +134,13 @@ class VerticalDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:#374151">Font size</p>
+        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">Font size</p>
         <ToggleGroup class="morphos-toggle-group" type="single" orientation="vertical" aria-label="Font size">
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="small">Small</ToggleGroupItem>
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="medium">Medium</ToggleGroupItem>
           <ToggleGroupItem class="morphos-toggle-group-item" group={this.group} value="large">Large</ToggleGroupItem>
         </ToggleGroup>
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           data-orientation="vertical" | selected: "{() => String(this.group._value ?? "none")}"
         </p>
       </div>
@@ -165,7 +165,7 @@ class DisabledGroupDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:#374151">
+        <p style="margin:0 0 10px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">
           Formatting (disabled)
         </p>
         <ToggleGroup class="morphos-toggle-group" type="multiple" disabled orientation="horizontal" aria-label="Disabled formatting">
@@ -175,7 +175,7 @@ class DisabledGroupDemo extends StatefulComponent {
             <span style="text-decoration:underline">U</span>
           </ToggleGroupItem>
         </ToggleGroup>
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           data-disabled="" on group — all items non-interactive
         </p>
       </div>

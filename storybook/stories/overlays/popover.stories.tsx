@@ -9,64 +9,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@morphos/overlays";
 // Shared styles
 // ---------------------------------------------------------------------------
 
-const SHARED_STYLES = `
-  .pop-heading {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 0 0 6px;
-  }
-  .pop-body {
-    font-size: 0.8125rem;
-    color: #6b7280;
-    line-height: 1.5;
-    margin: 0 0 12px;
-  }
-  .pop-check-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 0;
-    font-size: 0.8125rem;
-    color: #374151;
-    cursor: pointer;
-  }
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 10px;
-  }
-  .form-field label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #374151;
-  }
-  .demo-wrapper {
-    font-family: sans-serif;
-    padding: 40px;
-  }
-  .demo-row {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-top: 8px;
-  }
-  .demo-col {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .demo-label {
-    font-size: 0.6875rem;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-  }
-`;
-
 // ---------------------------------------------------------------------------
 // Default story — "More options" popover with settings checkboxes
 // ---------------------------------------------------------------------------
@@ -89,17 +31,16 @@ class PopoverDefaultDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-row">
-          <div class="demo-col">
-            <span class="demo-label">Options popover</span>
+      <div style="font-family:sans-serif;padding:40px">
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin-top:8px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Options popover</span>
             <PopoverTrigger popover={this.popover} class="morphos-button morphos-button--outline">
               More options ⋯
             </PopoverTrigger>
             <PopoverContent popover={this.popover} class="morphos-popover-content" aria-label="Display options">
-              <p class="pop-heading">Display options</p>
-              <div class="pop-check-row">
+              <p style="font-size:0.875rem;font-weight:700;color:var(--morphos-color-text);margin:0 0 6px">Display options</p>
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.8125rem;color:var(--morphos-color-text);cursor:pointer">
                 <Checkbox
                   id="opt-compact"
                   class="morphos-checkbox"
@@ -108,7 +49,7 @@ class PopoverDefaultDemo extends StatefulComponent {
                 />
                 <label for="opt-compact">Compact mode</label>
               </div>
-              <div class="pop-check-row">
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.8125rem;color:var(--morphos-color-text);cursor:pointer">
                 <Checkbox
                   id="opt-grid"
                   class="morphos-checkbox"
@@ -117,7 +58,7 @@ class PopoverDefaultDemo extends StatefulComponent {
                 />
                 <label for="opt-grid">Grid layout</label>
               </div>
-              <div class="pop-check-row">
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.8125rem;color:var(--morphos-color-text);cursor:pointer">
                 <Checkbox
                   id="opt-preview"
                   class="morphos-checkbox"
@@ -126,7 +67,7 @@ class PopoverDefaultDemo extends StatefulComponent {
                 />
                 <label for="opt-preview">Show previews</label>
               </div>
-              <div class="pop-check-row">
+              <div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.8125rem;color:var(--morphos-color-text);cursor:pointer">
                 <Checkbox
                   id="opt-badges"
                   class="morphos-checkbox"
@@ -162,22 +103,21 @@ class PopoverFormDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-row">
-          <div class="demo-col">
-            <span class="demo-label">Inline form</span>
+      <div style="font-family:sans-serif;padding:40px">
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin-top:8px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Inline form</span>
             <PopoverTrigger popover={this.popover} class="morphos-button morphos-button--outline">
               Edit details
             </PopoverTrigger>
             <PopoverContent popover={this.popover} class="morphos-popover-content" aria-label="Edit details">
-              <p class="pop-heading">Edit project</p>
-              <div class="form-field">
-                <label for="pop-name">Project name</label>
+              <p style="font-size:0.875rem;font-weight:700;color:var(--morphos-color-text);margin:0 0 6px">Edit project</p>
+              <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px">
+                <label style="font-size:0.75rem;font-weight:600;color:var(--morphos-color-text)" for="pop-name">Project name</label>
                 <Input id="pop-name" class="morphos-input" placeholder="My project" />
               </div>
-              <div class="form-field">
-                <label for="pop-tag">Tag</label>
+              <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px">
+                <label style="font-size:0.75rem;font-weight:600;color:var(--morphos-color-text)" for="pop-tag">Tag</label>
                 <Input id="pop-tag" class="morphos-input" placeholder="design, dev…" />
               </div>
               <div style="display:flex;gap:8px;margin-top:4px">
@@ -215,31 +155,30 @@ class PopoverPositionsDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper" style="padding-top:100px">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-row">
-          <div class="demo-col">
-            <span class="demo-label">Top</span>
+      <div style="font-family:sans-serif;padding:40px;padding-top:100px">
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin-top:8px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Top</span>
             <PopoverTrigger popover={this.popoverTop} class="morphos-button morphos-button--outline">
               Open above ↑
             </PopoverTrigger>
             <PopoverContent popover={this.popoverTop} class="morphos-popover-content" aria-label="Top popover">
-              <p class="pop-heading">Positioned above</p>
-              <p class="pop-body">This popover opens above its trigger using <code>side="top"</code>.</p>
+              <p style="font-size:0.875rem;font-weight:700;color:var(--morphos-color-text);margin:0 0 6px">Positioned above</p>
+              <p style="font-size:0.8125rem;color:var(--morphos-color-text-muted);line-height:1.5;margin:0 0 12px">This popover opens above its trigger using <code>side="top"</code>.</p>
               <Button class="morphos-button" onClick={() => { this.popoverTop.closePopover(); }}>
                 Close
               </Button>
             </PopoverContent>
           </div>
 
-          <div class="demo-col">
-            <span class="demo-label">Bottom (default)</span>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Bottom (default)</span>
             <PopoverTrigger popover={this.popoverBottom} class="morphos-button morphos-button--outline">
               Open below ↓
             </PopoverTrigger>
             <PopoverContent popover={this.popoverBottom} class="morphos-popover-content" aria-label="Bottom popover">
-              <p class="pop-heading">Positioned below</p>
-              <p class="pop-body">This popover opens below its trigger — the default <code>side="bottom"</code>.</p>
+              <p style="font-size:0.875rem;font-weight:700;color:var(--morphos-color-text);margin:0 0 6px">Positioned below</p>
+              <p style="font-size:0.8125rem;color:var(--morphos-color-text-muted);line-height:1.5;margin:0 0 12px">This popover opens below its trigger — the default <code>side="bottom"</code>.</p>
               <Button class="morphos-button" onClick={() => { this.popoverBottom.closePopover(); }}>
                 Close
               </Button>

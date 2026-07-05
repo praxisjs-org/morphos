@@ -36,7 +36,7 @@ export const Default: Story = {
   name: "Default",
   render: (args) => (
     <div style="font-family:sans-serif;padding:24px">
-      <label for="nf-default" style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:8px">
+      <label for="nf-default" style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:8px">
         Value (min {args.min} – max {args.max}, step {args.step})
       </label>
       <NumberField
@@ -63,7 +63,7 @@ class WithFormattingDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-          <label for="nf-price" style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:8px">
+          <label for="nf-price" style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:8px">
           Price (USD)
         </label>
         <NumberField
@@ -76,7 +76,7 @@ class WithFormattingDemo extends StatefulComponent {
           onValueChange={(val: number) => { this.price = val; }}
           aria-label="Price in USD"
         />
-        <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           raw value: {() => this.price} | formatOptions: currency/USD
         </p>
       </div>
@@ -93,7 +93,7 @@ export const Disabled: Story = {
   name: "Disabled",
   render: () => (
     <div style="font-family:sans-serif;padding:24px">
-      <label for="nf-quantity" style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:8px">
+      <label for="nf-quantity" style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:8px">
         Quantity (disabled)
       </label>
       <NumberField
@@ -103,7 +103,7 @@ export const Disabled: Story = {
         disabled
         aria-label="Disabled number field"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled="" — controls and input non-interactive
       </p>
     </div>
@@ -114,7 +114,7 @@ export const MinMax: Story = {
   name: "Min / Max Boundaries",
   render: () => (
     <div style="font-family:sans-serif;padding:24px">
-      <label for="nf-rating" style="display:block;font-size:.875rem;font-weight:500;color:#374151;margin-bottom:8px">
+      <label for="nf-rating" style="display:block;font-size:.875rem;font-weight:500;color:var(--morphos-color-text);margin-bottom:8px">
         Rating (1 – 10)
       </label>
       <NumberField
@@ -126,7 +126,7 @@ export const MinMax: Story = {
         step={1}
         aria-label="Rating 1 to 10"
       />
-      <p style="margin:8px 0 0;font-size:.75rem;color:#6b7280">
+      <p style="margin:8px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted)">
         Decrement disables at 1, increment disables at 10.
       </p>
     </div>

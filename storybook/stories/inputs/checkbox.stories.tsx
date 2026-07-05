@@ -4,13 +4,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { Checkbox } from "@morphos/inputs";
 
-const SHARED_STYLE = `
-  .cb-wrap { font-family:sans-serif; padding:24px; }
-  .cb-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-  .cb-label { font-size:.875rem; color:#374151; cursor:pointer; }
-  .cb-status { font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:5px 10px; border-radius:4px; margin-top:6px; }
-`;
-
 const meta: Meta = {
   title: "Inputs/Checkbox",
   tags: ["autodocs"],
@@ -47,9 +40,8 @@ class DefaultCheckboxDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cb-wrap">
-        <style>{SHARED_STYLE}</style>
-        <div class="cb-row">
+      <div style="font-family:sans-serif;padding:24px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
           <Checkbox
             id="cb-default"
             class="morphos-checkbox"
@@ -59,11 +51,11 @@ class DefaultCheckboxDemo extends StatefulComponent {
               this.isChecked = val;
             }}
           />
-          <label class="cb-label" for="cb-default">
+          <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer" for="cb-default">
             Accept terms and conditions
           </label>
         </div>
-        <div class="cb-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:6px">
           data-checked={`"${String(this.isChecked)}"`} | data-disabled=
           {`"${String(this.disabled)}"`}
         </div>
@@ -114,9 +106,8 @@ class IndeterminateDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cb-wrap">
-        <style>{SHARED_STYLE}</style>
-        <div class="cb-row">
+      <div style="font-family:sans-serif;padding:24px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
           <Checkbox
             id="cb-select-all"
             class="morphos-checkbox"
@@ -125,12 +116,12 @@ class IndeterminateDemo extends StatefulComponent {
             onCheckedChange={(val: boolean) => { this._toggleAll(val); }}
             aria-label="Select all fruits"
           />
-          <label class="cb-label" for="cb-select-all">
+          <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer" for="cb-select-all">
             <strong>Select all</strong>
           </label>
         </div>
         <div style="margin-left:26px">
-          <div class="cb-row">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
             <Checkbox
               id="cb-child-a"
               class="morphos-checkbox"
@@ -138,9 +129,9 @@ class IndeterminateDemo extends StatefulComponent {
               onCheckedChange={(val: boolean) => { this.a = val; }}
               aria-label="Apple"
             />
-            <label class="cb-label" for="cb-child-a">Apple</label>
+            <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer" for="cb-child-a">Apple</label>
           </div>
-          <div class="cb-row">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
             <Checkbox
               id="cb-child-b"
               class="morphos-checkbox"
@@ -148,9 +139,9 @@ class IndeterminateDemo extends StatefulComponent {
               onCheckedChange={(val: boolean) => { this.b = val; }}
               aria-label="Banana"
             />
-            <label class="cb-label" for="cb-child-b">Banana</label>
+            <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer" for="cb-child-b">Banana</label>
           </div>
-          <div class="cb-row">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
             <Checkbox
               id="cb-child-c"
               class="morphos-checkbox"
@@ -158,10 +149,10 @@ class IndeterminateDemo extends StatefulComponent {
               onCheckedChange={(val: boolean) => { this.c = val; }}
               aria-label="Cherry"
             />
-            <label class="cb-label" for="cb-child-c">Cherry</label>
+            <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer" for="cb-child-c">Cherry</label>
           </div>
         </div>
-        <div class="cb-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:6px">
           Checking/unchecking a child recomputes the parent's{" "}
           <code>indeterminate</code> prop — pass it as a function
           (<code>{"indeterminate={() => ...}"}</code>) so the reactive update
@@ -182,20 +173,19 @@ export const Indeterminate: Story = {
 export const Disabled: Story = {
   name: "Disabled",
   render: () => (
-    <div class="cb-wrap">
-      <style>{SHARED_STYLE}</style>
-      <div class="cb-row">
+    <div style="font-family:sans-serif;padding:24px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <Checkbox
           id="cb-dis-unchecked"
           class="morphos-checkbox"
           disabled
           aria-label="Disabled unchecked"
         />
-        <label class="cb-label" for="cb-dis-unchecked" style="opacity:0.5">
+        <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer;opacity:0.5" for="cb-dis-unchecked">
           Disabled (unchecked)
         </label>
       </div>
-      <div class="cb-row">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <Checkbox
           id="cb-dis-checked"
           class="morphos-checkbox"
@@ -203,11 +193,11 @@ export const Disabled: Story = {
           defaultChecked={true}
           aria-label="Disabled checked"
         />
-        <label class="cb-label" for="cb-dis-checked" style="opacity:0.5">
+        <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer;opacity:0.5" for="cb-dis-checked">
           Disabled (checked)
         </label>
       </div>
-      <div class="cb-status">data-disabled="" | pointer-events: none</div>
+      <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:6px">data-disabled="" | pointer-events: none</div>
     </div>
   ),
 };
@@ -222,13 +212,12 @@ class ControlledCheckboxDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cb-wrap">
-        <style>{SHARED_STYLE}</style>
-        <p style="margin:0 0 12px;font-size:.875rem;color:#374151">
+      <div style="font-family:sans-serif;padding:24px">
+        <p style="margin:0 0 12px;font-size:.875rem;color:var(--morphos-color-text)">
           External state:{" "}
           <strong>{() => (this.externalChecked ? "checked" : "unchecked")}</strong>
         </p>
-        <div class="cb-row">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
           <Checkbox
             id="cb-controlled"
             class="morphos-checkbox"
@@ -238,7 +227,7 @@ class ControlledCheckboxDemo extends StatefulComponent {
             }}
             aria-label="Controlled checkbox"
           />
-          <label class="cb-label" for="cb-controlled">
+          <label style="font-size:.875rem;color:var(--morphos-color-text);cursor:pointer" for="cb-controlled">
             Controlled checkbox
           </label>
         </div>
@@ -260,7 +249,7 @@ class ControlledCheckboxDemo extends StatefulComponent {
             Uncheck
           </button>
         </div>
-        <div class="cb-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:6px">
           checked={`{${String(this.externalChecked)}}`} — controlled via prop
         </div>
       </div>

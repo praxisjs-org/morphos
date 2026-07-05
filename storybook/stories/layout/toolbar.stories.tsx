@@ -4,18 +4,13 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { Toolbar, ToolbarButton, ToolbarSeparator } from "@morphos/layout";
 
+// .active highlights the pressed formatting/tool button — tied to real
+// component state (this.activeFormats/this.activeTool), so it stays as a
+// small scoped rule rather than an inline style ToolbarButton can't accept.
 const SHARED_STYLE = `
-  .toolbar-btn.active {
-    background: #ede9fe;
-    color: var(--accent, #6d5bbd);
-  }
-  .demo-label {
-    font-size: 11px;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 12px;
-    font-family: sans-serif;
+  .morphos-toolbar-button.active {
+    background: var(--morphos-color-bg-hover);
+    color: var(--morphos-color-accent);
   }
 `;
 
@@ -59,8 +54,8 @@ class ToolbarDefaultDemo extends StatefulComponent {
     return (
       <div style="font-family:sans-serif;padding:32px">
         <style>{SHARED_STYLE}</style>
-        <p class="demo-label">Rich text formatting toolbar</p>
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:sans-serif">Rich text formatting toolbar</p>
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Arrow keys navigate between buttons. Tab exits the toolbar.
         </p>
 
@@ -125,8 +120,8 @@ class ToolbarDefaultDemo extends StatefulComponent {
         {/* Live preview */}
         <div
           style={() => [
-            "margin-top:14px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:8px;",
-            "background:#fff;font-size:14px;color:#374151;max-width:520px;line-height:1.7;",
+            "margin-top:14px;padding:14px 16px;border:1px solid var(--morphos-color-border);border-radius:8px;",
+            "background:var(--morphos-color-bg-subtle);font-size:14px;color:var(--morphos-color-text);max-width:520px;line-height:1.7;",
             `font-weight:${this.activeFormats.has("bold") ? "700" : "400"};`,
             `font-style:${this.activeFormats.has("italic") ? "italic" : "normal"};`,
             `text-decoration:${[
@@ -178,8 +173,8 @@ class ToolbarVerticalDemo extends StatefulComponent {
     return (
       <div style="font-family:sans-serif;padding:32px">
         <style>{SHARED_STYLE}</style>
-        <p class="demo-label">Vertical action sidebar</p>
-        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:sans-serif">Vertical action sidebar</p>
+        <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 16px">
           Up / Down arrows navigate between buttons. The toolbar orientation prop is
           passed to the instance.
         </p>
@@ -219,14 +214,14 @@ class ToolbarVerticalDemo extends StatefulComponent {
           </div>
 
           <div>
-            <p style="font-size:13px;color:#6b7280;margin:0 0 8px">Active tool:</p>
-            <span style="font-size:14px;font-weight:600;color:#111827">
+            <p style="font-size:13px;color:var(--morphos-color-text-muted);margin:0 0 8px">Active tool:</p>
+            <span style="font-size:14px;font-weight:600;color:var(--morphos-color-text)">
               {() => this.activeTool}
             </span>
           </div>
         </div>
 
-        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:16px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           orientation="{this.orientation}"
         </p>
       </div>

@@ -11,17 +11,6 @@ import {
 
 type ScrollAreaType = "hover" | "always" | "auto" | "scroll" | "hidden";
 
-const SHARED_STYLE = `
-  .demo-label {
-    font-size: 11px;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-    font-family: sans-serif;
-  }
-`;
-
 const CONTACTS = [
   { name: "Contact A", role: "Designer", color: "#8b5cf6", initials: "CA" },
   { name: "Contact B", role: "Engineer", color: "#3b82f6", initials: "CB" },
@@ -70,34 +59,8 @@ class ContactListDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{`
-          ${SHARED_STYLE}
-          .list-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.12s;
-          }
-          .list-item:hover { background: #f9fafb }
-          .avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            color: #fff;
-            flex-shrink: 0;
-          }
-          .list-name { font-size: 13px; font-weight: 500; color: #111827 }
-          .list-role { font-size: 11px; color: #9ca3af }
-        `}</style>
-        <p class="demo-label">type="{this.type}" — contact list (12 entries)</p>
+        <style>{`.list-item:hover { background: var(--morphos-color-bg-hover) }`}</style>
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;font-family:sans-serif">type="{this.type}" — contact list (12 entries)</p>
         <div
           class="morphos-scroll-area"
           style="width:280px;height:240px"
@@ -106,13 +69,13 @@ class ContactListDemo extends StatefulComponent {
           <ScrollAreaViewport scrollArea={this.scrollArea} class="morphos-scroll-area-viewport">
             <div style="padding:8px;box-sizing:border-box">
               {CONTACTS.map((person) => (
-                <div class="list-item" key={person.name}>
-                  <div class="avatar" style={`background:${person.color}`}>
+                <div class="list-item" style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;cursor:pointer;transition:background 0.12s" key={person.name}>
+                  <div style={`width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;background:${person.color}`}>
                     {person.initials}
                   </div>
                   <div>
-                    <div class="list-name">{person.name}</div>
-                    <div class="list-role">{person.role}</div>
+                    <div style="font-size:13px;font-weight:500;color:var(--morphos-color-text)">{person.name}</div>
+                    <div style="font-size:11px;color:var(--morphos-color-text-muted)">{person.role}</div>
                   </div>
                 </div>
               ))}
@@ -122,7 +85,7 @@ class ContactListDemo extends StatefulComponent {
             <ScrollAreaThumb scrollArea={this.scrollArea} class="morphos-scroll-area-thumb" />
           </ScrollAreaScrollbar>
         </div>
-        <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           {this.type === "hover"
             ? 'type="hover" — hover the list to reveal the scrollbar'
             : this.type === "hidden"
@@ -146,40 +109,28 @@ class LogViewerDemo extends StatefulComponent {
 
   render() {
     const levelColor: Record<string, string> = {
-      info: "#3b82f6",
-      success: "#16a34a",
-      warn: "#d97706",
-      error: "#dc2626",
+      info: "var(--morphos-color-info)",
+      success: "var(--morphos-color-success)",
+      warn: "var(--morphos-color-warning)",
+      error: "var(--morphos-color-danger)",
     };
     const levelBg: Record<string, string> = {
-      info: "#eff6ff",
-      success: "#f0fdf4",
-      warn: "#fffbeb",
-      error: "#fef2f2",
+      info: "var(--morphos-color-info-bg)",
+      success: "var(--morphos-color-success-bg)",
+      warn: "var(--morphos-color-warning-bg)",
+      error: "var(--morphos-color-danger-bg)",
     };
 
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{`
-          ${SHARED_STYLE}
-          .log-entry {
-            font-size: 12px;
-            font-family: monospace;
-            padding: 4px 8px;
-            border-radius: 4px;
-            margin-bottom: 2px;
-            line-height: 1.5;
-          }
-        `}</style>
-        <p class="demo-label">type="always" — activity log</p>
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;font-family:sans-serif">type="always" — activity log</p>
         <div class="morphos-scroll-area" style="width:480px;height:220px" data-type="always">
           <ScrollAreaViewport scrollArea={this.scrollArea} class="morphos-scroll-area-viewport">
             <div style="padding:8px;box-sizing:border-box">
               {LOG_ENTRIES.map((entry, i) => (
                 <div
                   key={i}
-                  class="log-entry"
-                  style={`color:${levelColor[entry.level] ?? "#374151"};background:${levelBg[entry.level] ?? "#f9fafb"}`}
+                  style={`font-size:12px;font-family:monospace;padding:4px 8px;border-radius:4px;margin-bottom:2px;line-height:1.5;color:${levelColor[entry.level] ?? "var(--morphos-color-text)"};background:${levelBg[entry.level] ?? "var(--morphos-color-bg-subtle)"}`}
                 >
                   {entry.msg}
                 </div>
@@ -190,7 +141,7 @@ class LogViewerDemo extends StatefulComponent {
             <ScrollAreaThumb scrollArea={this.scrollArea} class="morphos-scroll-area-thumb" />
           </ScrollAreaScrollbar>
         </div>
-        <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           type="always" — scrollbar always visible
         </p>
       </div>
@@ -225,49 +176,16 @@ class HorizontalScrollDemo extends StatefulComponent {
 
     return (
       <div style="font-family:sans-serif;padding:32px">
-        <style>{`
-          ${SHARED_STYLE}
-          .card-strip {
-            display: flex;
-            gap: 12px;
-            width: max-content;
-          }
-          .card-chip {
-            width: 130px;
-            flex-shrink: 0;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 14px;
-            background: #fff;
-            cursor: pointer;
-            transition: border-color 0.15s, box-shadow 0.15s;
-          }
-          .card-chip:hover {
-            border-color: #c4b5fd;
-            box-shadow: 0 2px 8px rgba(109,91,189,0.1);
-          }
-          .card-icon {
-            font-size: 11px;
-            font-weight: 700;
-            color: #6d5bbd;
-            background: #ede9fe;
-            border-radius: 4px;
-            padding: 3px 6px;
-            display: inline-block;
-            margin-bottom: 10px;
-          }
-          .card-title { font-size: 13px; font-weight: 600; color: #111827 }
-          .card-sub { font-size: 11px; color: #9ca3af; margin-top: 2px }
-        `}</style>
-        <p class="demo-label">Horizontal card row — type="{this.type}"</p>
+        <style>{`.card-chip:hover { border-color: var(--morphos-color-accent); box-shadow: var(--morphos-shadow-md) }`}</style>
+        <p style="font-size:11px;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;font-family:sans-serif">Horizontal card row — type="{this.type}"</p>
         <div class="morphos-scroll-area" style="width:480px" data-type={this.type}>
           <ScrollAreaViewport scrollArea={this.scrollArea} class="morphos-scroll-area-viewport">
-            <div style="padding:16px 16px 24px;box-sizing:border-box" class="card-strip">
+            <div style="padding:16px 16px 24px;box-sizing:border-box;display:flex;gap:12px;width:max-content">
               {cards.map((card) => (
-                <div class="card-chip" key={card.title}>
-                  <div class="card-icon">{card.icon}</div>
-                  <div class="card-title">{card.title}</div>
-                  <div class="card-sub">{card.sub}</div>
+                <div class="card-chip" style="width:130px;flex-shrink:0;border:1px solid var(--morphos-color-border);border-radius:8px;padding:14px;background:var(--morphos-color-bg-subtle);cursor:pointer;transition:border-color 0.15s, box-shadow 0.15s" key={card.title}>
+                  <div style="font-size:11px;font-weight:700;color:var(--morphos-color-accent);background:var(--morphos-color-bg-hover);border-radius:4px;padding:3px 6px;display:inline-block;margin-bottom:10px">{card.icon}</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--morphos-color-text)">{card.title}</div>
+                  <div style="font-size:11px;color:var(--morphos-color-text-muted);margin-top:2px">{card.sub}</div>
                 </div>
               ))}
             </div>
@@ -276,7 +194,7 @@ class HorizontalScrollDemo extends StatefulComponent {
             <ScrollAreaThumb scrollArea={this.scrollArea} orientation="horizontal" class="morphos-scroll-area-thumb" />
           </ScrollAreaScrollbar>
         </div>
-        <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:#9ca3af">
+        <p style="margin:12px 0 0;font-size:12px;font-family:monospace;color:var(--morphos-color-text-muted)">
           orientation="horizontal" type="{this.type}"
         </p>
       </div>

@@ -4,11 +4,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { CheckboxGroup, CheckboxGroupItem, Fieldset } from "@morphos/inputs";
 
-const SHARED_STYLE = `
-  .fs-wrap { font-family:sans-serif; padding:24px; max-width:420px; }
-  .fs-status { font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:5px 10px; border-radius:4px; margin-top:8px; }
-`;
-
 const meta: Meta = {
   title: "Inputs/Fieldset",
   tags: ["autodocs"],
@@ -44,8 +39,7 @@ class DefaultFieldsetDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="fs-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px;max-width:420px">
         <Fieldset class="morphos-fieldset" legend="Notification channels">
           <CheckboxGroup
             class="morphos-checkbox-group"
@@ -70,7 +64,7 @@ class DefaultFieldsetDemo extends StatefulComponent {
             </CheckboxGroupItem>
           </CheckboxGroup>
         </Fieldset>
-        <div class="fs-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           selected: [{() => this.group._value.join(", ")}]
         </div>
       </div>
@@ -102,8 +96,7 @@ class DisabledFieldsetDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="fs-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px;max-width:420px">
         <Fieldset class="morphos-fieldset" disabled legend="Locked settings">
           <CheckboxGroup
             class="morphos-checkbox-group"
@@ -123,7 +116,7 @@ class DisabledFieldsetDemo extends StatefulComponent {
             </CheckboxGroupItem>
           </CheckboxGroup>
         </Fieldset>
-        <div class="fs-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:8px">
           disabled prop on fieldset | data-disabled="" | all controls non-interactive
         </div>
       </div>

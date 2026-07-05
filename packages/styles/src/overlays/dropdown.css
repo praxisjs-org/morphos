@@ -1,9 +1,11 @@
 /**
  * Recipe for @morphos/overlays `Dropdown` (also exported as `Menu`).
  * Apply `class="morphos-dropdown-menu"` to `DropdownMenu` and
- * `class="morphos-dropdown-item"` to each `DropdownItem`.
+ * `class="morphos-dropdown-item"` to each `DropdownItem` (add
+ * `morphos-dropdown-item--danger` for a destructive item).
  * `DropdownTrigger` is a plain button — pair it with the `morphos-button`
- * recipe if you want one.
+ * recipe, plus `morphos-dropdown-trigger` for the label-left/chevron-right
+ * layout and open/close indicator below.
  */
 .morphos-dropdown-menu {
   /* Portaled to document.body, so it can't inherit the page's font — set it explicitly. */
@@ -43,6 +45,34 @@
 .morphos-dropdown-item[data-disabled] {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.morphos-dropdown-item--danger {
+  color: var(--morphos-color-danger);
+}
+
+.morphos-dropdown-item--danger:hover,
+.morphos-dropdown-item--danger:focus-visible {
+  background: var(--morphos-color-danger-bg);
+}
+
+.morphos-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--morphos-space-2);
+  width: 100%;
+}
+
+.morphos-dropdown-trigger::after {
+  content: "▾";
+  flex-shrink: 0;
+  font-size: 0.7em;
+  transition: transform var(--morphos-transition-fast);
+}
+
+.morphos-dropdown-trigger[data-open]::after {
+  transform: rotate(180deg);
 }
 
 @keyframes morphos-fade-in {

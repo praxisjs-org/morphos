@@ -1,7 +1,8 @@
 /**
  * Recipe for @morphos/overlays `ContextMenu`.
  * Apply `class="morphos-context-menu-content"` to `ContextMenuContent` and
- * `class="morphos-context-menu-item"` to each `ContextMenuItem`.
+ * `class="morphos-context-menu-item"` to each `ContextMenuItem` (add
+ * `morphos-context-menu-item--danger` for a destructive item).
  * Positioning (`top`/`left`) is set inline by the component itself — this
  * recipe only styles appearance.
  */
@@ -43,6 +44,15 @@
 .morphos-context-menu-item[data-disabled] {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.morphos-context-menu-item--danger {
+  color: var(--morphos-color-danger);
+}
+
+.morphos-context-menu-item--danger:hover,
+.morphos-context-menu-item--danger:focus-visible {
+  background: var(--morphos-color-danger-bg);
 }
 
 @keyframes morphos-fade-in {

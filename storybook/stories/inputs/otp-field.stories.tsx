@@ -33,7 +33,7 @@ class DefaultOtpDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 12px;font-size:.875rem;font-weight:500;color:#374151">
+        <p style="margin:0 0 12px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">
           Enter the 6-digit code sent to your phone
         </p>
         <OtpField
@@ -45,7 +45,7 @@ class DefaultOtpDemo extends StatefulComponent {
           pattern="[0-9]"
           aria-label="6-digit verification code"
         />
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           value: "{() => this.value}" ({() => this.value.length}/6)
         </p>
         {() =>
@@ -76,7 +76,7 @@ class FourDigitDemo extends StatefulComponent {
   render() {
     return (
       <div style="font-family:sans-serif;padding:24px">
-        <p style="margin:0 0 12px;font-size:.875rem;font-weight:500;color:#374151">
+        <p style="margin:0 0 12px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">
           Enter your 4-digit PIN
         </p>
         <OtpField
@@ -87,7 +87,7 @@ class FourDigitDemo extends StatefulComponent {
           pattern="[0-9]"
           aria-label="4-digit PIN"
         />
-        <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+        <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
           length=4 | value: "{() => this.value}"
         </p>
       </div>
@@ -104,7 +104,7 @@ export const Disabled: Story = {
   name: "Disabled",
   render: () => (
     <div style="font-family:sans-serif;padding:24px">
-      <p style="margin:0 0 12px;font-size:.875rem;font-weight:500;color:#374151">
+      <p style="margin:0 0 12px;font-size:.875rem;font-weight:500;color:var(--morphos-color-text)">
         Verification code (disabled)
       </p>
       <OtpField
@@ -114,7 +114,7 @@ export const Disabled: Story = {
         disabled
         aria-label="Disabled verification code"
       />
-      <p style="margin:10px 0 0;font-size:.75rem;color:#6b7280;font-family:monospace">
+      <p style="margin:10px 0 0;font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace">
         data-disabled="" — pre-filled with "123456", non-interactive
       </p>
     </div>

@@ -3,7 +3,8 @@
  * Apply `class="morphos-alert-dialog-content"` to `AlertDialogContent`,
  * `class="morphos-alert-dialog-title"` to `AlertDialogTitle`,
  * `class="morphos-alert-dialog-description"` to `AlertDialogDescription`,
- * `class="morphos-alert-dialog-action"` to `AlertDialogAction`, and
+ * `class="morphos-alert-dialog-action"` to `AlertDialogAction` (add
+ * `morphos-alert-dialog-action--danger` for a destructive confirmation), and
  * `class="morphos-alert-dialog-cancel"` to `AlertDialogCancel`.
  * `AlertDialogContent` also renders a sibling backdrop `<div data-morphos-backdrop>`,
  * styled below without needing its own class. Clicking it closes the dialog
@@ -59,12 +60,20 @@
 }
 
 .morphos-alert-dialog-action {
-  background: var(--morphos-color-danger);
+  background: var(--morphos-color-accent);
   color: var(--morphos-color-accent-text);
 }
 
 .morphos-alert-dialog-action:hover {
-  opacity: 0.9;
+  background: var(--morphos-color-accent-hover);
+}
+
+.morphos-alert-dialog-action--danger {
+  background: var(--morphos-color-danger);
+}
+
+.morphos-alert-dialog-action--danger:hover {
+  filter: brightness(0.92);
 }
 
 .morphos-alert-dialog-cancel {

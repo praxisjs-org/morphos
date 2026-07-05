@@ -4,11 +4,6 @@ import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { CheckboxGroup, CheckboxGroupItem } from "@morphos/inputs";
 
-const SHARED_STYLE = `
-  .cbg-wrap { font-family:sans-serif; padding:24px; }
-  .cbg-status { font-size:.75rem; color:#6b7280; font-family:monospace; background:#f9fafb; padding:5px 10px; border-radius:4px; margin-top:10px; }
-`;
-
 const meta: Meta = {
   title: "Inputs/CheckboxGroup",
   tags: ["autodocs"],
@@ -36,8 +31,7 @@ class DefaultGroupDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cbg-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px">
         <CheckboxGroup
           class="morphos-checkbox-group"
           defaultValue={["apple"]}
@@ -60,7 +54,7 @@ class DefaultGroupDemo extends StatefulComponent {
             Date
           </CheckboxGroupItem>
         </CheckboxGroup>
-        <div class="cbg-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:10px">
           Selected ({() => String(this.group._value.length)}
           ): [{() => this.group._value.join(", ")}]
         </div>
@@ -85,8 +79,7 @@ class HorizontalGroupDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cbg-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px">
         <CheckboxGroup
           class="morphos-checkbox-group"
           defaultValue={["red"]}
@@ -109,7 +102,7 @@ class HorizontalGroupDemo extends StatefulComponent {
             Yellow
           </CheckboxGroupItem>
         </CheckboxGroup>
-        <div class="cbg-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:10px">
           orientation="horizontal" | selected: [{() => this.group._value.join(", ")}]
         </div>
       </div>
@@ -141,8 +134,7 @@ class DisabledGroupDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cbg-wrap">
-        <style>{SHARED_STYLE}</style>
+      <div style="font-family:sans-serif;padding:24px">
         <CheckboxGroup
           class="morphos-checkbox-group"
           defaultValue={["apple", "cherry"]}
@@ -163,7 +155,7 @@ class DisabledGroupDemo extends StatefulComponent {
             Date
           </CheckboxGroupItem>
         </CheckboxGroup>
-        <div class="cbg-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:10px">
           data-disabled="" on group — all items non-interactive
         </div>
       </div>
@@ -197,9 +189,8 @@ class ControlledGroupDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="cbg-wrap">
-        <style>{SHARED_STYLE}</style>
-        <p style="margin:0 0 12px;font-size:.875rem;color:#374151">
+      <div style="font-family:sans-serif;padding:24px">
+        <p style="margin:0 0 12px;font-size:.875rem;color:var(--morphos-color-text)">
           External controls toggle items without interacting with the checkboxes
           directly.
         </p>
@@ -239,7 +230,7 @@ class ControlledGroupDemo extends StatefulComponent {
             </button>
           ))}
         </div>
-        <div class="cbg-status">
+        <div style="font-size:.75rem;color:var(--morphos-color-text-muted);font-family:monospace;background:var(--morphos-color-bg-subtle);padding:5px 10px;border-radius:4px;margin-top:10px">
           value={`[${this.selected.join(", ")}]`} — controlled externally
         </div>
       </div>

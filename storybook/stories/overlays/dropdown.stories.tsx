@@ -10,57 +10,6 @@ import {
 } from "@morphos/overlays";
 
 // ---------------------------------------------------------------------------
-// Shared styles
-// ---------------------------------------------------------------------------
-
-const SHARED_STYLES = `
-  .dd-trigger::after {
-    content: "▾";
-    font-size: 10px;
-    margin-left: 4px;
-    transition: transform 0.15s;
-  }
-  .dd-trigger[data-open]::after { transform: rotate(180deg); }
-  .dd-item-danger { color: #dc2626; }
-  .dd-item-danger:hover, .dd-item-danger:focus { background: #fef2f2; }
-  .dd-separator {
-    height: 1px;
-    background: #f3f4f6;
-    margin: 4px 0;
-  }
-  .demo-wrapper {
-    font-family: sans-serif;
-    padding: 40px;
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  .demo-col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .demo-label {
-    font-size: 0.6875rem;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-  }
-  .selection-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 3px 10px;
-    background: #eef2ff;
-    color: #4f46e5;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-`;
-
-// ---------------------------------------------------------------------------
 // Default story — action menu
 // ---------------------------------------------------------------------------
 
@@ -76,11 +25,10 @@ class DropdownDefaultDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-col">
-          <span class="demo-label">Action menu</span>
-          <DropdownTrigger dropdown={this.dropdown} class="morphos-button morphos-button--outline dd-trigger">
+      <div style="font-family:sans-serif;padding:40px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Action menu</span>
+          <DropdownTrigger dropdown={this.dropdown} class="morphos-button morphos-button--outline morphos-dropdown-trigger">
             Actions
           </DropdownTrigger>
           <DropdownMenu dropdown={this.dropdown} class="morphos-dropdown-menu">
@@ -92,14 +40,14 @@ class DropdownDefaultDemo extends StatefulComponent {
               onSelect={() => { this.selected = "duplicate"; }}>
               Duplicate
             </DropdownItem>
-            <div class="dd-separator" />
-            <DropdownItem dropdown={this.dropdown} value="delete" class="morphos-dropdown-item dd-item-danger"
+            <div style="height:1px;background:var(--morphos-color-border);margin:4px 0" />
+            <DropdownItem dropdown={this.dropdown} value="delete" class="morphos-dropdown-item morphos-dropdown-item--danger"
               onSelect={() => { this.selected = "delete"; }}>
               Delete
             </DropdownItem>
           </DropdownMenu>
           {() => this.selected && (
-            <span class="selection-pill">Selected: {this.selected}</span>
+            <span style="display:inline-flex;align-items:center;padding:3px 10px;background:var(--morphos-color-bg-hover);color:var(--morphos-color-accent);border-radius:20px;font-size:0.75rem;font-weight:500">Selected: {this.selected}</span>
           )}
         </div>
       </div>
@@ -123,11 +71,10 @@ class DropdownWithIconsDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-col">
-          <span class="demo-label">With icons</span>
-          <DropdownTrigger dropdown={this.dropdown} class="morphos-button morphos-button--outline dd-trigger">
+      <div style="font-family:sans-serif;padding:40px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">With icons</span>
+          <DropdownTrigger dropdown={this.dropdown} class="morphos-button morphos-button--outline morphos-dropdown-trigger">
             Options
           </DropdownTrigger>
           <DropdownMenu dropdown={this.dropdown} class="morphos-dropdown-menu">
@@ -147,18 +94,18 @@ class DropdownWithIconsDemo extends StatefulComponent {
               onSelect={() => { this.selected = "download"; }}>
               ⬇️ Download
             </DropdownItem>
-            <div class="dd-separator" />
+            <div style="height:1px;background:var(--morphos-color-border);margin:4px 0" />
             <DropdownItem dropdown={this.dropdown} value="archive" class="morphos-dropdown-item"
               onSelect={() => { this.selected = "archive"; }}>
               📦 Archive
             </DropdownItem>
-            <DropdownItem dropdown={this.dropdown} value="delete" class="morphos-dropdown-item dd-item-danger"
+            <DropdownItem dropdown={this.dropdown} value="delete" class="morphos-dropdown-item morphos-dropdown-item--danger"
               onSelect={() => { this.selected = "delete"; }}>
               🗑️ Delete
             </DropdownItem>
           </DropdownMenu>
           {() => this.selected && (
-            <span class="selection-pill">Selected: {this.selected}</span>
+            <span style="display:inline-flex;align-items:center;padding:3px 10px;background:var(--morphos-color-bg-hover);color:var(--morphos-color-accent);border-radius:20px;font-size:0.75rem;font-weight:500">Selected: {this.selected}</span>
           )}
         </div>
       </div>
@@ -182,11 +129,10 @@ class DropdownDisabledDemo extends StatefulComponent {
 
   render() {
     return (
-      <div class="demo-wrapper">
-        <style>{SHARED_STYLES}</style>
-        <div class="demo-col">
-          <span class="demo-label">With disabled items</span>
-          <DropdownTrigger dropdown={this.dropdown} class="morphos-button morphos-button--outline dd-trigger">
+      <div style="font-family:sans-serif;padding:40px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:0.6875rem;color:var(--morphos-color-text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600">With disabled items</span>
+          <DropdownTrigger dropdown={this.dropdown} class="morphos-button morphos-button--outline morphos-dropdown-trigger">
             More
           </DropdownTrigger>
           <DropdownMenu dropdown={this.dropdown} class="morphos-dropdown-menu">
@@ -202,18 +148,18 @@ class DropdownDisabledDemo extends StatefulComponent {
               onSelect={() => { this.selected = "export"; }}>
               Export (unavailable)
             </DropdownItem>
-            <div class="dd-separator" />
+            <div style="height:1px;background:var(--morphos-color-border);margin:4px 0" />
             <DropdownItem dropdown={this.dropdown} value="transfer" class="morphos-dropdown-item" disabled
               onSelect={() => { this.selected = "transfer"; }}>
               Transfer ownership (Pro)
             </DropdownItem>
-            <DropdownItem dropdown={this.dropdown} value="delete" class="morphos-dropdown-item dd-item-danger"
+            <DropdownItem dropdown={this.dropdown} value="delete" class="morphos-dropdown-item morphos-dropdown-item--danger"
               onSelect={() => { this.selected = "delete"; }}>
               Delete
             </DropdownItem>
           </DropdownMenu>
           {() => this.selected && (
-            <span class="selection-pill">Selected: {this.selected}</span>
+            <span style="display:inline-flex;align-items:center;padding:3px 10px;background:var(--morphos-color-bg-hover);color:var(--morphos-color-accent);border-radius:20px;font-size:0.75rem;font-weight:500">Selected: {this.selected}</span>
           )}
         </div>
       </div>
