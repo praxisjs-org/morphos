@@ -12,12 +12,12 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
       tabs={[
         {
           title: "Documentation",
-          description: "Guides, API reference, and component packages",
+          description: "Guides and API reference for every component package",
           url: "/docs",
         },
         {
           title: "Changelog",
-          description: "Release history across all packages",
+          description: "What changed in each package release",
           url: "/docs/changelog",
         },
       ]}
