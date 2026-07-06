@@ -56,6 +56,16 @@ class MyComponent extends StatefulComponent {
 | `id` | `string` | — | `id` on the root element |
 | `children` | `Children` | — | `AvatarImage` and `AvatarFallback` |
 
+### Methods
+
+| Method | Description |
+|---|---|
+| `setImageStatus(status)` | Sets the image load status (`"idle"` \| `"loading"` \| `"loaded"` \| `"error"`). Called internally by `AvatarImage` on mount/load/error, but can also be called directly for custom loading integrations. |
+
+`imageLoaded` and `imageError` are also available as readonly getters (`boolean`) derived from the
+current status, if you need to branch on load state outside of the built-in `AvatarImage` /
+`AvatarFallback` visibility logic.
+
 ## Props — AvatarImage
 
 | Prop | Type | Default | Description |

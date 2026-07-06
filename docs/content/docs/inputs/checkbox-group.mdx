@@ -122,6 +122,13 @@ class MyComponent extends StatefulComponent {
 | `aria-labelledby` | `string` | — | ID of an element that labels the group |
 | `aria-describedby` | `string` | — | ID of an element that describes the group |
 
+### Methods
+
+| Method | Description |
+|---|---|
+| `isChecked(value: string)` | Returns whether `value` is currently in the group's checked values. |
+| `toggle(value: string)` | Adds or removes `value` from the group's checked values. Emits `onValueChange` with the new array. |
+
 ## Props — CheckboxGroupItem
 
 | Prop | Type | Default | Description |

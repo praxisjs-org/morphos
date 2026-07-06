@@ -79,11 +79,13 @@ class MyComponent extends StatefulComponent {
 | `aria-label` | `string` | — | Accessible label for the menubar |
 | `class` | `string` | — | CSS class on the root `<div role="menubar">` |
 | `id` | `string` | — | `id` on the root element |
+| `children` | `Children` | — | Content — typically one or more `MenubarMenu` |
 
 ## Methods — Menubar
 
 | Method | Description |
 |---|---|
+| `activeMenu` (getter) | The `value` of the currently open menu, or `null` if none is open |
 | `open(id: string)` | Opens the menu with the given value, closing any other open menu |
 | `close()` | Closes the currently open menu |
 | `toggle(id: string)` | Opens the given menu if closed, or closes it if it's the currently open one |
@@ -99,6 +101,16 @@ class MyComponent extends StatefulComponent {
 | `sideOffset` | `number` | `4` | Gap in pixels between the trigger and the menu |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Content — typically a `MenubarTrigger` and `MenubarContent` |
+
+## Methods — MenubarMenu
+
+| Method | Description |
+|---|---|
+| `isOpen` (getter) | Whether this menu is the one currently open on the shared `Menubar` |
+| `_registerTrigger(el: HTMLElement \| null)` | Internal — called by `MenubarTrigger` on mount to register its element for outside-click detection |
+| `_registerContent(el: HTMLElement \| null)` | Internal — called by `MenubarContent` on mount to register its element for outside-click detection |
+| `_updatePosition()` | Internal — called by `MenubarTrigger` before toggling open to recompute the anchored dropdown position from the trigger's bounding rect |
 
 ## Props — MenubarTrigger
 
@@ -127,6 +139,7 @@ class MyComponent extends StatefulComponent {
 | `label` | `string` | — | Display text, rendered when no `children` are provided |
 | `onSelect` | `() => void` | — | Called when the item is selected (before the menu closes) |
 | `disabled` | `boolean` | — | Disables the item and blocks selection |
+| `children` | `Children` | — | Item content. Takes precedence over `label` when provided |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
 
@@ -136,6 +149,7 @@ class MyComponent extends StatefulComponent {
 |---|---|---|---|
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Accepted by the prop type but not rendered — `MenubarSeparator` has no content slot |
 
 ## Keyboard and pointer interaction
 

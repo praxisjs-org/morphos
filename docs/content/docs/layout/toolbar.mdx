@@ -63,6 +63,7 @@ class MyComponent extends StatefulComponent {
 | `aria-labelledby` | `string` | — | ID of element providing the label |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Content — typically `ToolbarButton` and `ToolbarSeparator` elements |
 
 ## Methods — Toolbar
 
@@ -91,6 +92,7 @@ class MyComponent extends StatefulComponent {
 | `toolbar` | `Toolbar` | — | The `Toolbar` state instance — used to compute the separator's perpendicular orientation |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Accepted by the prop type but not rendered — `ToolbarSeparator` has no content slot |
 
 ## Keyboard navigation
 

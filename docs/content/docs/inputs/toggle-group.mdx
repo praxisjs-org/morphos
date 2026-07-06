@@ -127,6 +127,13 @@ class MyComponent extends StatefulComponent {
 | `aria-label` | `string` | — | Accessible label for the group container |
 | `aria-labelledby` | `string` | — | ID of an element that labels the group |
 
+### Methods
+
+| Method | Description |
+|---|---|
+| `isPressed(value: string)` | Returns whether `value` is currently selected (in the array for `"multiple"`, or the equal value for `"single"`). |
+| `toggle(value: string)` | Selects/deselects `value` according to `type`. Emits `onValueChange` with the new value. |
+
 ## Props — ToggleGroupItem
 
 | Prop | Type | Default | Description |

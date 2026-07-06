@@ -75,11 +75,13 @@ Plain links that don't need a submenu can skip `NavigationMenuItem` entirely and
 | `aria-label` | `string` | — | Accessible label for the `<nav>` |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Content — typically a `NavigationMenuList` |
 
 ## Methods — NavigationMenu
 
 | Method | Description |
 |---|---|
+| `activeItem` (getter) | The `value` of the item whose submenu is currently open, or `null` if none is open |
 | `open(item: string)` | Opens the submenu for the given item value, closing any other open one |
 | `close()` | Closes the currently open submenu |
 | `toggle(item: string)` | Opens the given item's submenu if closed, or closes it if it's the currently open one |
@@ -102,6 +104,13 @@ Plain links that don't need a submenu can skip `NavigationMenuItem` entirely and
 | `children` | `Children` | — | Typically a `NavigationMenuTrigger` + `NavigationMenuContent` pair |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+
+## Methods — NavigationMenuItem
+
+| Method | Description |
+|---|---|
+| `isOpen` (getter) | Whether this item's submenu is currently open |
+| `_registerTrigger(el: HTMLElement \| null)` | Internal — called by `NavigationMenuTrigger` on mount to register its element for outside-click detection |
 
 ## Props — NavigationMenuTrigger
 

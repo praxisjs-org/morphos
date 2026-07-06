@@ -72,8 +72,8 @@ class MyComponent extends StatefulComponent {
 | `AlertDialogContent` | Renders into a `Portal` with a sibling backdrop `<div data-morphos-backdrop>`. Sets `role="alertdialog"` and `aria-modal="true"`. Applies focus trap and scroll lock while open. |
 | `AlertDialogTitle` | Renders as `<h2>` by default (configurable via `as`). |
 | `AlertDialogDescription` | Renders as `<p>`. |
-| `AlertDialogAction` | `<button>` that runs its `onClick` and then calls `closeDialog()`. |
-| `AlertDialogCancel` | `<button>` that runs its `onClick` and then calls `closeDialog()`. |
+| `AlertDialogAction` | `<button>` that calls `closeDialog()` and then runs its `onClick`. |
+| `AlertDialogCancel` | `<button>` that calls `closeDialog()` and then runs its `onClick`. |
 
 ## Props — AlertDialog
 
@@ -140,7 +140,7 @@ class MyComponent extends StatefulComponent {
 | `children` | `Children` | — | Button content. |
 | `class` | `string` | — | CSS class. |
 | `id` | `string` | — | HTML id. |
-| `onClick` | `() => void` | — | Called before the dialog closes. Use this to run the destructive action. |
+| `onClick` | `() => void` | — | Called after `closeDialog()` runs. Use this to run the destructive action. |
 
 ## Props — AlertDialogCancel
 
@@ -150,7 +150,7 @@ class MyComponent extends StatefulComponent {
 | `children` | `Children` | — | Button content. |
 | `class` | `string` | — | CSS class. |
 | `id` | `string` | — | HTML id. |
-| `onClick` | `() => void` | — | Called before the dialog closes. |
+| `onClick` | `() => void` | — | Called after `closeDialog()` runs. |
 
 ## `data-*` attributes
 

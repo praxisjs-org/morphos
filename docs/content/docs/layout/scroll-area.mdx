@@ -58,6 +58,7 @@ Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is h
 | `type` | `"auto" \| "always" \| "scroll" \| "hover" \| "hidden"` | `"hover"` | When scrollbars are visible. This is exposed as `data-type` for CSS to act on — `"hidden"` is expected to hide the custom scrollbar entirely via CSS while the viewport still scrolls natively. |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Content — typically a `ScrollAreaViewport` and one or more `ScrollAreaScrollbar` |
 
 ## Methods — ScrollArea
 
@@ -65,6 +66,7 @@ Scrolling happens natively on `ScrollAreaViewport` — the native scrollbar is h
 |---|---|
 | `scrollTo(position: { top?: number; left?: number })` | Imperatively scrolls the viewport to the given position, clamped to the valid scroll range. Used internally by `ScrollAreaScrollbar` (track click) and `ScrollAreaThumb` (drag), but can be called directly too |
 | `_onScroll(el: HTMLElement)` | Internal — called by `ScrollAreaViewport` on mount and on every `scroll` event to update tracked metrics |
+| `_registerViewport(el: HTMLElement \| null)` | Internal — called by `ScrollAreaViewport` on mount/unmount to register (or clear) the viewport element used by `scrollTo` |
 
 ## Props — ScrollAreaViewport
 
@@ -91,10 +93,11 @@ Clicking the track (outside the thumb) jumps the scroll position to wherever was
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `scrollArea` | `ScrollArea` | — | The `ScrollArea` state instance — used to size/position the thumb proportionally to the visible fraction of content |
+| `scrollArea` | `ScrollArea` | — | The `ScrollArea` state instance — used to size/position the thumb proportionally to the visible fraction of content. Optional — sizing math no-ops without it. |
 | `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Which scroll axis to size/position against |
 | `class` | `string` | — | CSS class |
 | `id` | `string` | — | HTML id |
+| `children` | `Children` | — | Accepted by the prop type but not rendered — `ScrollAreaThumb` has no content slot |
 
 ## `data-*` attributes
 

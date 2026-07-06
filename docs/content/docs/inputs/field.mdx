@@ -176,8 +176,10 @@ class MyComponent extends StatefulComponent {
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
+| `field` | `Field` | — | The parent `Field` instance. Declared in the types for consistency with the other parts, but not read by `render()` — see the callout below |
 | `children` | `Children` | — | The form input element(s) |
 | `class` | `string` | — | Additional CSS classes |
+| `id` | `string` | — | Inherited from `PrimitiveProps`, but not read by `render()` — `FieldControl` never sets an `id` on its wrapper `<div>` |
 
 ## `data-*` attributes
 
