@@ -1,5 +1,6 @@
 {
   "title": "Layout",
+  "icon": "LayoutGrid",
   "pages": [
     "accordion",
     "tabs",

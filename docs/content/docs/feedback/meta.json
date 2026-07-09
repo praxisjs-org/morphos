@@ -1,4 +1,5 @@
 {
   "title": "Feedback",
+  "icon": "Activity",
   "pages": ["toast", "alert", "progress", "spinner", "avatar", "meter"]
 }
