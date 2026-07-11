@@ -37,6 +37,7 @@
     "@praxisjs/jsx": "^0.7.3",
     "@praxisjs/runtime": "^0.5.4",
     "@praxisjs/shared": "^0.3.1",
+    "@praxisjs/vite-plugin": "^4.0.1",
     "@types/node": "^25.9.1",
     "@vitest/coverage-v8": "^4.1.2",
     "eslint": "^10.1.0",
@@ -46,7 +47,7 @@
     "husky": "^9.1.7",
     "jsdom": "^29.0.1",
     "lint-staged": "^16.4.0",
-    "typescript": "^5.9.3",
+    "typescript": "catalog:",
     "typescript-eslint": "^8.58.0",
     "vitest": "^4.1.2"
   }

@@ -28,6 +28,6 @@
     "@praxisjs/jsx": "^0.7.3",
     "@praxisjs/runtime": "^0.5.4",
     "@praxisjs/shared": "^0.3.1",
-    "typescript": "^5.9.3"
+    "typescript": "catalog:"
   }
 }
