@@ -133,7 +133,7 @@ importers:
         specifier: ^4.3.0
         version: 4.3.1
       typescript:
-        specifier: 'catalog:'
+        specifier: ^6.0.3
         version: 6.0.3
 
   packages/core:
