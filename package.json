@@ -37,7 +37,7 @@
     "@praxisjs/jsx": "^0.7.3",
     "@praxisjs/runtime": "^0.5.4",
     "@praxisjs/shared": "^0.3.1",
-    "@praxisjs/vite-plugin": "^4.0.1",
+    "@praxisjs/vite-plugin": "^4.0.3",
     "@types/node": "^25.9.1",
     "@vitest/coverage-v8": "^4.1.2",
     "eslint": "^10.1.0",

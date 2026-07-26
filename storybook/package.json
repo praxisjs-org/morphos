@@ -18,7 +18,7 @@
     "@praxisjs/decorators": "^1.5.1",
     "@praxisjs/runtime": "^0.5.4",
     "@praxisjs/shared": "^0.3.1",
-    "@praxisjs/storybook": "^0.2.5"
+    "@praxisjs/storybook": "^0.2.7"
   },
   "devDependencies": {
     "@praxisjs/jsx": "^0.7.3",
