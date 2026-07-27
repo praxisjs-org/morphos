@@ -13,7 +13,7 @@ Headless primitive component library for PraxisJS. Monorepo managed with pnpm wo
 | `@morphos/overlays` | `Dialog`, `Tooltip`, `Popover`, `Dropdown` (aliased as `Menu`), `AlertDialog`, `Drawer`, `ContextMenu`, `PreviewCard` and their compound parts |
 | `@morphos/layout` | `Accordion`, `Tabs`, `Disclosure` (aliased as `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu` and their compound parts |
 | `@morphos/feedback` | `ToastProvider`, `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter` |
-| `@morphos/icons` | `Icon` (generic SVG primitive for raw markup), `LucideIcon` (renders `lucide` package icon data), `PhosphorIcon` (renders raw SVG assets from `@phosphor-icons/core`). Neither `lucide` nor `@phosphor-icons/core` is a dependency — consumers install whichever icon set they use |
+| `@morphos/icons` | `Icon` (renders by `name`, resolved against the configured provider) + `IconProvider` (mandatory in every app — sets the provider; there is no default, `"lucide"` included). `lucide` is a real peer dependency (data read live) wrapped by the built-in `LucideSource`. Register a custom icon set with `RegisterIconProvider`; `@morphos/icons/vite`'s `iconsPlugin()` lets it take a glob path directly |
 | `@morphos/styles` | Optional, opt-in CSS recipes — one plain CSS file per component plus `tokens.css`. Nothing is applied unless explicitly imported. Not a peer of the other packages; pure CSS, not built by `tsc` |
 
 Private:
@@ -265,7 +265,7 @@ overlays/    dialog  alert-dialog  drawer  context-menu  popover  tooltip
 layout/      accordion  tabs  disclosure  separator  scroll-area  toolbar
              menubar  navigation-menu
 feedback/    toast  alert  progress  spinner  avatar  meter
-icons/       icon  lucide-icon  phosphor-icon
+icons/       icon  icon-provider
 changelog/   core  inputs  overlays  layout  feedback  icons  styles
 ```
 

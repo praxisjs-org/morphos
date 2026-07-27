@@ -36,7 +36,7 @@ compound-component pattern every package uses, and styling your first primitive.
   <Card title="Overlays · 8" href="/docs/overlays/dialog" description="Dialog, Alert Dialog, Drawer, Popover, Tooltip, Dropdown, Context Menu, Preview Card." />
   <Card title="Layout · 8" href="/docs/layout/accordion" description="Accordion, Tabs, Disclosure, Separator, Scroll Area, Toolbar, Menubar, Navigation Menu." />
   <Card title="Feedback · 6" href="/docs/feedback/toast" description="Toast, Alert, Progress, Spinner, Avatar, Meter." />
-  <Card title="Icons · 3" href="/docs/icons/icon" description="Icon, LucideIcon, PhosphorIcon." />
+  <Card title="Icons · 2" href="/docs/icons/icon" description="Icon, IconProvider." />
 </Cards>
 
 ## Design philosophy
@@ -117,9 +117,8 @@ compound-component pattern every package uses, and styling your first primitive.
 
 | Component | Description |
 |---|---|
-| `Icon` | Generic, framework-agnostic SVG icon primitive for raw markup |
-| `LucideIcon` | Renders icon data from the `lucide` package |
-| `PhosphorIcon` | Renders a raw SVG asset from `@phosphor-icons/core` |
+| `Icon` | Renders an icon by name, resolved against the configured provider — warns and renders nothing until one is set |
+| `IconProvider` | Sets the icon provider for every `Icon` beneath it — mandatory, no default (`LucideSource` included) |
 
 ## Getting help
 

@@ -1,66 +1,118 @@
 import { StatelessComponent } from "@praxisjs/core";
 import { Component } from "@praxisjs/decorators";
+import type { SVGAttributes } from "@praxisjs/jsx";
+
+import { resolveMarkup } from "./resolve-markup";
+import { getIconProvider } from "../provider/provider-store";
+import { getIconResolver, type IconNode } from "../provider/registry";
 
 import type { IconProps } from "./icon.types";
 
-const FULL_SVG_RE = /^\s*<svg\b([^>]*)>([\s\S]*)<\/svg>\s*$/i;
-const VIEW_BOX_ATTR_RE = /\bviewBox="([^"]*)"/i;
-const FILL_ATTR_RE = /\bfill="([^"]*)"/i;
-const STROKE_ATTR_RE = /\bstroke="([^"]*)"/i;
-
-interface ResolvedMarkup {
-  markup: string;
-  viewBox: string;
-  /** `fill`/`stroke` read off the source's own outer `<svg>` tag, e.g. Phosphor's `fill="currentColor"` — preserved so removing that tag doesn't silently drop it. */
-  fill?: string;
-  stroke?: string;
-}
-
-/** Splits a `svg` prop into inner markup and the presentation attributes it should render with. */
-export function resolveMarkup(svg: string, fallbackViewBox: string): ResolvedMarkup {
-  const match = FULL_SVG_RE.exec(svg);
-  if (!match) {
-    return { markup: svg, viewBox: fallbackViewBox };
+function renderIconNodeShape(node: IconNode[number], key: number) {
+  const [tag, attrs] = node;
+  const shapeProps = attrs as SVGAttributes;
+  switch (tag) {
+    case "path":
+      return <path key={key} {...shapeProps} />;
+    case "circle":
+      return <circle key={key} {...shapeProps} />;
+    case "rect":
+      return <rect key={key} {...shapeProps} />;
+    case "line":
+      return <line key={key} {...shapeProps} />;
+    case "polyline":
+      return <polyline key={key} {...shapeProps} />;
+    case "ellipse":
+      return <ellipse key={key} {...shapeProps} />;
+    default:
+      return null;
   }
-  const [, openingTag, inner] = match;
-  const viewBoxMatch = VIEW_BOX_ATTR_RE.exec(openingTag);
-  const fillMatch = FILL_ATTR_RE.exec(openingTag);
-  const strokeMatch = STROKE_ATTR_RE.exec(openingTag);
-  return {
-    markup: inner,
-    viewBox: viewBoxMatch?.[1] ?? fallbackViewBox,
-    fill: fillMatch?.[1],
-    stroke: strokeMatch?.[1],
-  };
 }
 
 /**
- * Generic, framework-agnostic SVG icon primitive. Renders any raw markup —
- * a full `<svg>` string or bare inner markup — sized and colored via props.
- * `LucideIcon` and `PhosphorIcon` are thin adapters for those libraries'
- * data shapes; `Icon` is the escape hatch for anything else.
+ * Renders an icon by name. The configured provider (set app-wide via `@IconProvider`,
+ * or overridden per instance with the `provider` prop) decides which icon set
+ * `name` resolves against. `@IconProvider` is mandatory — applied somewhere in every
+ * app, no exceptions — including for the built-in `"lucide"` set (`LucideSource`,
+ * just a pre-configured `IconSource`). There is no implicit default provider.
  */
 @Component()
 export class Icon extends StatelessComponent<IconProps> {
   render() {
     const {
-      svg,
-      viewBox = "0 0 24 24",
+      name,
+      provider = getIconProvider(),
       size = 24,
       color,
+      strokeWidth = 2,
+      absoluteStrokeWidth = false,
       style,
       class: cls,
       id,
       "aria-label": ariaLabel,
     } = this.props;
 
-    const { markup, viewBox: resolvedViewBox, fill, stroke } = resolveMarkup(svg, viewBox);
+    if (provider === undefined) {
+      console.warn(
+        `[@morphos/icons] No icon provider is configured. Apply @IconProvider(...) to your root ` +
+          `component (LucideSource for the built-in "lucide" set, or a custom @RegisterIconProvider ` +
+          `class) before rendering any <Icon> — it's mandatory, there's no default provider.`,
+      );
+      return null;
+    }
+
+    const resolver = getIconResolver(provider);
+    if (resolver === undefined) {
+      console.warn(
+        `[@morphos/icons] No provider registered as "${provider}". Apply @IconProvider(...) to your ` +
+          `root component (LucideSource for the built-in "lucide" set), or register a custom one ` +
+          `with @RegisterIconProvider.`,
+      );
+      return null;
+    }
+    const data = resolver(name);
+    if (data === undefined) {
+      console.warn(`[@morphos/icons] No icon named "${name}" for provider "${provider}".`);
+      return null;
+    }
+
+    if ("nodes" in data) {
+      const resolvedStrokeWidth = absoluteStrokeWidth
+        ? (Number(strokeWidth) * 24) / Number(size)
+        : Number(strokeWidth);
+
+      return (
+        <svg
+          id={id}
+          class={cls}
+          viewBox={data.viewBox ?? "0 0 24 24"}
+          width={size}
+          height={size}
+          fill="none"
+          stroke={color ?? "currentColor"}
+          style={style}
+          role={ariaLabel ? "img" : undefined}
+          aria-label={ariaLabel}
+          aria-hidden={ariaLabel ? undefined : ("true" as const)}
+          ref={(el: SVGSVGElement | null) => {
+            if (!el) return;
+            el.setAttribute("stroke-width", String(resolvedStrokeWidth));
+            el.setAttribute("stroke-linecap", "round");
+            el.setAttribute("stroke-linejoin", "round");
+          }}
+        >
+          {data.nodes.map((n, index) => renderIconNodeShape(n, index))}
+        </svg>
+      );
+    }
+
+    const { markup, viewBox, fill, stroke } = resolveMarkup(data.svg, data.viewBox ?? "0 0 24 24");
 
     return (
       <svg
         id={id}
         class={cls}
-        viewBox={resolvedViewBox}
+        viewBox={viewBox}
         width={size}
         height={size}
         color={color}

@@ -201,9 +201,15 @@ importers:
       '@praxisjs/shared':
         specifier: ^0.3.1
         version: 0.3.1
+      lucide:
+        specifier: ^1.27.0
+        version: 1.27.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
+      vite:
+        specifier: 'catalog:'
+        version: 8.1.4(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
   packages/inputs:
     devDependencies:
@@ -318,9 +324,6 @@ importers:
         specifier: ^0.2.7
         version: 0.2.7(@praxisjs/css@0.3.1)(@storybook/builder-vite@10.4.6(esbuild@0.28.1)(rollup@4.62.2)(storybook@10.4.6(@testing-library/dom@10.4.1)(@types/react@19.2.17)(prettier@2.8.8)(react@19.2.7))(vite@8.1.4(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)))(storybook@10.4.6(@testing-library/dom@10.4.1)(@types/react@19.2.17)(prettier@2.8.8)(react@19.2.7))(vite@8.1.4(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
     devDependencies:
-      '@phosphor-icons/core':
-        specifier: ^2.1.1
-        version: 2.1.1
       '@praxisjs/jsx':
         specifier: ^0.7.3
         version: 0.7.3
@@ -1258,9 +1261,6 @@ packages:
     resolution: {integrity: sha512-H7BCt/VnS9hnmMp42eGhZ99izSCRvlnWwy/N71K1/J8QoExwY4262Z8QiEkMDtduRJrztayDxETTckmUuAVL9Q==}
     cpu: [x64]
     os: [win32]
-
-  '@phosphor-icons/core@2.1.1':
-    resolution: {integrity: sha512-v4ARvrip4qBCImOE5rmPUylOEK4iiED9ZyKjcvzuezqMaiRASCHKcRIuvvxL/twvLpkfnEODCOJp5dM4eZilxQ==}
 
   '@praxisjs/core@2.0.0':
     resolution: {integrity: sha512-/Pr7jaNd7gcnCqBLpfMjQ2a/+hssGxYwVM7OmRZ5SULNQ9tYLIqD8XxJTaNn1RFVkSccNA9B1F8ha3JBCQgNBg==}
@@ -5474,8 +5474,6 @@ snapshots:
 
   '@oxc-resolver/binding-win32-x64-msvc@11.21.3':
     optional: true
-
-  '@phosphor-icons/core@2.1.1': {}
 
   '@praxisjs/core@2.0.0':
     dependencies:

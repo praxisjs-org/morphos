@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noEmit": true,
     "experimentalDecorators": false,
-    "types": ["node", "@morphos/styles"]
+    "types": ["node", "vite/client", "@morphos/styles"]
   },
   "include": [".storybook", "stories"]
 }

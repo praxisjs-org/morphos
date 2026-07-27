@@ -1,6 +1,6 @@
 ---
 title: Icon
-description: A generic, framework-agnostic SVG icon primitive for raw markup.
+description: Renders an SVG icon by name, resolved against the provider configured with IconProvider.
 icon: Shapes
 ---
 
@@ -22,44 +22,78 @@ import { Icon } from '@morphos/icons'
 
 ## Usage
 
-`Icon` renders any raw SVG markup — a full `<svg>...</svg>` string or bare inner markup — sized
-and colored through props. It's the shared rendering foundation behind `LucideIcon` and
-`PhosphorIcon`, and the escape hatch for any other icon set (Heroicons, Feather, an in-house
-sprite sheet, ...).
+`Icon` resolves `name` against whichever provider is currently configured. That provider is set
+with [IconProvider](/docs/icons/icon-provider), which is mandatory — every app applies it once, at
+the root, before any `Icon` renders:
 
 ```tsx
-<Icon svg='<path d="M5 12h14"/><path d="M12 5v14"/>' aria-label="Add" />
+import { Icon, IconProvider, LucideSource } from '@morphos/icons'
+import { Component } from '@praxisjs/decorators'
+import { StatefulComponent } from '@praxisjs/core'
+
+@IconProvider(LucideSource)
+@Component()
+class App extends StatefulComponent {
+  render() {
+    return <Icon name="Plus" aria-label="Add item" />
+  }
+}
 ```
 
-When `svg` is a full `<svg>` string, its `viewBox` is read automatically and the outer tag is
-stripped:
+`LucideSource` is the built-in provider — a pre-configured wrapper around [lucide](https://lucide.dev)
+(a real peer dependency; its icon data is read live, `import { icons } from "lucide"` under the
+hood). It still has to be applied through `IconProvider` explicitly, like any other provider —
+there is no default.
+
+<PackageInstall pkg="lucide" />
+
+`name` is typed against `LucideSource`'s icon names, so your editor autocompletes every valid
+lucide export — plain strings are still accepted, for provider names the package can't know about
+ahead of time.
+
+## Overriding the provider per instance
+
+Once `IconProvider` has configured an app-wide provider, every `Icon` without a `provider` prop
+resolves against it. Pass `provider` to resolve a single icon against a different,
+already-registered provider instead:
 
 ```tsx
-import plusRegular from '@phosphor-icons/core/assets/regular/plus.svg?raw'
-
-<Icon svg={plusRegular} size={20} />
+<Icon name="logo" provider="brand" />
 ```
+
+See [IconProvider](/docs/icons/icon-provider#custom-providers) for registering a custom provider
+like `"brand"`.
 
 ## Props
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `svg` | `string` | — | Full `<svg>...</svg>` markup (its `viewBox` is read and the tag stripped) or bare inner markup |
-| `viewBox` | `string` | `"0 0 24 24"` | Used when `svg` is bare inner markup and carries no `viewBox` of its own |
-| `size` | `number \| string` | `24` | Applied to both `width` and `height` |
-| `color` | `string` | — | Sets the SVG `color` attribute, which `currentColor` fills/strokes resolve against |
-| `style` | `string \| CSSProperties` | — | Inline style on the root `<svg>` |
-| `class` | `string` | — | CSS class on the root `<svg>` |
-| `id` | `string` | — | `id` on the root element |
-| `aria-label` | `string` | — | Accessible name. When set, the icon gets `role="img"`; otherwise it's `aria-hidden` |
+| `name` | `LucideIconName \| string` | — | Icon name, resolved against the configured provider. Required. |
+| `provider` | `"lucide" \| string` | configured provider | Overrides the configured provider for this instance only. |
+| `size` | `number \| string` | `24` | Applied to both `width` and `height`. |
+| `color` | `string` | `"currentColor"` | Icon color — `stroke` for a structured (`nodes`) provider like lucide, or whatever the source markup itself declares for an `{ svg }` provider. |
+| `strokeWidth` | `number \| string` | `2` | Structured (`nodes`) providers only. |
+| `absoluteStrokeWidth` | `boolean` | `false` | Structured (`nodes`) providers only — scales `strokeWidth` so the visual stroke thickness stays constant across sizes. |
+| `style` | `string \| CSSProperties` | — | Inline style on the root `<svg>`. |
+| `class` | `string` | — | CSS class on the root `<svg>`. |
+| `id` | `string` | — | `id` on the root element. |
+| `aria-label` | `string` | — | Accessible name. When set, the icon gets `role="img"`; otherwise it's `aria-hidden`. |
 
 ## Accessibility
 
 Icons are decorative by default: `aria-hidden="true"` and no `role`. Pass `aria-label` when the
-icon conveys meaning on its own (for example, an icon-only button with no visible text) — `Icon`
-then switches to `role="img"` with that label instead of hiding itself.
+icon conveys meaning on its own — an icon-only button with no visible text, for example — and
+`Icon` switches to `role="img"` with that label instead of hiding itself.
 
-<Callout type="info">
-  If the icon sits next to visible text that already describes it, leave `aria-label` unset so
-  screen readers don't announce the same thing twice.
+## Bundle size
+
+Resolving by name means lucide's icon data ships as one object, not per-icon imports — there's no
+tree-shaking per icon. It's small in absolute terms (path data only, not rendered markup), but if
+that's ever a concern, a [custom provider](/docs/icons/icon-provider#custom-providers) backed by
+`RegisterIconProvider` and a glob path only includes the icons you actually reference.
+
+<Callout type="warn">
+  `Icon` never throws. It logs a console warning and renders nothing both when no provider is
+  configured at all (`IconProvider` was never applied) and when `name` doesn't exist for the
+  resolved provider — a typo reaching you through untyped/dynamic code, for example.
 </Callout>

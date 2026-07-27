@@ -1,0 +1,224 @@
+---
+title: IconProvider
+description: Configures the icon provider for the app. Mandatory — there is no default.
+icon: Blocks
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Interactive example
+
+<StorybookEmbed story="icons-iconprovider--default" />
+
+## Installation
+
+<PackageInstall pkg="@morphos/icons" />
+
+## Import
+
+```ts
+import { IconProvider } from '@morphos/icons'
+```
+
+## Usage
+
+<Callout type="warn">
+  `IconProvider` is mandatory. There is no default icon provider — not even for `"lucide"`. Every
+  app applies it once, regardless of which icon set it uses; without it, `Icon` logs a warning and
+  renders nothing.
+</Callout>
+
+`IconProvider` is a class decorator, applied directly to your root component — same pattern as
+`@Router`. It takes an `IconSource` class, not a string:
+
+```tsx
+import { IconProvider, LucideSource } from '@morphos/icons'
+import { Component } from '@praxisjs/decorators'
+import { StatefulComponent } from '@praxisjs/core'
+
+@IconProvider(LucideSource)
+@Component()
+class App extends StatefulComponent {
+  render() {
+    return <YourApp />
+  }
+}
+```
+
+Runs at class-decoration time — as soon as the module defining `App` is evaluated, before `App` is
+ever constructed. There's no ordering caveat to work around: by the time anything renders, the
+provider is already active. `IconProvider` reads the provider name straight off the class — there's
+no string to keep in sync by hand.
+
+## Multiple providers
+
+Pass an array to register more than one provider at once. Every entry becomes available for an
+individual `Icon`'s `provider` prop, and the **first** one becomes the app-wide default:
+
+```tsx
+@IconProvider([BrandIcons, MarketingIcons])
+@Component()
+class App extends StatefulComponent { /* ... */ }
+```
+
+```tsx
+<Icon name="logo" />                        {/* resolves via BrandIcons — it's first */}
+<Icon name="banner" provider="marketing" /> {/* resolves via MarketingIcons explicitly */}
+```
+
+Each class must already be decorated with `RegisterIconProvider` — `IconProvider` throws a clear
+error naming the offending class if one isn't, or if the array is empty.
+
+## Parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `source` | `IconSourceCtor \| IconSourceCtor[]` | One or more classes decorated with `RegisterIconProvider`. A single class becomes the app-wide default; with an array, every entry is registered and the first becomes the default. |
+
+## Custom providers
+
+`"lucide"` isn't special-cased anywhere — it's `LucideSource`, a built-in `IconSource` registered
+by the package the same way `RegisterIconProvider` registers your own, and it still has to be
+passed to `IconProvider` explicitly. Register your own icon set (an in-house sprite sheet, a third
+icon library, anything you can turn into SVG markup) the same way — one `<svg>` file per icon,
+instead of a hand-maintained object of SVG strings that only grows harder to review:
+
+```ts
+// vite.config.ts
+import { iconsPlugin } from '@morphos/icons/vite'
+
+export default defineConfig({
+  plugins: [iconsPlugin(), /* ...your other plugins */],
+})
+```
+
+```tsx
+// anywhere — e.g. src/icons/brand/logo.svg, src/icons/brand/mark.svg
+import { IconSource, RegisterIconProvider } from '@morphos/icons'
+
+@RegisterIconProvider('brand', './icons/brand/*.svg')
+class BrandIcons extends IconSource {}
+```
+
+`iconsPlugin()` rewrites that glob path into `import.meta.glob('./icons/brand/*.svg', { eager:
+true, query: '?raw', import: 'default' })` at build time — a source-text rewrite (same technique
+`@praxisjs/content`'s own Vite plugin uses), not something `RegisterIconProvider` does at runtime.
+It only touches calls whose second argument is a literal string; an object or a variable passes
+through untouched.
+
+<Callout type="warn">
+  Order matters: `iconsPlugin()` has to run *before* whatever lowers PraxisJS's `@Decorator()`
+  syntax into plain function calls, since it works by matching the literal `@RegisterIconProvider(`
+  text — put it first in your `plugins` array. If you forget the plugin entirely,
+  `RegisterIconProvider` throws a clear error naming `@morphos/icons/vite` instead of silently
+  misbehaving.
+</Callout>
+
+**Without the plugin** — no Vite, or you'd rather not add a build step — pass a `{ name: svg }`
+map, or resolve `import.meta.glob` yourself and pass its result directly:
+
+```tsx
+import { IconSource, RegisterIconProvider } from '@morphos/icons'
+
+const modules = import.meta.glob('./icons/brand/*.svg', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+}) as Record<string, string>
+
+@RegisterIconProvider('brand', modules)
+class BrandIcons extends IconSource {}
+```
+
+Use the registered class exactly like a built-in provider, as the app-wide default or inline (the
+`provider` prop on `Icon` still takes the registered *name*, not the class):
+
+```tsx
+@IconProvider(BrandIcons)
+@Component()
+class App extends StatefulComponent { /* ... */ }
+
+<Icon name="logo" provider="brand" />
+```
+
+`BrandIcons` above needed no body at all — `IconSource`'s default `resolve` already looks `name` up
+in `defaultIcons` and returns `{ svg }` or `undefined` (`Icon` then warns and renders nothing, same
+as an unknown lucide name). Override `resolve` when `defaultIcons` alone isn't enough — aliases, a
+remote fallback, structured node data — and call `super.resolve(name)` to still fall back to the
+`defaultIcons` lookup:
+
+```tsx
+@RegisterIconProvider('brand', './icons/brand/*.svg')
+class BrandIcons extends IconSource {
+  resolve(name: string) {
+    if (name === 'companyMark') return this.resolve('mark') // alias
+    return super.resolve(name)
+  }
+}
+```
+
+`resolve` can return either shape of `IconData`: `{ svg, viewBox? }` — a full `<svg>...</svg>`
+string (its `viewBox`, `fill`, and `stroke` are read off the outer tag automatically) or bare inner
+markup paired with an explicit `viewBox` — or `{ nodes, viewBox? }`, structured `[tag, attrs][]`
+node data, the same format `lucide` itself uses (and how `LucideSource` is implemented). Use
+`nodes` if your source data already looks like that; there's no need to serialize it to an SVG
+string first.
+
+| Export | Description |
+|---|---|
+| `RegisterIconProvider(provider, defaultIcons?)` | Class decorator. Instantiates the decorated class once, passing `defaultIcons` to its constructor, registers its `resolve` method, and tags the class with `provider` so `IconProvider` can read it back. A glob-path string only works with `iconsPlugin()` wired up — otherwise it throws. |
+| `IconSource` | Abstract base class — what every provider, built-in or custom, extends. `resolve(name)` defaults to a `defaultIcons` lookup — override for anything more. |
+| `LucideSource` | The built-in `"lucide"` provider — a pre-configured `IconSource` wrapping the `lucide` package. Must still be passed to `IconProvider` explicitly; it's never active on its own. |
+| `iconsPlugin()` *(from `@morphos/icons/vite`)* | Vite plugin — rewrites a glob-path string passed to `RegisterIconProvider` into `import.meta.glob(...)`. |
+| `iconsFromGlob(modules)` | What `IconSource`'s constructor normalizes `defaultIcons` with — keys by file basename when a key contains `/`, passes plain names through. |
+| `IconData` | `{ svg: string; viewBox?: string } \| { nodes: IconNode; viewBox?: string }` — what `resolve` returns. |
+| `IconNode` | `readonly [tag: string, attrs: Record<string, string \| number \| undefined>][]` — a single structured shape, e.g. `["path", { d: "M1" }]`. |
+| `RegisteredIconSource` | `{ readonly __iconProviderName: string }` — what `RegisterIconProvider` tags a class with. Only relevant if you're building your own tooling on top of `IconSource` classes. |
+
+## Without the decorator
+
+If you don't control the root class — or need to set the provider before you have one to decorate
+— call `setIconProvider` directly, once, before your first render, with the provider's registered
+*name* (not the class). It's exactly what `IconProvider` does internally, minus the class-decoration
+wiring:
+
+```ts
+import { setIconProvider } from '@morphos/icons'
+
+setIconProvider('brand')
+
+render(() => <App />, document.getElementById('app'))
+```
+
+`getIconProvider()` reads the current value back — `undefined` until something sets it — mainly
+useful for building your own tooling around it.
+
+## Changing the provider at runtime
+
+To switch providers from inside a component — a settings panel with an icon-set switcher, for
+example — `IconInstance` wraps `getIconProvider`/`setIconProvider` as a PraxisJS `Composable`, the
+same pattern as `@praxisjs/composables`' `WindowSize`:
+
+```tsx
+import { Component, Compose } from '@praxisjs/decorators'
+import { StatefulComponent } from '@praxisjs/core'
+import { IconInstance } from '@morphos/icons'
+
+@Component()
+class IconSwitcher extends StatefulComponent {
+  @Compose(IconInstance) iconInstance!: IconInstance
+
+  render() {
+    return (
+      <select onChange={(e) => this.iconInstance.setProvider(e.target.value)}>
+        <option value="lucide">Lucide</option>
+        <option value="brand">Brand</option>
+      </select>
+    )
+  }
+}
+```
+
+`this.iconInstance.provider` is a snapshot taken when the component is constructed — same as
+`Icon` itself, it won't live-update if something else calls `setProvider` afterward. Use
+`this.iconInstance.setProvider(...)` to change it going forward.
