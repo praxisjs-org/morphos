@@ -10,6 +10,7 @@
   "dependencies": {
     "@morphos/core": "workspace:*",
     "@morphos/feedback": "workspace:*",
+    "@morphos/icons": "workspace:*",
     "@morphos/inputs": "workspace:*",
     "@morphos/layout": "workspace:*",
     "@morphos/overlays": "workspace:*",
@@ -21,8 +22,10 @@
     "@praxisjs/storybook": "^0.2.7"
   },
   "devDependencies": {
+    "@phosphor-icons/core": "^2.1.1",
     "@praxisjs/jsx": "^0.7.3",
     "@storybook/builder-vite": "^10.4.0",
+    "lucide": "^1.27.0",
     "storybook": "^10.4.0",
     "typescript": "catalog:",
     "vite": "catalog:"

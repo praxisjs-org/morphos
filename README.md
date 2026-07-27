@@ -79,11 +79,12 @@ npm install @morphos/core
 | [`@morphos/overlays`](packages/overlays) | `0.1.0` | `Dialog`, `AlertDialog`, `Drawer`, `Popover`, `Tooltip`, `Dropdown` (aliased `Menu`), `ContextMenu`, `PreviewCard` |
 | [`@morphos/layout`](packages/layout) | `0.1.0` | `Accordion`, `Tabs`, `Disclosure` (aliased `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu` |
 | [`@morphos/feedback`](packages/feedback) | `0.1.0` | `ToastProvider` + `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter` |
+| [`@morphos/icons`](packages/icons) | `0.0.0` | `Icon` (generic SVG primitive for raw markup), `LucideIcon` (renders `lucide` icon data), `PhosphorIcon` (renders `@phosphor-icons/core` SVG assets) — neither icon library is a dependency, bring your own |
 
 `@morphos/core` is a required peer of every package below — install it once alongside whichever categories you need.
 
 ```sh
-npm install @morphos/inputs @morphos/overlays @morphos/layout @morphos/feedback
+npm install @morphos/inputs @morphos/overlays @morphos/layout @morphos/feedback @morphos/icons
 ```
 
 ### Styling
@@ -105,6 +106,7 @@ packages/
   overlays    dialogs, popovers, menus
   layout      accordions, tabs, toolbars
   feedback    toasts, alerts, progress
+  icons       Icon, LucideIcon, PhosphorIcon
   styles      optional CSS recipes
 playground/   manual testing app (Vite)
 storybook/    component stories

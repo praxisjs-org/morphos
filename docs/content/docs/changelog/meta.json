@@ -2,5 +2,5 @@
   "title": "Changelog",
   "description": "Release history across all packages",
   "root": true,
-  "pages": ["index", "core", "inputs", "overlays", "layout", "feedback", "styles"]
+  "pages": ["index", "core", "inputs", "overlays", "layout", "feedback", "styles", "icons"]
 }

@@ -54,7 +54,7 @@ and the browser.
 
 ## How components are organized
 
-Morphos is split into five packages so you only install what you actually use:
+Morphos is split into several packages so you only install what you actually use:
 
 | Package | What's in it |
 |---|---|
@@ -63,6 +63,7 @@ Morphos is split into five packages so you only install what you actually use:
 | `@morphos/overlays` | `Dialog`, `AlertDialog`, `Drawer`, `Popover`, `Tooltip`, `Dropdown` (aliased `Menu`), `ContextMenu`, `PreviewCard`. |
 | `@morphos/layout` | `Accordion`, `Tabs`, `Disclosure` (aliased `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu`. |
 | `@morphos/feedback` | `ToastProvider` + `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter`. |
+| `@morphos/icons` | `Icon`, `LucideIcon`, `PhosphorIcon` — bring your own icon set (`lucide`, `@phosphor-icons/core`, or raw SVG). |
 | `@morphos/styles` *(optional)* | Plain CSS recipes, one file per component. Nothing is imported by default — see [Styling](/docs/guide/styling). |
 
 `@morphos/core` is a required peer of every category package — install it alongside whichever

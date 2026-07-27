@@ -12,6 +12,7 @@ export default defineConfig({
       "@morphos/overlays": resolve(__dirname, "packages/overlays/src/index.ts"),
       "@morphos/layout": resolve(__dirname, "packages/layout/src/index.ts"),
       "@morphos/feedback": resolve(__dirname, "packages/feedback/src/index.ts"),
+      "@morphos/icons": resolve(__dirname, "packages/icons/src/index.ts"),
     },
   },
   test: {

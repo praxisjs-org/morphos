@@ -13,6 +13,7 @@ Headless primitive component library for PraxisJS. Monorepo managed with pnpm wo
 | `@morphos/overlays` | `Dialog`, `Tooltip`, `Popover`, `Dropdown` (aliased as `Menu`), `AlertDialog`, `Drawer`, `ContextMenu`, `PreviewCard` and their compound parts |
 | `@morphos/layout` | `Accordion`, `Tabs`, `Disclosure` (aliased as `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu` and their compound parts |
 | `@morphos/feedback` | `ToastProvider`, `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter` |
+| `@morphos/icons` | `Icon` (generic SVG primitive for raw markup), `LucideIcon` (renders `lucide` package icon data), `PhosphorIcon` (renders raw SVG assets from `@phosphor-icons/core`). Neither `lucide` nor `@phosphor-icons/core` is a dependency — consumers install whichever icon set they use |
 | `@morphos/styles` | Optional, opt-in CSS recipes — one plain CSS file per component plus `tokens.css`. Nothing is applied unless explicitly imported. Not a peer of the other packages; pure CSS, not built by `tsc` |
 
 Private:
@@ -28,7 +29,7 @@ Private:
 ## Workspace layout
 
 ```
-packages/   core  inputs  overlays  layout  feedback  styles
+packages/   core  inputs  overlays  layout  feedback  icons  styles
 playground/
 storybook/
 docs/
@@ -264,7 +265,8 @@ overlays/    dialog  alert-dialog  drawer  context-menu  popover  tooltip
 layout/      accordion  tabs  disclosure  separator  scroll-area  toolbar
              menubar  navigation-menu
 feedback/    toast  alert  progress  spinner  avatar  meter
-changelog/   core  inputs  overlays  layout  feedback
+icons/       icon  lucide-icon  phosphor-icon
+changelog/   core  inputs  overlays  layout  feedback  icons  styles
 ```
 
 Every page needs `description:` frontmatter. Run `pnpm docs:dev` to preview.
