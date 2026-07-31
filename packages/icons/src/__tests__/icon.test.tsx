@@ -18,6 +18,12 @@ function mount(node: () => unknown): HTMLDivElement {
   return container;
 }
 
+function mountDisposable(node: () => unknown): { container: HTMLDivElement; dispose: () => void } {
+  const container = document.createElement("div");
+  const dispose = render(node as () => Node, container);
+  return { container, dispose };
+}
+
 // Simulates an app that already applied @IconProvider(LucideSource) — there's no
 // implicit default, so every test in this file configures it explicitly, same as a
 // real consumer must.
@@ -157,6 +163,67 @@ describe("Icon", () => {
       const svg = container.querySelector("svg");
       expect(svg?.getAttribute("viewBox")).toBe("0 0 32 32");
       expect(svg?.querySelector("path")?.getAttribute("d")).toBe("M5");
+    });
+
+    it("renders every supported structured shape tag, skipping unrecognized ones", () => {
+      registerIconProvider("brand", (name) =>
+        name === "Logo"
+          ? {
+              nodes: [
+                ["circle", { cx: "12", cy: "12", r: "10" }],
+                ["rect", { x: "3", y: "3", width: "18", height: "18" }],
+                ["line", { x1: "0", y1: "0", x2: "24", y2: "24" }],
+                ["polyline", { points: "0,0 12,24 24,0" }],
+                ["ellipse", { cx: "12", cy: "12", rx: "10", ry: "6" }],
+                ["title", { id: "unsupported" }],
+              ],
+              viewBox: "0 0 24 24",
+            }
+          : undefined,
+      );
+      const container = mount(() => <Icon name="Logo" provider="brand" />);
+      const svg = container.querySelector("svg");
+      expect(svg?.querySelector("circle")?.getAttribute("r")).toBe("10");
+      expect(svg?.querySelector("rect")?.getAttribute("width")).toBe("18");
+      expect(svg?.querySelector("line")?.getAttribute("x2")).toBe("24");
+      expect(svg?.querySelector("polyline")?.getAttribute("points")).toBe("0,0 12,24 24,0");
+      expect(svg?.querySelector("ellipse")?.getAttribute("rx")).toBe("10");
+      expect(svg?.querySelector("title")).toBeNull();
+    });
+
+    it("defaults viewBox for structured node data with no explicit viewBox", () => {
+      registerIconProvider("brand", (name) =>
+        name === "Logo" ? { nodes: [["path", { d: "M6" }]] } : undefined,
+      );
+      const container = mount(() => <Icon name="Logo" provider="brand" />);
+      expect(container.querySelector("svg")?.getAttribute("viewBox")).toBe("0 0 24 24");
+    });
+
+    it("labels a raw-markup icon as an img when aria-label is set", () => {
+      registerIconProvider("brand", (name) =>
+        name === "Logo" ? { svg: '<svg viewBox="0 0 32 32"><path d="M1"/></svg>' } : undefined,
+      );
+      const container = mount(() => <Icon name="Logo" provider="brand" aria-label="Brand" />);
+      const svg = container.querySelector("svg");
+      expect(svg?.getAttribute("role")).toBe("img");
+      expect(svg?.getAttribute("aria-label")).toBe("Brand");
+      expect(svg?.getAttribute("aria-hidden")).toBeNull();
+    });
+
+    it("cleans up without throwing when unmounted, for both structured and raw-markup icons", async () => {
+      registerIconProvider("brand", (name) =>
+        name === "Logo" ? { nodes: [["path", { d: "M7" }]] } : undefined,
+      );
+      const nodesIcon = mountDisposable(() => <Icon name="Logo" provider="brand" />);
+      await Promise.resolve();
+      expect(() => { nodesIcon.dispose(); }).not.toThrow();
+
+      registerIconProvider("brand", (name) =>
+        name === "Logo" ? { svg: '<path d="M8"/>' } : undefined,
+      );
+      const markupIcon = mountDisposable(() => <Icon name="Logo" provider="brand" />);
+      await Promise.resolve();
+      expect(() => { markupIcon.dispose(); }).not.toThrow();
     });
   });
 });

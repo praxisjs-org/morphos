@@ -94,8 +94,7 @@ export class Icon extends StatelessComponent<IconProps> {
           role={ariaLabel ? "img" : undefined}
           aria-label={ariaLabel}
           aria-hidden={ariaLabel ? undefined : ("true" as const)}
-          ref={(el: SVGSVGElement | null) => {
-            if (!el) return;
+          ref={(el: SVGSVGElement) => {
             el.setAttribute("stroke-width", String(resolvedStrokeWidth));
             el.setAttribute("stroke-linecap", "round");
             el.setAttribute("stroke-linejoin", "round");
@@ -122,8 +121,8 @@ export class Icon extends StatelessComponent<IconProps> {
         role={ariaLabel ? "img" : undefined}
         aria-label={ariaLabel}
         aria-hidden={ariaLabel ? undefined : ("true" as const)}
-        ref={(el: SVGSVGElement | null) => {
-          if (el) el.innerHTML = markup;
+        ref={(el: SVGSVGElement) => {
+          el.innerHTML = markup;
         }}
       />
     );

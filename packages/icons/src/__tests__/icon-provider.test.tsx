@@ -125,6 +125,24 @@ describe("IconProvider", () => {
     }).toThrow(/@RegisterIconProvider/);
   });
 
+  it("throws when the decorated class's resolver was unregistered before @IconProvider runs", () => {
+    @RegisterIconProvider("brand")
+    class BrandIcons extends IconSource {}
+
+    unregisterIconProvider("brand");
+
+    expect(() => {
+      @IconProvider(BrandIcons)
+      @Component()
+      class App extends StatefulComponent {
+        render() {
+          return document.createElement("div");
+        }
+      }
+      void App;
+    }).toThrow(/isn't registered/);
+  });
+
   it("throws when given an empty array", () => {
     expect(() => {
       @IconProvider([])
