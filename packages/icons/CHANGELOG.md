@@ -1,5 +1,15 @@
 # @morphos/icons
 
+## 1.0.2
+
+### Patch Changes
+
+- 6ce2e48: Bump `@praxisjs/*` dev dependencies used for local development and testing (`core` to `^2.2.0`, `decorators` to `^1.7.0`, `jsx` to `^0.7.6`, `runtime` to `^0.7.0`, `vite-plugin` to `^4.0.6`). Peer dependency ranges are unchanged, so this doesn't affect what consumers can install.
+- c27e88e: Bump `@praxisjs/*` dev dependencies used for local development and testing (`jsx` to `^0.7.7`, `runtime` to `^0.7.1`). This picks up the runtime fix for event props passed as `undefined`. Peer dependency ranges are unchanged, so this doesn't affect what consumers can install.
+- Updated dependencies [6ce2e48]
+- Updated dependencies [c27e88e]
+  - @morphos/core@0.1.3
+
 ## 1.0.1
 
 ### Patch Changes
@@ -47,20 +57,20 @@
   - `RegisterIconProvider` + `IconSource` — register a custom icon provider as a class,
     decorator-first, consistent with every other Morphos/PraxisJS component:
 
-        ```tsx
-        @RegisterIconProvider("brand", "./icons/brand/*.svg")
-        class BrandIcons extends IconSource {}
-        ```
+         ```tsx
+         @RegisterIconProvider("brand", "./icons/brand/*.svg")
+         class BrandIcons extends IconSource {}
+         ```
 
-        Instantiates the class once, registers its `resolve` method, and tags the class with the given
-        name so `IconProvider` can read it back. The second argument, `defaultIcons`, can be a `{ name:
+         Instantiates the class once, registers its `resolve` method, and tags the class with the given
+         name so `IconProvider` can read it back. The second argument, `defaultIcons`, can be a `{ name:
 
     svg }`map, a glob path string (with`@morphos/icons/vite`'s `iconsPlugin()`wired into
-   `vite.config.ts`— it rewrites the path into`import.meta.glob(...)`at build time, the same
-    source-text-rewrite technique`@praxisjs/content`'s own Vite plugin uses), or a glob result
-    passed directly. `resolve`'s default implementation looks `name`up in`defaultIcons`; override
-    it (calling `super.resolve(name)`to fall back) for anything more — aliases, a remote fallback,
-    or structured`{ nodes, viewBox? }`data, the same`[tag, attrs][]`format`lucide` itself uses.
+`vite.config.ts`— it rewrites the path into`import.meta.glob(...)`at build time, the same
+ source-text-rewrite technique`@praxisjs/content`'s own Vite plugin uses), or a glob result
+ passed directly. `resolve`'s default implementation looks `name`up in`defaultIcons`; override
+ it (calling `super.resolve(name)`to fall back) for anything more — aliases, a remote fallback,
+ or structured`{ nodes, viewBox? }`data, the same`[tag, attrs][]`format`lucide` itself uses.
 
   - `"lucide"` isn't special-cased anywhere: it's `LucideSource`, a built-in `IconSource` — a
     pre-configured wrapper around the `lucide` package, registered and activated the exact same way a
