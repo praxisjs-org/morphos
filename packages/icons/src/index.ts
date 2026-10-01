@@ -14,6 +14,3 @@ export { IconSource } from "./provider/icon-source";
 export { RegisterIconProvider } from "./provider/register-icon-provider";
 export type { RegisteredIconSource } from "./provider/register-icon-provider";
 export { iconsFromGlob } from "./provider/icons-from-glob";
-
-export { LucideSource } from "./data/lucide-source";
-export type { LucideIconName } from "./data/lucide";

@@ -27,7 +27,8 @@ with [IconProvider](/docs/icons/icon-provider), which is mandatory — every app
 the root, before any `Icon` renders:
 
 ```tsx
-import { Icon, IconProvider, LucideSource } from '@morphos/icons'
+import { Icon, IconProvider } from '@morphos/icons'
+import { LucideSource } from '@morphos/icons/lucide'
 import { Component } from '@praxisjs/decorators'
 import { StatefulComponent } from '@praxisjs/core'
 
@@ -41,15 +42,15 @@ class App extends StatefulComponent {
 ```
 
 `LucideSource` is the built-in provider — a pre-configured wrapper around [lucide](https://lucide.dev)
-(a real peer dependency; its icon data is read live, `import { icons } from "lucide"` under the
-hood). It still has to be applied through `IconProvider` explicitly, like any other provider —
-there is no default.
+(an optional peer dependency; install it only if you use this provider). It lives in its own entry,
+`@morphos/icons/lucide`, so apps that use only their own icon set never import `lucide`. It still
+has to be applied through `IconProvider` explicitly, like any other provider — there is no default.
 
 <PackageInstall pkg="lucide" />
 
-`name` is typed against `LucideSource`'s icon names, so your editor autocompletes every valid
-lucide export — plain strings are still accepted, for provider names the package can't know about
-ahead of time.
+Once you import `LucideSource` from `@morphos/icons/lucide`, your editor autocompletes every lucide
+name on `name` — nothing else to set up. Any other string is still accepted, for names from your own
+providers.
 
 ## Overriding the provider per instance
 

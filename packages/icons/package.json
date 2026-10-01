@@ -9,6 +9,10 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./lucide": {
+      "import": "./dist/lucide.js",
+      "types": "./dist/lucide.d.ts"
+    },
     "./vite": {
       "import": "./dist/vite.js",
       "types": "./dist/vite.d.ts"
@@ -25,6 +29,9 @@
     "vite": ">=8.0.0"
   },
   "peerDependenciesMeta": {
+    "lucide": {
+      "optional": true
+    },
     "vite": {
       "optional": true
     }

@@ -79,7 +79,7 @@ npm install @morphos/core
 | [`@morphos/overlays`](packages/overlays) | `0.1.0` | `Dialog`, `AlertDialog`, `Drawer`, `Popover`, `Tooltip`, `Dropdown` (aliased `Menu`), `ContextMenu`, `PreviewCard` |
 | [`@morphos/layout`](packages/layout) | `0.1.0` | `Accordion`, `Tabs`, `Disclosure` (aliased `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu` |
 | [`@morphos/feedback`](packages/feedback) | `0.1.0` | `ToastProvider` + `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter` |
-| [`@morphos/icons`](packages/icons) | `0.1.0` | `Icon` (renders by `name`, resolved against the configured provider) + `IconProvider` (mandatory — there's no default provider, `"lucide"` included). `lucide` is a peer dependency wrapped by the built-in `LucideSource`; register your own icon set with `RegisterIconProvider` |
+| [`@morphos/icons`](packages/icons) | `0.1.0` | `Icon` (renders by `name`, resolved against the configured provider) + `IconProvider` (mandatory — there's no default provider, `"lucide"` included). `lucide` is an optional peer dependency wrapped by the built-in `LucideSource` (from `@morphos/icons/lucide`); register your own icon set with `RegisterIconProvider` |
 
 `@morphos/core` is a required peer of every package below — install it once alongside whichever categories you need.
 

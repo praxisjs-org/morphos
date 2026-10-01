@@ -5,7 +5,7 @@ import { render } from "@praxisjs/runtime";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { Icon } from "../icon/icon";
-import { LucideSource } from "../data/lucide-source";
+import { LucideSource } from "../lucide";
 import { IconProvider } from "../provider/icon-provider";
 import { IconSource } from "../provider/icon-source";
 import { getIconProvider, resetIconProvider } from "../provider/provider-store";

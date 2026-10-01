@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Plugin } from "vite";
 
 import { buildSubsetModule, collectIconNames, iconsPlugin, type IconsPluginOptions } from "../vite";
@@ -114,5 +114,20 @@ describe("iconsPlugin lucide subset", () => {
     const { plugin, start } = setup("build", { lucide: false });
     await start();
     expect(plugin.resolveId("lucide", LUCIDE_DATA)).toBeUndefined();
+  });
+
+  it("does nothing, without failing the build, when lucide isn't installed", async () => {
+    vi.resetModules();
+    vi.doMock("lucide", () => {
+      throw new Error("Cannot find package 'lucide'");
+    });
+    try {
+      const { iconsPlugin: freshPlugin } = await import("../vite");
+      const plugin = freshPlugin() as Hooks;
+      await plugin.buildStart.call({ environment: { config: { command: "build", root } } });
+      expect(plugin.resolveId("lucide", LUCIDE_DATA)).toBeUndefined();
+    } finally {
+      vi.doUnmock("lucide");
+    }
   });
 });

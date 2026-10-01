@@ -2,7 +2,8 @@ import { StatefulComponent } from "@praxisjs/core";
 import { Component, Prop } from "@praxisjs/decorators";
 import type { Meta, StoryObj } from "@praxisjs/storybook";
 
-import { Icon, IconProvider, LucideSource } from "@morphos/icons";
+import { Icon, IconProvider } from "@morphos/icons";
+import { LucideSource } from "@morphos/icons/lucide";
 
 // ---------------------------------------------------------------------------
 // Meta

@@ -99,7 +99,12 @@ export function iconsPlugin(options: IconsPluginOptions = {}): Plugin {
       subset = undefined;
       if (!lucide || this.environment.config.command !== "build") return;
 
-      const { icons } = (await import("lucide")) as { icons: Record<string, unknown> };
+      let icons: Record<string, unknown>;
+      try {
+        ({ icons } = (await import("lucide")) as { icons: Record<string, unknown> });
+      } catch {
+        return; // lucide isn't installed (it's an optional peer) — the app doesn't use it, nothing to trim
+      }
       const root = this.environment.config.root;
       const dirs = (lucide.scan ?? ["src"]).map((dir) => resolve(root, dir));
       const used = collectIconNames(dirs, new Set(Object.keys(icons)));

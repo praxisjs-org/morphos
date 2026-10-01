@@ -3,8 +3,16 @@ title: "@morphos/icons"
 description: Changelog for @morphos/icons.
 ---
 
-## 1.1.0
+## 2.0.0
 
+- **Breaking:** `LucideSource` (and the `LucideIconName` type) moved out of `@morphos/icons` into a
+  new subpath, `@morphos/icons/lucide`. The main entry no longer imports `lucide`, so apps that use
+  only their own icon set don't need it installed or bundled. Update imports:
+  `import { LucideSource } from '@morphos/icons/lucide'`.
+- `lucide` is now an optional peer dependency — install it only if you use `LucideSource`.
+- `Icon`'s `name` autocompletes lucide's names once `@morphos/icons/lucide` is imported (it augments
+  the new `IconNameRegistry` interface). The main entry's types no longer depend on `lucide`, so
+  type-checking works with `skipLibCheck: false` even when it isn't installed.
 - `iconsPlugin()` now trims the built-in `"lucide"` set in production builds. It scans your source
   for lucide icon names and bundles only those, instead of all ~2,100 icons (~500 kB). Automatic
   once `iconsPlugin()` is in your Vite config — no new setup. Dev is unchanged. Configure with

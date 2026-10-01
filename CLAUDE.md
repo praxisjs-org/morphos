@@ -13,7 +13,7 @@ Headless primitive component library for PraxisJS. Monorepo managed with pnpm wo
 | `@morphos/overlays` | `Dialog`, `Tooltip`, `Popover`, `Dropdown` (aliased as `Menu`), `AlertDialog`, `Drawer`, `ContextMenu`, `PreviewCard` and their compound parts |
 | `@morphos/layout` | `Accordion`, `Tabs`, `Disclosure` (aliased as `Collapsible`), `Separator`, `ScrollArea`, `Toolbar`, `Menubar`, `NavigationMenu` and their compound parts |
 | `@morphos/feedback` | `ToastProvider`, `Toast`, `Alert`, `Progress`, `Spinner`, `Avatar`, `Meter` |
-| `@morphos/icons` | `Icon` (renders by `name`, resolved against the configured provider) + `IconProvider` (mandatory in every app — sets the provider; there is no default, `"lucide"` included). `lucide` is a real peer dependency (data read live) wrapped by the built-in `LucideSource`. Register a custom icon set with `RegisterIconProvider`; `@morphos/icons/vite`'s `iconsPlugin()` lets it take a glob path directly |
+| `@morphos/icons` | `Icon` (renders by `name`, resolved against the configured provider) + `IconProvider` (mandatory in every app — sets the provider; there is no default, `"lucide"` included). `lucide` is an optional peer dependency (data read live) wrapped by the built-in `LucideSource`, exported from the `@morphos/icons/lucide` subpath so the main entry never imports it. Register a custom icon set with `RegisterIconProvider`; `@morphos/icons/vite`'s `iconsPlugin()` lets it take a glob path directly |
 | `@morphos/styles` | Optional, opt-in CSS recipes — one plain CSS file per component plus `tokens.css`. Nothing is applied unless explicitly imported. Not a peer of the other packages; pure CSS, not built by `tsc` |
 
 Private:

@@ -32,7 +32,8 @@ import { IconProvider } from '@morphos/icons'
 `@Router`. It takes an `IconSource` class, not a string:
 
 ```tsx
-import { IconProvider, LucideSource } from '@morphos/icons'
+import { IconProvider } from '@morphos/icons'
+import { LucideSource } from '@morphos/icons/lucide'
 import { Component } from '@praxisjs/decorators'
 import { StatefulComponent } from '@praxisjs/core'
 
@@ -168,7 +169,7 @@ string first.
 |---|---|
 | `RegisterIconProvider(provider, defaultIcons?)` | Class decorator. Instantiates the decorated class once, passing `defaultIcons` to its constructor, registers its `resolve` method, and tags the class with `provider` so `IconProvider` can read it back. A glob-path string only works with `iconsPlugin()` wired up — otherwise it throws. |
 | `IconSource` | Abstract base class — what every provider, built-in or custom, extends. `resolve(name)` defaults to a `defaultIcons` lookup — override for anything more. |
-| `LucideSource` | The built-in `"lucide"` provider — a pre-configured `IconSource` wrapping the `lucide` package. Must still be passed to `IconProvider` explicitly; it's never active on its own. |
+| `LucideSource` *(from `@morphos/icons/lucide`)* | The built-in `"lucide"` provider — a pre-configured `IconSource` wrapping the `lucide` package, an optional peer dependency. Must still be passed to `IconProvider` explicitly; it's never active on its own. |
 | `iconsPlugin(options?)` *(from `@morphos/icons/vite`)* | Vite plugin — rewrites a glob-path string passed to `RegisterIconProvider` into `import.meta.glob(...)`, and trims the `"lucide"` set to the icons your app uses in production builds. |
 | `iconsFromGlob(modules)` | What `IconSource`'s constructor normalizes `defaultIcons` with — keys by file basename when a key contains `/`, passes plain names through. |
 | `IconData` | `{ svg: string; viewBox?: string } \| { nodes: IconNode; viewBox?: string }` — what `resolve` returns. |

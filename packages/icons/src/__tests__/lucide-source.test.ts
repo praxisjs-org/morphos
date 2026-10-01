@@ -23,3 +23,15 @@ describe("LucideSource", () => {
     expect(new LucideSource().resolve("NotARealIconName123")).toBeUndefined();
   });
 });
+
+describe("@morphos/icons/lucide entry", () => {
+  it("exports LucideSource, so the main entry doesn't have to import lucide", async () => {
+    const entry = await import("../lucide");
+    expect(entry.LucideSource).toBe(LucideSource);
+  });
+
+  it("is not re-exported from the main entry", async () => {
+    const main = await import("../index");
+    expect("LucideSource" in main).toBe(false);
+  });
+});
