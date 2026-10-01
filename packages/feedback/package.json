@@ -27,8 +27,8 @@
     "@morphos/core": "workspace:*",
     "@praxisjs/core": "^2.2.0",
     "@praxisjs/decorators": "^1.7.0",
-    "@praxisjs/jsx": "^0.7.6",
-    "@praxisjs/runtime": "^0.7.0",
+    "@praxisjs/jsx": "^0.7.7",
+    "@praxisjs/runtime": "^0.7.1",
     "@praxisjs/shared": "^0.3.1",
     "typescript": "catalog:"
   }
