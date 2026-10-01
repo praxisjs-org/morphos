@@ -169,11 +169,70 @@ string first.
 | `RegisterIconProvider(provider, defaultIcons?)` | Class decorator. Instantiates the decorated class once, passing `defaultIcons` to its constructor, registers its `resolve` method, and tags the class with `provider` so `IconProvider` can read it back. A glob-path string only works with `iconsPlugin()` wired up — otherwise it throws. |
 | `IconSource` | Abstract base class — what every provider, built-in or custom, extends. `resolve(name)` defaults to a `defaultIcons` lookup — override for anything more. |
 | `LucideSource` | The built-in `"lucide"` provider — a pre-configured `IconSource` wrapping the `lucide` package. Must still be passed to `IconProvider` explicitly; it's never active on its own. |
-| `iconsPlugin()` *(from `@morphos/icons/vite`)* | Vite plugin — rewrites a glob-path string passed to `RegisterIconProvider` into `import.meta.glob(...)`. |
+| `iconsPlugin(options?)` *(from `@morphos/icons/vite`)* | Vite plugin — rewrites a glob-path string passed to `RegisterIconProvider` into `import.meta.glob(...)`, and trims the `"lucide"` set to the icons your app uses in production builds. |
 | `iconsFromGlob(modules)` | What `IconSource`'s constructor normalizes `defaultIcons` with — keys by file basename when a key contains `/`, passes plain names through. |
 | `IconData` | `{ svg: string; viewBox?: string } \| { nodes: IconNode; viewBox?: string }` — what `resolve` returns. |
 | `IconNode` | `readonly [tag: string, attrs: Record<string, string \| number \| undefined>][]` — a single structured shape, e.g. `["path", { d: "M1" }]`. |
 | `RegisteredIconSource` | `{ readonly __iconProviderName: string }` — what `RegisterIconProvider` tags a class with. Only relevant if you're building your own tooling on top of `IconSource` classes. |
+
+## Smaller production bundles
+
+`lucide` ships its icons as a single object of ~2,100 entries (~500 kB), so importing it
+pulls in all of them even if the app uses a handful. With `iconsPlugin()` in your Vite config,
+production builds (`vite build`) bundle only the lucide icons your source references. Nothing to
+configure, and `vite dev` still uses the full set:
+
+```ts
+// vite.config.ts
+import { iconsPlugin } from '@morphos/icons/vite'
+
+export default defineConfig({
+  plugins: [iconsPlugin(), /* ...your other plugins */],
+})
+```
+
+The plugin scans `src/` for quoted PascalCase strings that match a lucide icon name — `<Icon
+name="Plus" />`, but also `icon: "Plus"` in a config object or a name stored in an array.
+
+### Names built at runtime
+
+The scanner only sees complete string literals. A name assembled at runtime never appears in the
+source as a whole, so it isn't detected and is left out of the production bundle:
+
+```tsx
+function ArrowButton({ dir }: { dir: 'Up' | 'Down' | 'Left' | 'Right' }) {
+  return <Icon name={`Arrow${dir}`} /> // "ArrowUp", "ArrowDown"... never appear as literals
+}
+```
+
+In production, `Icon` then warns `No icon named "ArrowUp"` and renders nothing. There are two fixes.
+
+**Write the names out in full** — the scanner finds them, and TypeScript checks them:
+
+```tsx
+const ARROWS = {
+  Up: 'ArrowUp',
+  Down: 'ArrowDown',
+  Left: 'ArrowLeft',
+  Right: 'ArrowRight',
+} as const
+
+<Icon name={ARROWS[dir]} />
+```
+
+**Or list them with `include`** — needed when the name really comes from outside the source (an
+API response, a database, a CMS):
+
+```ts
+iconsPlugin({
+  lucide: {
+    include: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'],
+    scan: ['src', 'packages/ui/src'], // directories to scan, relative to the project root. Default: ['src']
+  },
+})
+```
+
+Pass `iconsPlugin({ lucide: false })` to always bundle the full set.
 
 ## Without the decorator
 

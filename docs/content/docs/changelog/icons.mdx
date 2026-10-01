@@ -3,6 +3,13 @@ title: "@morphos/icons"
 description: Changelog for @morphos/icons.
 ---
 
+## 1.1.0
+
+- `iconsPlugin()` now trims the built-in `"lucide"` set in production builds. It scans your source
+  for lucide icon names and bundles only those, instead of all ~2,100 icons (~500 kB). Automatic
+  once `iconsPlugin()` is in your Vite config — no new setup. Dev is unchanged. Configure with
+  `iconsPlugin({ lucide: { include, scan } })`, or opt out with `iconsPlugin({ lucide: false })`.
+
 ## 1.0.1
 
 - Test coverage for `Icon`'s structured-shape rendering (`circle`, `rect`, `line`, `polyline`,
