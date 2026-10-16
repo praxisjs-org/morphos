@@ -1,5 +1,5 @@
 import { StatefulComponent, StatelessComponent } from "@praxisjs/core";
-import { Component, Prop, Ref, State, type Ref as RefType  } from "@praxisjs/decorators";
+import { Component, Prop, Ref, Selector, State, type Ref as RefType  } from "@praxisjs/decorators";
 import { Portal } from "@praxisjs/runtime";
 
 import {
@@ -32,6 +32,9 @@ export class Menubar extends StatefulComponent {
   onBeforeMount() {
     this._activeMenu = null;
   }
+
+  /** @internal — read by `MenubarMenu.isOpen`, so switching menus updates only the previous and next menu. */
+  @Selector("_activeMenu") readonly _isActive!: Selector<string>;
 
   get activeMenu(): string | null {
     return this._activeMenu;
@@ -94,7 +97,7 @@ export class MenubarMenu extends StatefulComponent {
   }
 
   get isOpen(): boolean {
-    return this.menubar.activeMenu === this.value;
+    return this.menubar._isActive(this.value);
   }
 
   /** @internal — called by MenubarTrigger on mount. */

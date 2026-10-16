@@ -1,5 +1,5 @@
 import { StatefulComponent, StatelessComponent } from "@praxisjs/core";
-import { Component, Emit, Prop, State } from "@praxisjs/decorators";
+import { Component, Emit, Prop, Selector, State } from "@praxisjs/decorators";
 
 import { generateId, Keys, wrapIndex, type Orientation  } from "@morphos/core";
 
@@ -32,6 +32,9 @@ export class Tabs extends StatefulComponent {
   get selectedValue(): string | undefined {
     return this.value ?? this._value;
   }
+
+  /** @internal — read by `Tab` and `TabPanel`, so a selection change updates only the previous and next ones. */
+  @Selector("selectedValue") readonly _isSelected!: Selector<string>;
 
   @Emit("onValueChange")
   select(value: string) {
@@ -144,11 +147,11 @@ export class Tab extends StatefulComponent {
         role="tab"
         class={this.class}
         disabled={this.disabled}
-        aria-selected={() => (this.tabs.selectedValue === this.value ? "true" : "false")}
+        aria-selected={() => (this.tabs._isSelected(this.value) ? "true" : "false")}
         aria-controls={this._panelId}
         aria-disabled={this.disabled ? ("true" as const) : undefined}
-        tabIndex={() => (this.tabs.selectedValue === this.value ? 0 : -1)}
-        data-selected={() => (this.tabs.selectedValue === this.value ? "" : undefined)}
+        tabIndex={() => (this.tabs._isSelected(this.value) ? 0 : -1)}
+        data-selected={() => (this.tabs._isSelected(this.value) ? "" : undefined)}
         data-disabled={this.disabled ? "" : undefined}
         onClick={() => { if (!this.disabled) this.tabs.select(this.value); }}
       >
@@ -168,8 +171,8 @@ export class TabPanel extends StatelessComponent<TabPanelProps> {
         role="tabpanel"
         class={cls}
         aria-labelledby={value}
-        hidden={() => tabs.selectedValue !== value}
-        data-selected={() => (tabs.selectedValue === value ? "" : undefined)}
+        hidden={() => !tabs._isSelected(value)}
+        data-selected={() => (tabs._isSelected(value) ? "" : undefined)}
       >
         {children}
       </div>

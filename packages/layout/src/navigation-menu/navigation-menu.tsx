@@ -1,5 +1,5 @@
 import { StatefulComponent, StatelessComponent } from "@praxisjs/core";
-import { Component, Prop, Ref, State, type Ref as RefType } from "@praxisjs/decorators";
+import { Component, Prop, Ref, Selector, State, type Ref as RefType } from "@praxisjs/decorators";
 
 import { generateId, Keys } from "@morphos/core";
 
@@ -25,6 +25,9 @@ export class NavigationMenu extends StatefulComponent {
   onBeforeMount() {
     this._activeItem = null;
   }
+
+  /** @internal — read by `NavigationMenuItem.isOpen`, so switching items updates only the previous and next item. */
+  @Selector("_activeItem") readonly _isActive!: Selector<string>;
 
   get activeItem(): string | null {
     return this._activeItem;
@@ -93,7 +96,7 @@ export class NavigationMenuItem extends StatefulComponent {
   _triggerEl: HTMLElement | null = null;
 
   get isOpen(): boolean {
-    return this.nav.activeItem === this.value;
+    return this.nav._isActive(this.value);
   }
 
   /** @internal — called by NavigationMenuTrigger on mount. */

@@ -1,5 +1,5 @@
 import { StatefulComponent, StatelessComponent } from "@praxisjs/core";
-import { Component, Prop, Ref, State, type Ref as RefType  } from "@praxisjs/decorators";
+import { Component, Prop, Ref, Selector, State, type Ref as RefType  } from "@praxisjs/decorators";
 
 import { Keys, wrapIndex } from "@morphos/core";
 
@@ -22,6 +22,9 @@ export class Toolbar extends StatefulComponent {
   /** Bumped on every register/unregister so reactive bindings that read `_items` (a plain array) update. */
   @State() _itemsVersion = 0;
   readonly _items: HTMLElement[] = [];
+
+  /** @internal — read by `ToolbarButton`, so moving focus updates only the previous and next button's tab stop. */
+  @Selector("_focusedIndex") readonly _isFocused!: Selector<number>;
 
   onBeforeMount() {
     this._focusedIndex = 0;
@@ -113,7 +116,7 @@ export class ToolbarButton extends StatefulComponent {
     void this.toolbar._itemsVersion;
     const current = this.buttonRef.current;
     if (!current) return -1;
-    return this.toolbar._focusedIndex === this.toolbar._items.indexOf(current) ? 0 : -1;
+    return this.toolbar._isFocused(this.toolbar._items.indexOf(current)) ? 0 : -1;
   }
 
   private readonly _handleClick = () => {
