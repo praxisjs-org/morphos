@@ -17,12 +17,12 @@
     "@morphos/styles": "workspace:*",
     "@praxisjs/core": "^2.3.0",
     "@praxisjs/decorators": "^2.0.0",
-    "@praxisjs/runtime": "^0.8.0",
+    "@praxisjs/runtime": "^0.8.1",
     "@praxisjs/shared": "^0.3.2",
-    "@praxisjs/storybook": "^0.3.0"
+    "@praxisjs/storybook": "^0.3.2"
   },
   "devDependencies": {
-    "@praxisjs/jsx": "^0.8.0",
+    "@praxisjs/jsx": "^0.8.1",
     "@storybook/builder-vite": "^10.4.0",
     "lucide": "^1.27.0",
     "storybook": "^10.4.0",
