@@ -1,5 +1,6 @@
 import { StatefulComponent } from "@praxisjs/core";
-import { Component, Emit, Prop, Ref, State, type Ref as RefType } from "@praxisjs/decorators";
+import { Component, Emit, Prop, Ref, Selector, State, type Ref as RefType } from "@praxisjs/decorators";
+import { For } from "@praxisjs/runtime";
 
 import { generateId, isActivationKey, Keys, wrapIndex } from "@morphos/core";
 
@@ -26,6 +27,9 @@ export class Select extends StatefulComponent {
   @State() _open = false;
   @State() _value: string | undefined = undefined;
   @State() _activeIndex = -1;
+
+  @Selector("_activeIndex") private readonly _isActive!: Selector<number>;
+  @Selector("_selectedValue") private readonly _isSelected!: Selector<string | undefined>;
 
   @Ref<HTMLElement>()
   private readonly _rootRef!: RefType<HTMLElement>;
@@ -60,7 +64,8 @@ export class Select extends StatefulComponent {
     document.removeEventListener("mousedown", this._handleDocumentMouseDown);
   }
 
-  private get _selectedValue(): string | undefined {
+  /** @internal — not `private` because `@Selector` can only watch a field its type can see. */
+  get _selectedValue(): string | undefined {
     return this.value ?? this._value;
   }
 
@@ -173,11 +178,16 @@ export class Select extends StatefulComponent {
             tabIndex={-1}
             style={{ position: "absolute", opacity: "0", pointerEvents: "none" }}
           >
-            {this.options.map((o) => (
-              <option key={o.value} value={o.value} selected={() => o.value === this._selectedValue}>
-                {o.label}
-              </option>
-            ))}
+            <For each={() => this.options} by="value">
+              {(option) => {
+                const value = option().value;
+                return (
+                  <option value={value} selected={() => this._isSelected(value)}>
+                    {() => option().label}
+                  </option>
+                );
+              }}
+            </For>
           </select>
         )}
 
@@ -232,22 +242,24 @@ export class Select extends StatefulComponent {
                 this._close(false);
               }}
             >
-              {this.options.map((option, index) => (
-                <li
-                  key={option.value}
-                  role="option"
-                  aria-selected={() => (option.value === this._selectedValue ? "true" : "false")}
-                  aria-disabled={option.disabled ? ("true" as const) : undefined}
-                  data-active={() => (this._activeIndex === index ? "" : undefined)}
-                  data-selected={() =>
-                    option.value === this._selectedValue ? "" : undefined
-                  }
-                  data-disabled={option.disabled ? "" : undefined}
-                  onClick={() => { this._select(option); }}
-                >
-                  {option.label}
-                </li>
-              ))}
+              <For each={() => this.options} by="value">
+                {(option, index) => {
+                  const value = option().value;
+                  return (
+                    <li
+                      role="option"
+                      aria-selected={() => (this._isSelected(value) ? "true" : "false")}
+                      aria-disabled={() => (option().disabled ? ("true" as const) : undefined)}
+                      data-active={() => (this._isActive(index()) ? "" : undefined)}
+                      data-selected={() => (this._isSelected(value) ? "" : undefined)}
+                      data-disabled={() => (option().disabled ? "" : undefined)}
+                      onClick={() => { this._select(option()); }}
+                    >
+                      {() => option().label}
+                    </li>
+                  );
+                }}
+              </For>
             </ul>
           )
         }

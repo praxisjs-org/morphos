@@ -14,13 +14,13 @@ export class Radio extends StatelessComponent<RadioProps> {
         id={id}
         class={cls}
         data-disabled={isDisabled ? "" : undefined}
-        data-checked={() => (group.selectedValue === value ? "" : undefined)}
+        data-checked={() => (group._isSelected(value) ? "" : undefined)}
       >
         <input
           type="radio"
           name={group.name}
           value={value}
-          checked={() => group.selectedValue === value}
+          checked={() => group._isSelected(value)}
           disabled={isDisabled}
           aria-label={this.props["aria-label"]}
           aria-labelledby={this.props["aria-labelledby"]}

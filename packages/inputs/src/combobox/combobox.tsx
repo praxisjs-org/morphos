@@ -1,5 +1,15 @@
 import { StatefulComponent } from "@praxisjs/core";
-import { Component, Emit, FunctionProp, Prop, Ref, State, type Ref as RefType  } from "@praxisjs/decorators";
+import {
+  Component,
+  Emit,
+  FunctionProp,
+  Prop,
+  Ref,
+  Selector,
+  State,
+  type Ref as RefType,
+} from "@praxisjs/decorators";
+import { For } from "@praxisjs/runtime";
 
 import { generateId, Keys } from "@morphos/core";
 
@@ -31,6 +41,9 @@ export class Combobox extends StatefulComponent {
   @State() _query = "";
   @State() _activeIndex = -1;
 
+  @Selector("_activeIndex") private readonly _isActive!: Selector<number>;
+  @Selector("_selectedValue") private readonly _isSelected!: Selector<string | undefined>;
+
   @Ref<HTMLInputElement>()
   inputRef!: RefType<HTMLInputElement>;
 
@@ -54,7 +67,8 @@ export class Combobox extends StatefulComponent {
     this._query = this._labelFor(this._selectedValue);
   }
 
-  private get _selectedValue(): string | undefined {
+  /** @internal — not `private` because `@Selector` can only watch a field its type can see. */
+  get _selectedValue(): string | undefined {
     return this.value ?? this._value;
   }
 
@@ -62,6 +76,8 @@ export class Combobox extends StatefulComponent {
     return this.options.find((o) => o.value === value)?.label ?? "";
   }
 
+  // A plain getter on purpose: effects that depend on a @Computed run a microtask later, and the
+  // listbox has to follow the input synchronously.
   private get _filteredOptions(): ComboboxOption[] {
     const fn = this.filterFn ?? _defaultFilter;
     return this.options.filter((o) => fn(o, this._query));
@@ -194,22 +210,24 @@ export class Combobox extends StatefulComponent {
                 aria-label={this["aria-label"]}
                 tabIndex={-1}
               >
-                {() =>
-                  this._filteredOptions.map((option, index) => (
-                    <li
-                      key={option.value}
-                      role="option"
-                      data-index={String(index)}
-                      aria-selected={() => (option.value === this._selectedValue ? "true" : "false")}
-                      aria-disabled={option.disabled ? ("true" as const) : undefined}
-                      data-active={() => (this._activeIndex === index ? "" : undefined)}
-                      data-selected={() => (option.value === this._selectedValue ? "" : undefined)}
-                      data-disabled={option.disabled ? "" : undefined}
-                    >
-                      {option.label}
-                    </li>
-                  ))
-                }
+                <For each={() => this._filteredOptions} by="value">
+                  {(option, index) => {
+                    const value = option().value;
+                    return (
+                      <li
+                        role="option"
+                        data-index={() => String(index())}
+                        aria-selected={() => (this._isSelected(value) ? "true" : "false")}
+                        aria-disabled={() => (option().disabled ? ("true" as const) : undefined)}
+                        data-active={() => (this._isActive(index()) ? "" : undefined)}
+                        data-selected={() => (this._isSelected(value) ? "" : undefined)}
+                        data-disabled={() => (option().disabled ? "" : undefined)}
+                      >
+                        {() => option().label}
+                      </li>
+                    );
+                  }}
+                </For>
               </ul>
             )
             : null

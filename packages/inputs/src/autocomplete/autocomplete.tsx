@@ -1,5 +1,15 @@
 import { StatefulComponent } from "@praxisjs/core";
-import { Component, Emit, FunctionProp, Prop, Ref, State, type Ref as RefType  } from "@praxisjs/decorators";
+import {
+  Component,
+  Emit,
+  FunctionProp,
+  Prop,
+  Ref,
+  Selector,
+  State,
+  type Ref as RefType,
+} from "@praxisjs/decorators";
+import { For } from "@praxisjs/runtime";
 
 import { generateId, Keys } from "@morphos/core";
 
@@ -30,6 +40,8 @@ export class Autocomplete extends StatefulComponent {
   @State() _value = "";
   @State() _activeIndex = -1;
 
+  @Selector("_activeIndex") private readonly _isActive!: Selector<number>;
+
   @Ref<HTMLInputElement>()
   inputRef!: RefType<HTMLInputElement>;
 
@@ -52,6 +64,8 @@ export class Autocomplete extends StatefulComponent {
     this._activeIndex = -1;
   }
 
+  // A plain getter on purpose: effects that depend on a @Computed run a microtask later, and the
+  // listbox has to follow the input synchronously.
   private get _filteredSuggestions(): AutocompleteSuggestion[] {
     const fn = this.filterFn ?? _defaultFilter;
     return this.suggestions.filter((s) => fn(s, this._value));
@@ -159,19 +173,18 @@ export class Autocomplete extends StatefulComponent {
                 role="listbox"
                 tabIndex={-1}
               >
-                {() =>
-                  this._filteredSuggestions.map((suggestion, index) => (
+                <For each={() => this._filteredSuggestions} by="value">
+                  {(suggestion, index) => (
                     <li
-                      key={suggestion.value}
-                      id={`${this._listId}-option-${String(index)}`}
+                      id={() => `${this._listId}-option-${String(index())}`}
                       role="option"
-                      aria-selected={() => (this._activeIndex === index ? "true" : "false")}
-                      data-active={() => (this._activeIndex === index ? "" : undefined)}
+                      aria-selected={() => (this._isActive(index()) ? "true" : "false")}
+                      data-active={() => (this._isActive(index()) ? "" : undefined)}
                     >
-                      {suggestion.label ?? suggestion.value}
+                      {() => suggestion().label ?? suggestion().value}
                     </li>
-                  ))
-                }
+                  )}
+                </For>
               </ul>
             )
             : null

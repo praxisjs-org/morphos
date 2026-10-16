@@ -1,5 +1,5 @@
 import { StatefulComponent } from "@praxisjs/core";
-import { Component, Emit, Prop, State } from "@praxisjs/decorators";
+import { Component, Emit, Prop, Selector, State } from "@praxisjs/decorators";
 
 import type { RadioGroupProps } from "./radio.types";
 
@@ -28,6 +28,9 @@ export class RadioGroup extends StatefulComponent {
   get selectedValue(): string | undefined {
     return this.value ?? this._value;
   }
+
+  /** @internal — read by `Radio`, so a selection change updates only the previous and next radio. */
+  @Selector("selectedValue") readonly _isSelected!: Selector<string>;
 
   /** Called by child Radio components when they are selected. */
   @Emit("onValueChange")
