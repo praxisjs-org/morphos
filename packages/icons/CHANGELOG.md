@@ -1,5 +1,11 @@
 # @morphos/icons
 
+## 2.0.4
+
+### Patch Changes
+
+- 043eb8e: Declares the `@morphos/core` peer dependency as a caret range (`^0.1.6`) instead of an exact version. With the exact pin, npm installed a second copy of `@morphos/core` or failed with a peer conflict whenever the packages were released at different patch versions, for example after `praxisjs upgrade`.
+
 ## 2.0.3
 
 ### Patch Changes
