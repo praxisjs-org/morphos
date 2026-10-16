@@ -1,5 +1,13 @@
 # @morphos/layout
 
+## 1.2.1
+
+### Patch Changes
+
+- b2981ab: Require `@praxisjs/runtime` and `@praxisjs/jsx` 0.8.1, which write boolean `aria-*` attributes as `"true"` and `"false"` instead of an empty attribute (or none for `false`), so every Morphos component gets correct ARIA states.
+- Updated dependencies [b2981ab]
+  - @morphos/core@0.1.6
+
 ## 1.2.0
 
 ### Minor Changes
