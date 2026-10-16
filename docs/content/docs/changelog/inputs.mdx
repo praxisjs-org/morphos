@@ -3,6 +3,12 @@ title: "@morphos/inputs"
 description: Changelog for @morphos/inputs.
 ---
 
+## 1.1.2
+
+- Declares the `@morphos/core` peer dependency as a caret range (`^0.1.6`) instead of an exact
+  version, so npm no longer installs a second copy or fails with a peer conflict when the Morphos
+  packages are released at different patch versions.
+
 ## 1.1.1
 
 - Requires `@praxisjs/runtime` and `@praxisjs/jsx` 0.8.1, which write boolean `aria-*` attributes as
