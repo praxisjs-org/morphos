@@ -18,6 +18,18 @@
       "types": "./dist/vite.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "src",
+    "!dist/**/__tests__",
+    "!src/**/__tests__",
+    "CHANGELOG.md"
+  ],
+  "praxisjs": {
+    "optimize": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
   "packageManager": "pnpm@10.30.2",
   "peerDependencies": {
     "@morphos/core": "workspace:*",

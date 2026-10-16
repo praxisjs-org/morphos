@@ -10,6 +10,18 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "src",
+    "!dist/**/__tests__",
+    "!src/**/__tests__",
+    "CHANGELOG.md"
+  ],
+  "praxisjs": {
+    "optimize": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
