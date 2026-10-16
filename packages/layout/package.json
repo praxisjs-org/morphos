@@ -37,10 +37,10 @@
   },
   "devDependencies": {
     "@morphos/core": "workspace:*",
-    "@praxisjs/core": "^2.3.0",
-    "@praxisjs/decorators": "^2.0.0",
-    "@praxisjs/jsx": "^0.8.1",
-    "@praxisjs/runtime": "^0.8.1",
+    "@praxisjs/core": "^2.3.1",
+    "@praxisjs/decorators": "^2.0.1",
+    "@praxisjs/jsx": "^0.8.2",
+    "@praxisjs/runtime": "^0.8.2",
     "@praxisjs/shared": "^0.3.2",
     "typescript": "catalog:"
   }
