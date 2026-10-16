@@ -48,7 +48,7 @@ class MyComponent extends StatefulComponent {
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `options` | `{ value: string; label: string; disabled?: boolean }[]` | `[]` | List of selectable options |
+| `options` | `{ value: string; label: string; disabled?: boolean }[]` | `[]` | List of selectable options. Rows are keyed by `value`, so values must be unique: when the list is filtered, rows that stay are kept rather than rebuilt |
 | `value` | `string` | — | Controlled selected value |
 | `defaultValue` | `string` | — | Initial value in uncontrolled mode |
 | `placeholder` | `string` | — | Text shown when nothing is selected |

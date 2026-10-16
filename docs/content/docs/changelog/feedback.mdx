@@ -3,6 +3,17 @@ title: "@morphos/feedback"
 description: Changelog for @morphos/feedback.
 ---
 
+## 1.1.0
+
+- Opts into `@praxisjs/vite-plugin`'s library optimization: with vite-plugin 4.2 or later, apps compile
+  these components from their sources like their own code (compiled templates, keyed lists, decorated
+  fields in fast properties), so they mount about 25 to 40% faster. The published package no longer
+  includes its tests.
+- `ToastProvider` renders its toasts with `For` from `@praxisjs/runtime`, keyed by `id`: adding or
+  dismissing a toast leaves the other toasts' elements in place instead of rebuilding them all.
+- **Peer dependencies raised** to `@praxisjs/core` >=2.3.0, `@praxisjs/decorators` >=2.0.0,
+  `@praxisjs/runtime` >=0.8.0 and `@praxisjs/jsx` >=0.8.0, the releases that provide `For`.
+
 ## 0.1.0
 
 Initial release.

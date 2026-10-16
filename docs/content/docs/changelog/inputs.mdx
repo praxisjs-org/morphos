@@ -3,6 +3,26 @@ title: "@morphos/inputs"
 description: Changelog for @morphos/inputs.
 ---
 
+## 1.1.0
+
+- Opts into `@praxisjs/vite-plugin`'s library optimization: with vite-plugin 4.2 or later, apps compile
+  these components from their sources like their own code (compiled templates, keyed lists, decorated
+  fields in fast properties), so they mount about 25 to 40% faster. The published package no longer
+  includes its tests.
+- `Select`, `Combobox` and `Autocomplete` render their options with `For` from `@praxisjs/runtime`,
+  keyed by `value`. Typing in a `Combobox` or `Autocomplete` keeps the rows that still match
+  instead of rebuilding the whole list, and changing `Select`'s `options` updates the listbox and
+  the hidden native `<select>` in place (the hidden `<select>` used to keep the options it was
+  first rendered with). An option replaced under the same `value` updates its row in place.
+- Moving the active option with the arrow keys, or changing the selected value, now updates only
+  the previous and next option (`@Selector` from `@praxisjs/decorators`). With 50 options, one
+  arrow key went from 50 effect runs to 3 in `Select` and `Combobox`, and from 101 to 6 in
+  `Autocomplete`. `RadioGroup` does the same for its radios.
+- Ids, `aria-*` and `data-*` attributes, keyboard navigation and focus are unchanged.
+- **Peer dependencies raised** to `@praxisjs/core` >=2.3.0, `@praxisjs/decorators` >=2.0.0,
+  `@praxisjs/runtime` >=0.8.0 and `@praxisjs/jsx` >=0.8.0, the releases that provide `For`,
+  `Index` and `@Selector`.
+
 ## 0.1.0
 
 Initial release.

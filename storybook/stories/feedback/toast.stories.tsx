@@ -1,5 +1,6 @@
 import { StatefulComponent } from "@praxisjs/core";
 import { Component, State } from "@praxisjs/decorators";
+import { For } from "@praxisjs/runtime";
 import type { Meta, StoryObj } from "@praxisjs/storybook";
 
 import { ToastProvider } from "@morphos/feedback";
@@ -119,36 +120,35 @@ class DefaultDemo extends StatefulComponent {
           Toasts auto-dismiss after 5 s. Check bottom-right of the viewport.
         </p>
 
-        {/* Render the list reactively from provider.toasts */}
+        {/* Keyed by id: adding or dismissing a toast leaves the others' elements in place */}
         <div
           role="region"
           aria-label="Notifications"
           aria-live="polite"
           class="morphos-toast-viewport"
         >
-          {() =>
-            this.provider.toasts.map((toast) => (
-              <div
-                key={toast.id}
-                role="status"
-                data-variant={toast.variant ?? "info"}
-              >
-                <div style="flex:1;min-width:0">
-                  <div style="font-weight:600">{toast.title}</div>
-                  {toast.description && (
-                    <div style="font-size:.8em;opacity:.8;margin-top:2px">{toast.description}</div>
-                  )}
+          <For each={() => this.provider.toasts} by="id">
+            {(item) => {
+              const toast = item();
+              return (
+                <div role="status" data-variant={toast.variant ?? "info"}>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-weight:600">{toast.title}</div>
+                    {toast.description && (
+                      <div style="font-size:.8em;opacity:.8;margin-top:2px">{toast.description}</div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    aria-label="Dismiss notification"
+                    onClick={() => { this.provider.dismiss(toast.id); }}
+                  >
+                    ×
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  aria-label="Dismiss notification"
-                  onClick={() => { this.provider.dismiss(toast.id); }}
-                >
-                  ×
-                </button>
-              </div>
-            ))
-          }
+              );
+            }}
+          </For>
         </div>
       </div>
     );
@@ -229,29 +229,28 @@ class PersistentDemo extends StatefulComponent {
           aria-live="polite"
           class="morphos-toast-viewport"
         >
-          {() =>
-            this.provider.toasts.map((toast) => (
-              <div
-                key={toast.id}
-                role="status"
-                data-variant={toast.variant ?? "info"}
-              >
-                <div style="flex:1;min-width:0">
-                  <div style="font-weight:600">{toast.title}</div>
-                  {toast.description && (
-                    <div style="font-size:.8em;opacity:.8;margin-top:2px">{toast.description}</div>
-                  )}
+          <For each={() => this.provider.toasts} by="id">
+            {(item) => {
+              const toast = item();
+              return (
+                <div role="status" data-variant={toast.variant ?? "info"}>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-weight:600">{toast.title}</div>
+                    {toast.description && (
+                      <div style="font-size:.8em;opacity:.8;margin-top:2px">{toast.description}</div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    aria-label="Dismiss notification"
+                    onClick={() => { this.provider.dismiss(toast.id); }}
+                  >
+                    ×
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  aria-label="Dismiss notification"
-                  onClick={() => { this.provider.dismiss(toast.id); }}
-                >
-                  ×
-                </button>
-              </div>
-            ))
-          }
+              );
+            }}
+          </For>
         </div>
       </div>
     );

@@ -48,7 +48,7 @@ class MyComponent extends StatefulComponent {
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `suggestions` | `{ value: string; label?: string }[]` | `[]` | Suggestion list. `label` is the display text; falls back to `value` |
+| `suggestions` | `{ value: string; label?: string }[]` | `[]` | Suggestion list. `label` is the display text; falls back to `value`. Rows are keyed by `value`, so values must be unique: when the list is filtered, rows that stay are kept rather than rebuilt |
 | `value` | `string` | — | Initial value read once on mount (see callout below — this is not a live-controlled prop) |
 | `defaultValue` | `string` | — | Initial value in uncontrolled mode; takes priority over `value` if both are set |
 | `placeholder` | `string` | — | Input placeholder text |

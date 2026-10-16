@@ -71,7 +71,16 @@ class MyApp extends StatefulComponent {
 | `clear` | `() => void` | Removes all toasts immediately |
 
 `toasts` is also available as a readonly getter (`ToastItem[]`) if you want to render your own
-list UI instead of relying on the provider's built-in markup.
+list UI instead of relying on the provider's built-in markup. Render it with `For` keyed by `id`,
+so adding or dismissing a toast leaves the other toasts' elements in place:
+
+```tsx
+import { For } from '@praxisjs/runtime'
+
+<For each={() => provider.toasts} by="id">
+  {(toast) => <Toast toast={toast()} provider={provider} />}
+</For>
+```
 
 ### ToastItem shape
 

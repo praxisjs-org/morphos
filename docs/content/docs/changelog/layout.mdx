@@ -3,6 +3,19 @@ title: "@morphos/layout"
 description: Changelog for @morphos/layout.
 ---
 
+## 1.2.0
+
+- Opts into `@praxisjs/vite-plugin`'s library optimization: with vite-plugin 4.2 or later, apps compile
+  these components from their sources like their own code (compiled templates, keyed lists, decorated
+  fields in fast properties), so they mount about 25 to 40% faster. The published package no longer
+  includes its tests.
+- `Tabs`, `Menubar`, `NavigationMenu` and `Toolbar` use `@Selector` from `@praxisjs/decorators`
+  for their "one of many" state: selecting a tab, switching menus or moving the toolbar's tab stop
+  updates only the previous and next part instead of every part. Behavior and attributes are
+  unchanged.
+- **Peer dependencies raised** to `@praxisjs/core` >=2.3.0, `@praxisjs/decorators` >=2.0.0,
+  `@praxisjs/runtime` >=0.8.0 and `@praxisjs/jsx` >=0.8.0.
+
 ## 1.1.0
 
 - `ScrollArea` — added `scrollTo({ top?, left? })` to imperatively scroll the viewport, clamped to the valid scroll range.
